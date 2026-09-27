@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
@@ -35,12 +35,20 @@
     --accent:#E1604E; --tile:#5A9483; --gold:#C9A05C; --border:rgba(236,230,217,.14);
     --shadow:0 1px 2px rgba(0,0,0,.35);
   }
-  html{scroll-padding-top:env(safe-area-inset-top,0px);}
-  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px); height:100%; overflow:hidden; overscroll-behavior:none; background:var(--bg);}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   body{
     margin:0; background:var(--bg); color:var(--ink);
     font-family:'Noto Sans SC',sans-serif;
-    min-height:100%;
+    height:100%; overflow:hidden; overscroll-behavior:none;
+    -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
+    touch-action:pan-y;
+  }
+  #scrollRoot{
+    position:absolute; left:0; right:0;
+    top:env(safe-area-inset-top,0px); bottom:env(safe-area-inset-bottom,0px);
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;
   }
   .serif{font-family:'Noto Serif SC',serif;}
 
@@ -156,6 +164,7 @@
 </head>
 <body>
 <button class="lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
+<div id="scrollRoot">
 <header class="top" id="topbar">
   <button class="back-btn" id="backBtn" onclick="goBack()">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg><span id="backLabel">返回</span>
@@ -163,6 +172,7 @@
   <div class="crumb" id="crumb"></div>
 </header>
 <main id="view"></main>
+</div>
 
 <script>
 const UI = {
@@ -344,7 +354,7 @@ function render(){
       ${d[lang].note?`<div class="note"><b>${u.note}</b> ${d[lang].note}</div>`:''}
     `;
   }
-  window.scrollTo(0,0);
+  document.getElementById('scrollRoot').scrollTo(0,0);
 }
 
 function openStation(i){ stack.push({level:'station', si:i}); render(); }
