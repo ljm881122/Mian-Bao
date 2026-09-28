@@ -6,8 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
-<meta name="theme-color" content="#2E5C4E">
-<meta name="build" content="20260928084736">
+<meta name="theme-color" content="#12302A">
+<meta name="build" content="20260928224800">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -21,28 +21,33 @@
 <style>
   :root{
     box-sizing:border-box;
-    --bg:#F5F1E7; --panel:#FFFFFB; --ink:#211E1A; --muted:#6D675D;
-    --accent:#B8402E; --tile:#2E5C4E; --gold:#AD8A4E; --border:rgba(33,30,26,.12);
-    --shadow:0 1px 2px rgba(33,30,26,.06);
-    padding-top:env(safe-area-inset-top,0px);
+    --bg:#12302A; --panel:rgba(255,248,232,.035); --ink:#EFE6D4; --muted:rgba(239,230,212,.58);
+    --accent:#8E2433; --tile:#C9A265; --gold:#C9A265; --wood:#D8B77C; --border:rgba(201,162,101,.18);
+    --char:#0D231E; --inkL:#EFE6D4; --mutedL:rgba(239,230,212,.58); --borderL:rgba(201,162,101,.18); --amber:#D8B77C;
+    --soft:rgba(201,162,101,.07); --softB:rgba(201,162,101,.24);
+    --shadow:none;
     padding-bottom:env(safe-area-inset-bottom,0px);
   }
   :root:not([data-theme="light"]) {
     @media (prefers-color-scheme: dark){
-      --bg:#151E1A; --panel:#1E2925; --ink:#ECE6D9; --muted:#9FAA9F;
-      --accent:#E1604E; --tile:#5A9483; --gold:#C9A05C; --border:rgba(236,230,217,.14);
-      --shadow:0 1px 2px rgba(0,0,0,.35);
+      --bg:#12302A; --panel:rgba(255,248,232,.035); --ink:#EFE6D4; --muted:rgba(239,230,212,.58);
+    --accent:#8E2433; --tile:#C9A265; --gold:#C9A265; --wood:#D8B77C; --border:rgba(201,162,101,.18);
+    --char:#0D231E; --inkL:#EFE6D4; --mutedL:rgba(239,230,212,.58); --borderL:rgba(201,162,101,.18); --amber:#D8B77C;
+    --soft:rgba(201,162,101,.07); --softB:rgba(201,162,101,.24);
+    --shadow:none;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#151E1A; --panel:#1E2925; --ink:#ECE6D9; --muted:#9FAA9F;
-    --accent:#E1604E; --tile:#5A9483; --gold:#C9A05C; --border:rgba(236,230,217,.14);
-    --shadow:0 1px 2px rgba(0,0,0,.35);
+    --bg:#12302A; --panel:rgba(255,248,232,.035); --ink:#EFE6D4; --muted:rgba(239,230,212,.58);
+    --accent:#8E2433; --tile:#C9A265; --gold:#C9A265; --wood:#D8B77C; --border:rgba(201,162,101,.18);
+    --char:#0D231E; --inkL:#EFE6D4; --mutedL:rgba(239,230,212,.58); --borderL:rgba(201,162,101,.18); --amber:#D8B77C;
+    --soft:rgba(201,162,101,.07); --softB:rgba(201,162,101,.24);
+    --shadow:none;
   }
   html{scroll-padding-top:env(safe-area-inset-top,0px); height:100%; overflow:hidden; overscroll-behavior:none; background:var(--bg);}
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   body{
-    margin:0; background:var(--bg); color:var(--ink);
+    margin:0; background:var(--bg); color:var(--inkL);
     font-family:'Noto Sans SC',sans-serif;
     height:100%; overflow:hidden; overscroll-behavior:none;
     -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
@@ -73,13 +78,13 @@
   header.top.hide{display:none;}
   .back-btn{
     display:flex; align-items:center; gap:6px;
-    background:none; border:1px solid var(--border); color:var(--muted);
+    background:rgba(0,0,0,.15); border:1px solid var(--borderL); color:var(--inkL);
     font-family:'Noto Sans SC',sans-serif; font-size:14px;
     padding:6px 12px 6px 8px; border-radius:20px; cursor:pointer;
     visibility:hidden;
   }
   .back-btn.show{visibility:visible;}
-  .crumb{font-size:13px; color:var(--gold); letter-spacing:.02em; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:52px;}
+  .crumb{font-size:13px; color:var(--gold); letter-spacing:.02em; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:52px; text-shadow:0 1px 2px rgba(0,0,0,.4);}
   main{padding:0 20px 60px; max-width:640px; margin:0 auto;}
 
   /* ---- Home ---- */
@@ -102,12 +107,12 @@
   .stations{display:flex; flex-direction:column; gap:12px; padding:0 2px;}
   .station-card{
     display:flex; align-items:center; gap:14px;
-    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:10px;
     padding:14px 16px; cursor:pointer; box-shadow:var(--shadow);
   }
   .seal{
     flex:none; width:46px; height:46px; border-radius:10px;
-    background:var(--tile); color:#FBF7EE;
+    background:var(--accent); color:#FFF3EA;
     display:flex; align-items:center; justify-content:center;
     font-family:'Noto Serif SC',serif; font-size:19px; font-weight:700;
   }
@@ -118,21 +123,21 @@
 
   /* ---- Station / dish list ---- */
   .station-head{padding:14px 2px 6px;}
-  .station-head h1{font-family:'Noto Serif SC',serif; font-size:24px; margin:0 0 6px;}
-  .station-head p{margin:0; color:var(--muted); font-size:14px; line-height:1.7;}
-  .dish-list{margin-top:16px; border-top:1px solid var(--border);}
+  .station-head h1{font-family:'Noto Serif SC',serif; font-size:24px; margin:0 0 6px; color:var(--inkL);}
+  .station-head p{margin:0; color:var(--mutedL); font-size:14px; line-height:1.7;}
+  .dish-list{margin-top:16px; border-top:1px solid var(--borderL);}
   .dish-row{
     display:flex; align-items:center; gap:12px;
-    padding:16px 4px; border-bottom:1px solid var(--border);
+    padding:16px 4px; border-bottom:1px solid var(--borderL);
     cursor:pointer;
   }
-  .dish-row .dot{width:6px; height:6px; border-radius:50%; background:var(--tile); flex:none;}
-  .dish-row .name{font-family:'Noto Serif SC',serif; font-size:16.5px; flex:1;}
-  .dish-row .arrow{color:var(--muted); font-size:14px;}
+  .dish-row .dot{width:6px; height:6px; border-radius:50%; background:var(--gold); flex:none;}
+  .dish-row .name{font-family:'Noto Serif SC',serif; font-size:16.5px; flex:1; color:var(--inkL);}
+  .dish-row .arrow{color:var(--mutedL); font-size:14px;}
 
   /* ---- Recipe ---- */
   .recipe-head{padding:14px 2px 4px;}
-  .recipe-head h1{font-family:'Noto Serif SC',serif; font-size:26px; margin:0;}
+  .recipe-head h1{font-family:'Noto Serif SC',serif; font-size:26px; margin:0; color:var(--inkL);}
   .formula{
     margin-top:18px; background:var(--panel); border:1px solid var(--border);
     border-left:3px solid var(--accent); border-radius:4px; padding:16px 18px;
@@ -164,7 +169,6 @@
   }
   .note b{color:var(--ink); font-weight:500;}
   [hidden]{display:none !important;}
-
   .lang-toggle{width:60px; padding:6px 0; text-align:center;}
   .station-card{height:68px;}
   .station-card .txt{flex:1; min-width:0;}
@@ -174,13 +178,150 @@
   .formula{margin-top:0;}
   .formula .pt{font-size:13.5px; color:var(--muted); margin-top:8px; line-height:1.6;}
   .section-label{margin:22px 0 10px;}
-  .ver{position:fixed; z-index:15; right:12px; bottom:calc(8px + env(safe-area-inset-bottom,0px)); font-size:10.5px; color:var(--muted); opacity:.65; pointer-events:none; letter-spacing:.02em;}
+  .ver{position:fixed; z-index:15; right:12px; bottom:calc(8px + env(safe-area-inset-bottom,0px)); font-size:10.5px; color:var(--mutedL); opacity:.8; pointer-events:none; letter-spacing:.02em;}
   .hero-wrap{position:relative; margin:0 -20px; aspect-ratio:1200/601; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:36px;}
   .hero-wrap .hero-photo{position:absolute; inset:0; aspect-ratio:auto;}
   .hero-wrap .logo-wrap{position:relative; top:auto; left:auto; right:auto;}
   .hero-wrap .hero-title{position:relative; top:auto; left:auto; right:auto; margin-top:12px;}
   .hero-title{display:flex; align-items:center; justify-content:center; gap:12px; height:20px; margin:0; position:absolute; left:0; right:0; top:148px; z-index:2; font-size:13.5px; letter-spacing:.16em; color:#E2BA8C; white-space:nowrap; text-shadow:0 1px 3px rgba(89,16,7,.9),0 0 8px rgba(89,16,7,.7),0 0 16px rgba(89,16,7,.5);}
   .hero-title::before,.hero-title::after{content:''; width:26px; height:1px; background:#E2BA8C; box-shadow:0 0 4px rgba(89,16,7,.8);}
+
+  /* ===== Brand theme: 墨绿 ink-jade · 黄铜 brass · 漆红 lacquer seal ===== */
+  html,body{background:var(--bg);}
+  body{color:var(--ink);}
+  body::before{content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(120% 60% at 50% -10%, rgba(216,183,124,.10), transparent 60%),
+      radial-gradient(90% 70% at 50% 110%, rgba(0,0,0,.35), transparent 70%),
+      linear-gradient(180deg, #143530 0%, #11302A 45%, #0D2621 100%);}
+  body::after{content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.07; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .85  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); background-size:160px 160px;}
+  #scrollRoot{z-index:1; background:transparent;}
+  .lang-toggle,.ver{z-index:20;}
+  header.top{background:linear-gradient(rgba(16,45,39,.96) 70%, rgba(16,45,39,0)); padding:10px 18px 14px;}
+  .back-btn{background:rgba(255,248,232,.04); border:1px solid var(--border); color:var(--ink);}
+  .crumb{color:var(--gold); text-shadow:none;}
+  .lang-toggle{background:rgba(13,35,30,.45); border:1px solid rgba(201,162,101,.35); color:#FFFFFF;}
+
+  .hero-wrap{aspect-ratio:auto; height:calc(100vw * 601 / 1200 + 30px); max-height:370px; padding-top:18px; padding-bottom:10px;}
+  .hero-photo{opacity:.5 !important; filter:saturate(.85) contrast(1.05);
+    -webkit-mask-image:linear-gradient(180deg,#000 35%,rgba(0,0,0,.55) 65%,transparent 100%) !important;
+    mask-image:linear-gradient(180deg,#000 35%,rgba(0,0,0,.55) 65%,transparent 100%) !important;}
+  .logo-badge{border:1px solid rgba(216,183,124,.45); box-shadow:0 10px 28px rgba(0,0,0,.45), 0 0 0 5px rgba(13,35,30,.35);}
+  .hero-title{color:var(--wood) !important; text-shadow:0 1px 8px rgba(0,0,0,.6) !important;}
+  .hero-title::before,.hero-title::after{background:linear-gradient(90deg,transparent,var(--gold)) !important; box-shadow:none !important;}
+  .hero-title::after{background:linear-gradient(90deg,var(--gold),transparent) !important;}
+
+  .section-tag,.section-label{color:var(--gold); font-weight:500; letter-spacing:.18em; font-size:11.5px; display:flex; align-items:center; gap:10px;}
+  .section-tag::after,.section-label::after{content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent);}
+  .section-tag{margin:4px 2px 4px;}
+  .stations{gap:0;}
+  .station-card{background:transparent; border:none; border-bottom:1px solid var(--border); border-radius:0; box-shadow:none; padding:0 4px; height:74px; color:var(--ink);}
+  .station-card:last-child{border-bottom:none;}
+  .station-card:active,.dish-row:active{background:rgba(216,183,124,.06);}
+  .seal{width:42px; height:42px; background:linear-gradient(145deg,#9A2A38,#7A1D2A); color:#F2D7A6; border-radius:8px; font-size:18px;
+    box-shadow:inset 0 0 0 1.5px rgba(242,215,166,.35), 0 3px 10px rgba(0,0,0,.25);}
+  .station-card .txt h2{font-size:17.5px; letter-spacing:.04em; color:var(--ink);}
+  .station-card .n{color:var(--muted); font-size:12px;}
+  .station-card .n::after{content:'›'; margin-left:10px; font-size:16px; color:var(--gold);}
+
+  .station-head h1,.recipe-head h1{color:var(--ink); letter-spacing:.04em;}
+  .station-head h1::after,.recipe-head h1::after{content:''; display:block; width:28px; height:2px; margin-top:10px; background:var(--gold); opacity:.8;}
+  .dish-list{margin-top:10px; background:transparent; border:none; border-top:1px solid var(--border); border-radius:0; padding:0; box-shadow:none;}
+  .dish-row{border-bottom:1px solid var(--border); padding-left:6px; padding-right:6px;}
+  .dish-row .dot{width:5px; height:5px; background:var(--gold); transform:rotate(45deg); border-radius:1px;}
+  .dish-row .name{color:var(--ink);}
+  .dish-row .arrow{color:var(--gold);}
+
+  .formula{background:var(--panel); border:1px solid var(--border); border-left:2px solid var(--gold); border-radius:6px; box-shadow:none; color:var(--ink);}
+  .formula .pt{color:var(--muted);}
+  .video-link{background:transparent; color:var(--wood); font-size:13px; font-weight:400; letter-spacing:.06em; border:1px solid rgba(201,162,101,.38); box-shadow:none; padding:5px 14px 5px 5px; gap:9px; border-radius:999px;}
+  .video-link svg{width:10px; height:10px; box-sizing:content-box; padding:5px 4px 5px 6px; border-radius:50%; background:rgba(201,162,101,.16); color:var(--wood);}
+  .video-link:active{background:rgba(201,162,101,.08);}
+  .steps li{border-bottom:1px solid var(--border); color:var(--ink);}
+  .steps li::before{background:transparent; border:1px solid var(--gold); color:var(--wood); font-weight:600;}
+  .note{background:var(--soft); border:1px solid var(--border); border-radius:6px; color:var(--muted);}
+  .note b{color:var(--wood); font-weight:500;}
+  .ver{color:var(--muted); opacity:.7;}
+
+  /* ===== refinement ===== */
+  .station-head h1::after,.recipe-head h1::after{display:none;}
+  .station-head::after,.recipe-head::after{content:''; display:block; width:28px; height:2px; margin-top:12px; background:var(--gold); opacity:.8;}
+  .sub{margin:4px 0 0 !important; font-family:'Noto Sans SC',sans-serif; font-size:11px !important; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) !important; line-height:1.4 !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .station-head .sub,.recipe-head .sub{font-size:12px !important; margin-top:6px !important;}
+  .station-card .txt h2{line-height:1.25;}
+  .station-card .n{font-size:11.5px; letter-spacing:.04em;}
+  .station-card .n .num{font-family:'Noto Serif SC',serif; font-size:17px; color:var(--wood); margin-right:3px; font-weight:600;}
+  :lang(en) .station-card .n .num{margin-right:0;}
+  .station-card,.dish-row,.steps li{border-bottom:none !important;
+    background:linear-gradient(90deg,transparent,var(--border) 10%,var(--border) 90%,transparent) left bottom/100% 1px no-repeat;}
+  .station-card:last-child{background:none;}
+  .dish-list{border-top:none !important; background:linear-gradient(90deg,transparent,var(--border) 10%,var(--border) 90%,transparent) left top/100% 1px no-repeat !important;}
+  .steps li::before{content:counter(step, decimal-leading-zero); font-size:10.5px; letter-spacing:.02em; width:26px; height:26px;}
+  .steps li{padding:14px 0;}
+  .formula .val{letter-spacing:.02em;}
+  .seal{font-weight:600;}
+  @keyframes rise{from{opacity:0; transform:translateY(8px);}to{opacity:1; transform:none;}}
+  #view > *{animation:rise .38s cubic-bezier(.2,.7,.2,1) both;}
+  #view > *:nth-child(2){animation-delay:.04s;} #view > *:nth-child(3){animation-delay:.08s;}
+  #view > *:nth-child(4){animation-delay:.12s;} #view > *:nth-child(n+5){animation-delay:.16s;}
+  .stations .station-card{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;}
+  .stations .station-card:nth-child(2){animation-delay:.05s;} .stations .station-card:nth-child(3){animation-delay:.1s;}
+  .stations .station-card:nth-child(4){animation-delay:.15s;} .stations .station-card:nth-child(5){animation-delay:.2s;}
+  #view .hero-wrap{animation:none;}
+  @media (prefers-reduced-motion: reduce){#view > *,.stations .station-card{animation:none;}}
+
+  /* video button: a bit more prominent */
+  .video-link{background:rgba(216,183,124,.10); color:#EACB8E; font-size:14px; font-weight:500; letter-spacing:.05em; border:1px solid rgba(216,183,124,.65); padding:6px 16px 6px 6px; gap:10px; box-shadow:0 0 0 3px rgba(216,183,124,.06);}
+  .video-link svg{width:11px; height:11px; padding:6px 5px 6px 7px; background:linear-gradient(145deg,#E3C488,#C49D5E); color:#12302A;}
+
+  /* video button v3 */
+  .video-link{color:#F5EDDD; font-weight:500; letter-spacing:.06em; background:rgba(255,248,232,.04); border:1px solid rgba(216,183,124,.5); box-shadow:none; padding:5px 18px 5px 5px; gap:11px;}
+  .video-link .play{flex:none; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle at 35% 30%, rgba(234,203,142,.30), rgba(216,183,124,.10)); border:1px solid rgba(234,203,142,.75); color:#EACB8E;}
+  .video-link .play svg{width:12px; height:12px; padding:0; background:none; margin-left:2px; color:#EACB8E;}
+
+  /* video button v4: media card */
+  .video-link{display:flex; width:100%; margin-top:14px; align-items:center; gap:13px; color:#F5EDDD; font-weight:400; letter-spacing:0;
+    background:rgba(255,248,232,.045); border:1px solid rgba(216,183,124,.26); border-radius:12px; padding:9px 16px 9px 9px; box-shadow:none;}
+  .video-link:active{background:rgba(216,183,124,.10);}
+  .video-link .play{width:38px; height:38px; border-radius:10px; border:none; background:linear-gradient(145deg,#E6C98E,#B88E50); color:#12302A; box-shadow:0 3px 10px rgba(0,0,0,.25);}
+  .video-link .play svg{width:15px; height:15px; margin-left:2px; color:#12302A;}
+  .video-link .vt{display:flex; flex-direction:column; gap:2px; min-width:0; flex:1;}
+  .video-link .vt1{font-size:14.5px; letter-spacing:.04em; font-weight:500;}
+  .video-link .vt2{font-size:11px; letter-spacing:.1em; color:var(--muted);}
+  .video-link .vgo{color:var(--gold); font-size:14px;}
+
+  /* video button v5: small pill + refined play tile */
+  .video-link{display:inline-flex; width:auto; margin-top:14px; gap:10px; color:#F5EDDD; font-size:13.5px; font-weight:500; letter-spacing:.06em;
+    background:rgba(255,248,232,.045); border:1px solid rgba(216,183,124,.42); border-radius:999px; padding:4px 16px 4px 4px; box-shadow:none;}
+  .video-link .play{width:28px; height:28px; border-radius:50%; border:none;
+    background:linear-gradient(150deg,#F0D9A6 0%,#D2AC6A 55%,#A87F43 100%); color:#12302A;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.45), inset 0 -1px 2px rgba(80,50,15,.35), 0 2px 6px rgba(0,0,0,.3);}
+  .video-link .play svg{width:13px; height:13px; margin-left:2px; color:#12302A;}
+
+  /* video button v6: line icon */
+  .video-link{padding:7px 16px 7px 12px; gap:9px;}
+  .video-link .pico{width:18px; height:18px; flex:none; color:#E3C488; padding:0; background:none; border-radius:0;}
+
+  /* full-screen: draw under status bar & home indicator */
+  :root{padding-top:0 !important; padding-bottom:0 !important;}
+  html{height:100%; background:#102D27 linear-gradient(180deg,#143530 0%,#11302A 45%,#0D2621 100%) no-repeat fixed;}
+  body{height:100%; background:transparent;}
+  body::before,body::after{top:0; bottom:0; left:0; right:0; height:100lvh;}
+  #scrollRoot{top:0 !important; bottom:0 !important; padding-bottom:env(safe-area-inset-bottom,0px);}
+  header.top{padding-top:calc(10px + env(safe-area-inset-top,0px)) !important;}
+  .hero-wrap{height:calc(100vw * 601 / 1200 + 30px + env(safe-area-inset-top,0px)) !important; max-height:calc(370px + env(safe-area-inset-top,0px)) !important; padding-top:calc(18px + env(safe-area-inset-top,0px)) !important;}
+
+  /* bottom band fix: extend background layers past the viewport and match canvas color */
+  html{background:#0C231E !important;}
+  body::before,body::after{top:-60px !important; bottom:-160px !important; height:auto !important;}
+  #scrollRoot{bottom:calc(-1 * env(safe-area-inset-bottom,0px)) !important; padding-bottom:calc(2 * env(safe-area-inset-bottom,0px));}
+
+  /* highlighted standard quantities */
+  .qty{color:#F0CF8C; font-weight:600; letter-spacing:.01em; white-space:nowrap;}
+  .formula .pt .qty,.note .qty{color:#E3C07E; font-weight:500;}
+
 </style>
 </head>
 <body>
@@ -198,9 +339,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', vsub:'YouTube · 教学演示', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', vsub:'YouTube · Training demo', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -209,66 +350,67 @@ const noodle=(n,top,soup)=>({n,
   p:[['面二两下沸水锅，煮90秒至断生','捞面沥干，装碗',soup?`舀${soup[0]}入碗，铺上${top[0]}`:`铺上${top[0]}`,'点缀葱花，即可出品'],
      ['Cook 2 liang of noodles in boiling water for 90 seconds','Drain and place in a bowl',soup?`Ladle in ${soup[1]}, then top with ${top[1]}`:`Top with ${top[1]}`,'Garnish with scallion and serve']]});
 const wonton=(n,sc)=>({n,
-  s:[[`抄手8只 + ${sc[0]}`,'皮薄馅足，出品热烫'],[`8 wontons + ${sc[1]}`,'Thin wrappers, served hot']],
+  s:[[`抄手8只 + ${sc[0]}`,'皮薄馅足，出品热烫'],[`8 chaoshou + ${sc[1]}`,'Thin dough wrappers, served hot']],
   p:[['沸水下抄手8只，煮至浮起后再煮2分钟','捞出沥水，装碗',`加入${sc[0]}`,'点缀葱花，即可出品'],
-     ['Boil 8 wontons; once floating, cook 2 more minutes','Drain and place in a bowl',`Add ${sc[1]}`,'Garnish with scallion and serve']]});
+     ['Boil 8 chaoshou; once floating, cook 2 more minutes','Drain and place in a bowl',`Add ${sc[1]}`,'Garnish with scallion and serve']]});
 const cold=(n,main,seas,prep)=>({n,
   s:[[`${main[0]} + ${seas[0]}`,'现拌现出，口感清脆'],[`${main[1]} + ${seas[1]}`,'Mixed to order, fresh and crisp']],
   p:[[prep[0],`加入${seas[0]}拌匀`,'装盘，即可出品'],[prep[1],`Toss with ${seas[1]}`,'Plate and serve']]});
 
 const DATA = [
  { seal:'点', kind:'std', n:['面点','Dim Sum'], dishes:[
-  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/JOMRxtRuKsI', rel:['小笼包面剂子','小笼包馅料'],
-    s:[['生坯8只 + 蒸笼垫纸1张 + 姜丝5克 + 香醋10毫升','皮薄不破，汤汁饱满，热笼出品'],['8 raw dumplings + 1 steamer liner + 5g ginger strips + 10ml black vinegar','Intact wrappers, juicy filling, served hot in the basket']],
-    p:[['取生坯8只，均匀码入蒸笼，间距不小于1厘米','大火上汽后转中火，蒸8分钟','关火焖30秒再开盖，防止塌陷','配姜丝、香醋碟随笼上桌'],['Arrange 8 raw dumplings in the steamer, at least 1cm apart','Steam on high until steam rises, then medium heat for 8 minutes','Turn off heat, rest 30 seconds before lifting the lid','Serve with ginger strips and black vinegar']],
-    note:['蒸制时间随生坯大小浮动，超过10分钟易出油走形。','Steaming time varies with dumpling size; over 10 minutes causes oil separation.'] },
-  wonton(['红油抄手','Chili Oil Wonton'],['红油料汁一勺','1 scoop chili oil sauce']),
-  wonton(['酸辣抄手','Hot & Sour Wontons'],['酸辣汤汁一勺半','1.5 ladles hot & sour broth']),
-  wonton(['金汤抄手','Golden Broth Wontons'],['金汤一勺半','1.5 ladles golden broth']),
-  { n:['钟水饺','Zhong Dumplings'],
+  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/JOMRxtRuKsI', rel:['小笼包面剂子','小笼包馅料'], real:1,
+    s:[['每蒸笼6只小笼包，间隔摆放。每只小笼包43g-48g（面皮8g + 馅料35g-40g）。','要求热笼出品，汤汁饱满不漏，良品具有18个工艺褶皱。'],
+       ['6 xiao long bao per steamer basket, evenly spaced. Each 43g-48g (8g wrapper + 35g-40g filling).','Serve hot in the basket; soup must be full with no leaks. A quality bun has 18 pleats.']],
+    p:[['将面剂子（8g）擀至中心略厚、边缘较薄的7-8cm直径面皮','填充35g-40g馅料至面皮中心','包制过程中右手拇指和食指捏褶，左手拇指调整馅料的同时旋转小笼包','蒸笼放入垫纸和小笼包，212°F（100°C）蒸制8分钟'],
+       ['Roll an 8g dough portion into a 7-8cm (about 3in) wrapper, slightly thicker in the center and thinner at the edge','Place 35g-40g of filling in the center of the wrapper','Pleat with the right thumb and index finger while the left thumb tucks the filling and turns the bun','Line the steamer basket with a liner, add the buns and steam at 212°F (100°C) for 8 minutes']] },
+  wonton(['红油抄手','Chili Oil Chaoshou'],['红油料汁一勺','1 scoop chili oil sauce']),
+  wonton(['酸辣抄手','Hot & Sour Chaoshou'],['酸辣汤汁一勺半','1.5 ladles hot & sour broth']),
+  wonton(['金汤抄手','Golden Soup Chaoshou'],['金汤一勺半','1.5 ladles golden soup']),
+  { n:['钟水饺','Chili Oil Dumplings'],
     s:[['水饺6只 + 红油酱汁一勺 + 蒜泥少许','皮薄馅嫩，酱汁甜香微辣'],['6 dumplings + 1 scoop chili oil sauce + minced garlic','Tender filling, sweet and mildly spicy sauce']],
     p:[['沸水下水饺6只，点水两次至浮起','捞出沥水，装盘','淋红油酱汁一勺，加蒜泥','即可出品'],['Boil 6 dumplings, add cold water twice until floating','Drain and plate','Pour over 1 scoop chili oil sauce, add garlic','Serve']] },
  ]},
  { seal:'面', kind:'std', n:['制面','Noodles'], dishes:[
-  noodle(['滋味原汤牛肉面','Signature Broth Beef Noodles'],['牛肉四块','4 pcs beef'],['原汤一勺半','1.5 ladles signature broth']),
-  { n:['成都杂酱面','Chengdu Zhajiang Noodles'],
-    s:[['面二两 + 杂酱一勺 + 芽菜10克 + 花椒油3毫升 + 高汤半勺','干拌，汤汁宜少，拌匀出品'],['Noodles 2 liang (~100g) + 1 scoop zhajiang sauce + 10g pickled greens + 3ml Sichuan pepper oil + half ladle stock','Served dry-tossed with minimal broth']],
-    p:[['面二两下沸水锅，煮90秒后捞出装碗','舀杂酱一勺铺于面上','撒芽菜10克','淋花椒油、高汤，拌匀上桌'],['Cook noodles 90 seconds, drain and plate','Top with a scoop of zhajiang sauce','Sprinkle with pickled greens','Drizzle pepper oil and stock, toss and serve']] },
-  noodle(['清汤牛肉面','Clear Broth Beef Noodles'],['牛肉四片','4 slices beef'],['清汤一勺半','1.5 ladles clear broth']),
-  noodle(['秘制排骨面','Secret Recipe Pork Rib Noodles'],['秘制排骨两块','2 pcs secret recipe pork ribs'],['原汤一勺','1 ladle broth']),
+  noodle(['滋味原汤牛肉面','Spicy Beef Soup Noodles'],['牛肉四块','4 pcs beef'],['原汤一勺半','1.5 ladles spicy beef broth']),
+  { n:['成都杂酱面','Chengdu Zajiang Noodles'],
+    s:[['面二两 + 杂酱一勺 + 芽菜10克 + 花椒油3毫升 + 高汤半勺','干拌，汤汁宜少，拌匀出品'],['Noodles 2 liang (~100g) + 1 scoop zajiang sauce + 10g pickled greens + 3ml Sichuan pepper oil + half ladle stock','Served dry-tossed with minimal broth']],
+    p:[['面二两下沸水锅，煮90秒后捞出装碗','舀杂酱一勺铺于面上','撒芽菜10克','淋花椒油、高汤，拌匀上桌'],['Cook noodles 90 seconds, drain and plate','Top with a scoop of zajiang sauce','Sprinkle with pickled greens','Drizzle pepper oil and stock, toss and serve']] },
+  noodle(['清汤牛肉面','Clear Broth Beef Noodles'],['牛肉四片','4 pcs sliced beef'],['清汤一勺半','1.5 ladles beef broth (non-spicy)']),
+  noodle(['秘制排骨面','Spare Ribs Noodles'],['秘制排骨两块','2 pcs secret recipe spare ribs'],['原汤一勺','1 ladle spicy beef broth']),
   noodle(['麻婆豆腐面','Mapo Tofu Noodles'],['麻婆豆腐一勺','1 scoop mapo tofu'],null),
-  noodle(['番茄牛肉面','Tomato Beef Noodles'],['牛肉四块','4 pcs beef'],['番茄汤一勺半','1.5 ladles tomato soup']),
-  { n:['四川鸡丝凉面','Sichuan Chicken Cold Noodles'],
+  noodle(['番茄牛肉面','Tomato & Beef Noodles'],['牛肉四块','4 pcs beef'],['番茄汤一勺半','1.5 ladles tomato soup']),
+  { n:['四川鸡丝凉面','Sichuan Cold Noodles w/ Shredded Chicken'],
     s:[['面二两 + 鸡丝50克 + 凉面酱一勺 + 黄瓜丝少许','冷面爽滑，酱汁均匀'],['Noodles 2 liang (~100g) + 50g shredded chicken + 1 scoop cold noodle sauce + cucumber strips','Chilled, springy noodles with evenly coated sauce']],
     p:[['面下沸水煮90秒，过冰水沥干','拌少许油防粘，入碗','铺鸡丝、黄瓜丝，淋凉面酱一勺','拌匀，即可出品'],['Cook noodles 90 seconds, chill in ice water and drain','Toss with a little oil, place in a bowl','Top with chicken and cucumber, add 1 scoop of sauce','Toss and serve']] },
-  noodle(['霸王牛排面','Bawang Beef Rib Noodles'],['霸王牛肋条两块','2 pcs bawang beef short rib'],['原汤一勺半','1.5 ladles broth']),
-  noodle(['特指酸辣面','Special Hot & Sour Noodles'],['酸辣臊子一勺','1 scoop hot & sour topping'],['酸辣汤一勺半','1.5 ladles hot & sour soup']),
-  noodle(['生椒牛肉面','Fresh Pepper Beef Noodles'],['牛肉四块 + 生椒圈少许','4 pcs beef + fresh pepper rings'],['原汤一勺半','1.5 ladles broth']),
-  noodle(['碗杂面','Wanza Noodles'],['碗杂（豌豆肉臊）一勺','1 scoop wanza topping (peas and minced pork)'],['汤半勺','half ladle broth']),
-  noodle(['金汤鸡丝面','Golden Broth Chicken Noodles'],['鸡丝50克','50g shredded chicken'],['金汤一勺半','1.5 ladles golden broth']),
+  noodle(['霸王牛排面','Spicy Beef Rib Soup Noodles'],['霸王牛肋条两块','2 pcs beef rib'],['原汤一勺半','1.5 ladles spicy beef broth']),
+  noodle(['特指酸辣面','Sichuan Hot & Sour Soup Noodles'],['酸辣臊子一勺','1 scoop hot & sour topping'],['酸辣汤一勺半','1.5 ladles hot & sour soup']),
+  noodle(['生椒牛肉面','Beef Pickled Soup Noodles'],['牛肉四块 + 生椒圈少许','4 pcs beef + fresh pepper rings'],['原汤一勺半','1.5 ladles spicy beef broth']),
+  noodle(['碗杂面','Chengdu Zajiang Noodles w/ Peas'],['碗杂（豌豆肉臊）一勺','1 scoop wanza topping (bawan beans & ground pork)'],['汤半勺','half ladle broth']),
+  noodle(['金汤鸡丝面','Golden Soup Chicken Noodles'],['鸡丝50克','50g shredded chicken'],['金汤一勺半','1.5 ladles golden soup']),
  ]},
  { seal:'吃', kind:'std', n:['小吃','Snacks'], dishes:[
-  { n:['臊子蒸蛋','Steamed Egg with Minced Pork'],
-    s:[['鸡蛋3枚 + 温水150毫升 + 肉臊一勺','蛋面平整无蜂窝，口感嫩滑'],['3 eggs + 150ml warm water + 1 scoop minced pork topping','Smooth surface, silky texture']],
-    p:[['鸡蛋打散，兑温水搅匀过筛','盖保鲜膜，中火蒸8分钟','铺肉臊一勺，撒葱花出品'],['Beat eggs, mix with warm water and strain','Cover and steam on medium heat for 8 minutes','Top with minced pork and scallion']] },
-  { n:['牛肉卷饼','Beef Pancake Roll'],
+  { n:['臊子蒸蛋','Steamed Egg w/ Minced Pork'],
+    s:[['鸡蛋3枚 + 温水150毫升 + 肉臊一勺','蛋面平整无蜂窝，口感嫩滑'],['3 eggs + 150ml warm water + 1 scoop ground pork','Smooth surface, silky texture']],
+    p:[['鸡蛋打散，兑温水搅匀过筛','盖保鲜膜，中火蒸8分钟','铺肉臊一勺，撒葱花出品'],['Beat eggs, mix with warm water and strain','Cover and steam on medium heat for 8 minutes','Top with ground pork and scallion']] },
+  { n:['牛肉卷饼','Beef Roll Pancake'],
     s:[['薄饼1张 + 酱牛肉80克 + 黄瓜丝、葱丝适量 + 甜面酱少许','卷紧不散，切段装盘'],['1 flatbread + 80g braised beef + cucumber and scallion strips + hoisin sauce','Rolled tight, cut and plated']],
     p:[['薄饼煎热，刷甜面酱','铺酱牛肉片、黄瓜丝、葱丝','卷紧，斜切两段装盘'],['Heat the flatbread and brush with sauce','Add beef slices, cucumber and scallion','Roll tight, cut in two on the diagonal and plate']] },
   { n:['酥炸鸡排','Fried Chicken Cutlet'],
     s:[['鸡排1片 + 裹粉适量 + 椒盐少许','外酥里嫩，金黄不焦'],['1 chicken cutlet + coating + pepper salt','Crispy outside, tender inside, golden not burnt']],
     p:[['鸡排拍松，腌制后裹粉','170℃油炸约5分钟至金黄','沥油，撒椒盐，切条装盘'],['Tenderize, marinate and coat the cutlet','Deep fry at 170°C (340°F) for about 5 minutes','Drain, season with pepper salt, slice and plate']] },
-  { n:['狼牙土豆','Spicy Wolf-Tooth Potatoes'],
+  { n:['狼牙土豆','Chengdu Fries'],
     s:[['土豆250克 + 辣椒面、孜然、盐适量','外脆内软，调味均匀'],['250g potato + chili powder, cumin, salt','Crisp outside, soft inside, evenly seasoned']],
     p:[['土豆切狼牙块，焯水沥干','油炸至表面金黄酥脆','撒辣椒面、孜然拌匀装盘'],['Cut potatoes into wedges, blanch and drain','Deep fry until golden and crisp','Toss with chili and cumin, plate']] },
-  { n:['小面羊肉','Lamb Xiaomian'],
+  { n:['小面羊肉','House Special Lamb'],
     s:[['小面一两 + 羊肉一勺 + 汤半勺','小碗出品，羊肉软烂无膻味'],['1 liang noodles + 1 scoop lamb + half ladle broth','Small bowl, tender lamb with no gaminess']],
     p:[['小面下沸水煮60秒','装小碗，加汤半勺','铺羊肉一勺，点缀香菜'],['Cook noodles in boiling water for 60 seconds','Place in a small bowl, add half ladle broth','Top with lamb, garnish with cilantro']] },
-  cold(['爽口黄瓜','Marinated Cucumber'],['黄瓜1根','1 cucumber'],['蒜泥、香醋、盐、香油','garlic, vinegar, salt, sesame oil'],['黄瓜拍裂，切段','Smash and cut the cucumber']),
-  cold(['凉拌豆腐丝','Cold Tofu Strips'],['豆腐丝150克','150g tofu strips'],['香菜、红油、生抽、香油','cilantro, chili oil, soy sauce, sesame oil'],['豆腐丝焯水，过凉沥干','Blanch tofu strips, chill and drain']),
-  cold(['山椒木耳','Pickled Pepper Wood Ear'],['泡发木耳100克','100g soaked wood ear'],['泡山椒、山椒水、香醋','pickled peppers, brine, vinegar'],['木耳焯水，过凉沥干','Blanch wood ear, chill and drain']),
-  cold(['皮蛋豆腐','Century Egg Tofu'],['嫩豆腐1块 + 皮蛋1枚','1 soft tofu + 1 century egg'],['生抽、香油、辣椒油','soy sauce, sesame oil, chili oil'],['豆腐、皮蛋切块，摆盘','Cut tofu and egg, arrange on a plate']),
-  cold(['辣萝卜干','Spicy Dried Radish'],['萝卜干100克','100g dried radish'],['辣椒油、花椒粉、白糖','chili oil, Sichuan pepper, sugar'],['萝卜干泡洗，沥干切丁','Rinse, drain and dice the radish']),
-  { n:['干拌牛肉','Dry-Tossed Beef'],
+  cold(['爽口黄瓜','Pickled Cucumber'],['黄瓜1根','1 cucumber'],['蒜泥、香醋、盐、香油','garlic, vinegar, salt, sesame oil'],['黄瓜拍裂，切段','Smash and cut the cucumber']),
+  cold(['凉拌豆腐丝','Shredded Tofu Skin'],['豆腐丝150克','150g shredded tofu skin'],['香菜、红油、生抽、香油','cilantro, chili oil, soy sauce, sesame oil'],['豆腐丝焯水，过凉沥干','Blanch tofu skin, chill and drain']),
+  cold(['山椒木耳','Spicy Black Fungus'],['泡发木耳100克','100g soaked black fungus'],['泡山椒、山椒水、香醋','pickled peppers, brine, vinegar'],['木耳焯水，过凉沥干','Blanch black fungus, chill and drain']),
+  cold(['皮蛋豆腐','Thousand Year Egg Mixed Tofu'],['嫩豆腐1块 + 皮蛋1枚','1 soft tofu + 1 thousand year egg'],['生抽、香油、辣椒油','soy sauce, sesame oil, chili oil'],['豆腐、皮蛋切块，摆盘','Cut tofu and egg, arrange on a plate']),
+  cold(['辣萝卜干','Spicy & Sweet Radish'],['萝卜干100克','100g dried radish'],['辣椒油、花椒粉、白糖','chili oil, Sichuan pepper, sugar'],['萝卜干泡洗，沥干切丁','Rinse, drain and dice the radish']),
+  { n:['干拌牛肉','Beef in Chili Sauce'],
     s:[['酱牛肉100克 + 红油、花椒粉、香菜适量','味型麻辣鲜香，现拌现出'],['100g braised beef + chili oil, Sichuan pepper, cilantro','Numbing and spicy, tossed to order']],
     p:[['酱牛肉切薄片','加红油、花椒粉拌匀','装盘，撒香菜'],['Slice braised beef thin','Toss with chili oil and Sichuan pepper','Plate and top with cilantro']] },
   { n:['炒饭','Fried Rice'],
@@ -288,26 +430,28 @@ const DATA = [
     s:[['牛腱肉5千克 + 卤水基底10升 + 生抽300毫升 + 冰糖150克 + 香料包1个','软烂入味，切块大小一致'],['5kg beef shank + 10L master stock + 300ml light soy sauce + 150g rock sugar + 1 spice sachet','Tender and flavorful, uniform pieces']],
     p:[['牛腱肉焯水去血沫，捞出冲净','卤水基底入锅，加生抽、冰糖、香料包烧开','下牛腱肉，大火烧开转小火卤90分钟','关火浸泡30分钟，捞出晾凉分切'],['Blanch beef shank, rinse clean','Bring stock, soy sauce, rock sugar and spice sachet to a boil','Add beef, boil then simmer on low for 90 minutes','Steep 30 minutes, remove, cool and slice']],
     note:['卤汁每日过滤，冷藏保存，超过3天需回炉煮沸。','Strain stock daily and refrigerate; re-boil if held over 3 days.'] },
-  { n:['杂酱肉臊','Zhajiang Pork Topping'],
+  { n:['杂酱肉臊','Zajiang Ground Pork'],
     s:[['猪肉末3千克 + 甜面酱500克 + 黄豆酱300克 + 冰糖50克 + 姜蒜末100克','酱香浓郁，肉粒松散不结团'],['3kg ground pork + 500g sweet bean paste + 300g soybean paste + 50g rock sugar + 100g ginger and garlic','Rich savory aroma, loose meat grains']],
     p:[['猪肉末下锅煸炒出油至发白','加姜蒜末炒香','下甜面酱、黄豆酱、冰糖，小火熬20分钟','不断搅拌防糊底，收浓装桶冷藏'],['Stir-fry pork until pale and oil is released','Add ginger and garlic until fragrant','Add bean pastes and rock sugar, simmer 20 minutes','Stir constantly, reduce, cool and refrigerate']],
     note:['降温后再加盖冷藏，避免闷出水汽变质。','Cool before covering; trapped steam speeds spoilage.'] },
-  { n:['秘制排骨','Secret Recipe Pork Ribs'],
-    s:[['猪排骨5千克 + 卤水基底8升 + 生抽200毫升 + 冰糖100克 + 秘制香料包1个','软烂脱骨，咸香入味'],['5kg pork ribs + 8L master stock + 200ml light soy sauce + 100g rock sugar + 1 secret spice sachet','Fall-off-the-bone tender, savory']],
+  { n:['秘制排骨','Secret Recipe Spare Ribs'],
+    s:[['猪排骨5千克 + 卤水基底8升 + 生抽200毫升 + 冰糖100克 + 秘制香料包1个','软烂脱骨，咸香入味'],['5kg spare ribs + 8L master stock + 200ml light soy sauce + 100g rock sugar + 1 secret spice sachet','Fall-off-the-bone tender, savory']],
     p:[['排骨斩块，冷水焯烫去血沫','卤水烧开，加调料下排骨','小火卤50分钟至软烂','关火浸泡20分钟，捞出冷藏'],['Chop ribs, blanch in cold water','Bring stock to a boil, add seasoning and ribs','Simmer on low for 50 minutes until tender','Steep 20 minutes, remove and refrigerate']] },
-  { n:['霸王牛肋条','Bawang Beef Short Rib'],
-    s:[['牛肋条5千克 + 卤水基底10升 + 生抽300毫升 + 冰糖150克 + 香料包1个','肉质软糯，筋道不柴'],['5kg beef short rib + 10L master stock + 300ml light soy sauce + 150g rock sugar + 1 spice sachet','Soft and chewy, never dry']],
-    p:[['牛肋条整条焯水，冲净','卤水烧开，加调料下牛肋条','小火卤2小时至软糯','关火浸泡40分钟，捞出晾凉分切'],['Blanch whole short rib, rinse','Bring stock to a boil, add seasoning and beef','Simmer on low for 2 hours until tender','Steep 40 minutes, remove, cool and slice']] },
-  { n:['小笼包面剂子','Xiaolongbao Dough Portions'],
+  { n:['霸王牛肋条','Beef Rib'],
+    s:[['牛肋条5千克 + 卤水基底10升 + 生抽300毫升 + 冰糖150克 + 香料包1个','肉质软糯，筋道不柴'],['5kg beef rib + 10L master stock + 300ml light soy sauce + 150g rock sugar + 1 spice sachet','Soft and chewy, never dry']],
+    p:[['牛肋条整条焯水，冲净','卤水烧开，加调料下牛肋条','小火卤2小时至软糯','关火浸泡40分钟，捞出晾凉分切'],['Blanch whole beef rib, rinse','Bring stock to a boil, add seasoning and beef','Simmer on low for 2 hours until tender','Steep 40 minutes, remove, cool and slice']] },
+  { n:['小笼包面剂子','Xiao Long Bao Dough Portions'],
     s:[['中筋面粉1千克 + 温水（约40℃）500毫升 + 盐5克','面团软硬适中，剂子每个约10克，大小一致'],['1kg all-purpose flour + 500ml warm water (~40°C) + 5g salt','Medium-soft dough, each portion about 10g, uniform size']],
     p:[['面粉加盐，分次加入温水，和成雪花状后揉成光滑面团','盖保鲜膜醒面30分钟','面团搓成长条，切成每个约10克的剂子','撒少许干粉防粘，盖湿布备用'],['Mix flour with salt, add warm water gradually, knead into a smooth dough','Cover and rest for 30 minutes','Roll into long strips and cut into portions of about 10g each','Dust lightly with flour and cover with a damp cloth']] },
-  { n:['小笼包馅料','Xiaolongbao Filling'],
+  { n:['小笼包馅料','Xiao Long Bao Filling'],
     s:[['猪肉泥5千克 + 皮冻2千克 + 生抽300毫升 + 姜末100克 + 盐、糖、香油适量','肉馅上劲有汁，皮冻融化后汤汁饱满'],['5kg ground pork + 2kg pork aspic + 300ml light soy sauce + 100g minced ginger + salt, sugar, sesame oil','Springy filling; aspic melts into a juicy broth']],
     p:[['猪肉泥加盐、生抽、糖、姜末，顺一个方向搅拌上劲','分次加入少许清水，继续搅拌至肉馅粘稠','拌入切碎的皮冻和香油，拌匀','冷藏静置1小时后使用'],['Season ground pork with salt, soy sauce, sugar and ginger, stir in one direction until springy','Add a little water gradually, keep stirring until sticky','Fold in diced aspic and sesame oil','Refrigerate 1 hour before use']],
     note:['馅料需全程冷藏，皮冻融化会影响包制。','Keep filling cold throughout; melted aspic makes wrapping difficult.'] },
  ]},
 ];
 
+const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\d+(?:\.\d+)?)?(?:\s*(?:°F|°C|℉|℃|千克|克|毫升|厘米|分钟|小时|秒|升|只|个|张|块|片|根|枚|两|勺|kg|mL|ml|mm|cm|in\b|g\b|L\b)半?)?(?:\s+(?:minutes?|seconds?|hours?|pcs|ladles?|scoops?|liang|slices?|pleats)\b)?)|((?:[一二两三四五六七八九十]+|半)(?:两|勺|块|片|只|张|根|枚)半?)|(half ladle)/g;
+function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
 function findDish(zn){for(let a=0;a<DATA.length;a++){const b=DATA[a].dishes.findIndex(x=>x.n[0]===zn);if(b>-1)return {si:a,di:b,d:DATA[a].dishes[b]};}}
 let stack=[{level:'home'}];
 let lang='zh';
@@ -339,15 +483,15 @@ function render(){
         ${DATA.map((st,k)=>`
           <div class="station-card" onclick="openStation(${k})">
             <div class="seal">${st.seal}</div>
-            <div class="txt"><h2 class="serif">${st.n[i]}</h2></div>
-            <div class="n">${u.items(st.dishes.length)}</div>
+            <div class="txt"><h2 class="serif">${st.n[i]}</h2><p class="sub">${st.n[1-i]}</p></div>
+            <div class="n">${u.items(st.dishes.length).replace(/^(\d+)/,'<span class="num">$1</span>')}</div>
           </div>`).join('')}
       </div>`;
   } else if(s.level==='station'){
     const st=DATA[s.si];
     crumb.textContent=`${u.home} › ${st.n[i]}`;
     view.innerHTML=`
-      <div class="station-head"><h1 class="serif">${st.n[i]}</h1></div>
+      <div class="station-head"><h1 class="serif">${st.n[i]}</h1><p class="sub">${st.n[1-i]} · ${u.items(st.dishes.length)}</p></div>
       <div class="dish-list">
         ${st.dishes.map((d,k)=>`
           <div class="dish-row" onclick="openDish(${s.si},${k})">
@@ -360,18 +504,19 @@ function render(){
     const lines=d.s[i];
     const rel=(d.rel||st.kind==='std')?`<div class="section-label">${u.relTitle}</div>${(d.rel&&d.rel.length)?`<div class="dish-list">${d.rel.map(zn=>{const f=findDish(zn);return `<div class="dish-row" onclick="openDish(${f.si},${f.di})"><div class="dot"></div><div class="name">${f.d.n[i]}</div><div class="arrow">›</div></div>`;}).join('')}</div>`:`<div class="note">${u.relEmpty}</div>`}`:'';
     view.innerHTML=`
-      <div class="recipe-head"><h1 class="serif">${d.n[i]}</h1></div>
+      <div class="recipe-head"><h1 class="serif">${d.n[i]}</h1><p class="sub">${d.n[1-i]}</p></div>
       <div class="section-label">${st.kind==='std'?u.std:u.rec}</div>
       <div class="formula">
-        <div class="val">${lines[0]}</div>
-        ${lines.slice(1).map(t=>`<div class="pt">${t}</div>`).join('')}
+        <div class="val">${hl(lines[0])}</div>
+        ${lines.slice(1).map(t=>`<div class="pt">${hl(t)}</div>`).join('')}
       </div>
       ${d.v?`<a class="video-link" href="${d.v}" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${u.video}</a>`:''}
+        <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M10 8.6v6.8c0 .5.5.8.9.5l5-3.4c.4-.2.4-.8 0-1l-5-3.4c-.4-.3-.9 0-.9.5z" fill="currentColor" stroke="none"/></svg>${u.video}</a>`:''}
       <div class="section-label">${u.proc}</div>
-      <ol class="steps">${d.p[i].map(t=>`<li>${t}</li>`).join('')}</ol>
-      <div class="note">${d.note?`<b>${u.note}</b> ${d.note[i]}`:u.sample}</div>${rel}`;
+      <ol class="steps">${d.p[i].map(t=>`<li><span>${hl(t)}</span></li>`).join('')}</ol>
+      ${(d.real&&!d.note)?'':`<div class="note">${d.note?`<b>${u.note}</b> ${hl(d.note[i])}`:u.sample}</div>`}${rel}`;
   }
+  document.getElementById('scrollRoot').dataset.st=s.level==='home'?'':s.si;
   document.getElementById('scrollRoot').scrollTo(0,0);
 }
 function openStation(k){stack.push({level:'station',si:k});render();}
