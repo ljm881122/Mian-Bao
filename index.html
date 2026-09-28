@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260928224800">
+<meta name="build" content="20260928225600">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -321,6 +321,23 @@
   /* highlighted standard quantities */
   .qty{color:#F0CF8C; font-weight:600; letter-spacing:.01em; white-space:nowrap;}
   .formula .pt .qty,.note .qty{color:#E3C07E; font-weight:500;}
+
+  /* descender-safe spacing (g, p, y no longer clipped) */
+  .sub{line-height:1.7 !important; padding-bottom:1px; margin-top:3px !important;}
+  .station-head .sub,.recipe-head .sub{margin-top:5px !important;}
+  .station-card{height:80px;}
+  .station-card .txt{display:flex; flex-direction:column; justify-content:center;}
+  .station-card .txt h2{line-height:1.4; padding-bottom:1px;}
+  .dish-row .name{line-height:1.5; padding:2px 0;}
+  .crumb{line-height:1.5; padding-top:1px; padding-bottom:1px;}
+
+  /* seamless bottom: every layer converges to the canvas color #0D2520 */
+  html{background:#0D2520 !important;}
+  html,body{background-color:#0D2520 !important;}
+  body::before{background:
+      radial-gradient(120% 60% at 50% -10%, rgba(216,183,124,.10), transparent 60%),
+      linear-gradient(180deg, #143530 0%, #11302A 40%, #0E2822 72%, #0D2520 88%, #0D2520 100%) !important;}
+  body::after{-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 90%); mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 90%);}
 
 </style>
 </head>
