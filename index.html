@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260928214000">
+<meta name="build" content="20260928214500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -303,6 +303,15 @@
   /* video button v6: line icon */
   .video-link{padding:7px 16px 7px 12px; gap:9px;}
   .video-link .pico{width:18px; height:18px; flex:none; color:#E3C488; padding:0; background:none; border-radius:0;}
+
+  /* full-screen: draw under status bar & home indicator */
+  :root{padding-top:0 !important; padding-bottom:0 !important;}
+  html{height:100%; background:#102D27 linear-gradient(180deg,#143530 0%,#11302A 45%,#0D2621 100%) no-repeat fixed;}
+  body{height:100%; background:transparent;}
+  body::before,body::after{top:0; bottom:0; left:0; right:0; height:100lvh;}
+  #scrollRoot{top:0 !important; bottom:0 !important; padding-bottom:env(safe-area-inset-bottom,0px);}
+  header.top{padding-top:calc(10px + env(safe-area-inset-top,0px)) !important;}
+  .hero-wrap{height:calc(100vw * 601 / 1200 + 30px + env(safe-area-inset-top,0px)) !important; max-height:calc(370px + env(safe-area-inset-top,0px)) !important; padding-top:calc(18px + env(safe-area-inset-top,0px)) !important;}
 
 </style>
 </head>
