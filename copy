@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#2E5C4E">
-<meta name="build" content="20260928074130">
+<meta name="build" content="20260928084736">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -198,9 +198,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -218,7 +218,7 @@ const cold=(n,main,seas,prep)=>({n,
 
 const DATA = [
  { seal:'点', kind:'std', n:['面点','Dim Sum'], dishes:[
-  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/JOMRxtRuKsI',
+  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/JOMRxtRuKsI', rel:['小笼包面剂子','小笼包馅料'],
     s:[['生坯8只 + 蒸笼垫纸1张 + 姜丝5克 + 香醋10毫升','皮薄不破，汤汁饱满，热笼出品'],['8 raw dumplings + 1 steamer liner + 5g ginger strips + 10ml black vinegar','Intact wrappers, juicy filling, served hot in the basket']],
     p:[['取生坯8只，均匀码入蒸笼，间距不小于1厘米','大火上汽后转中火，蒸8分钟','关火焖30秒再开盖，防止塌陷','配姜丝、香醋碟随笼上桌'],['Arrange 8 raw dumplings in the steamer, at least 1cm apart','Steam on high until steam rises, then medium heat for 8 minutes','Turn off heat, rest 30 seconds before lifting the lid','Serve with ginger strips and black vinegar']],
     note:['蒸制时间随生坯大小浮动，超过10分钟易出油走形。','Steaming time varies with dumpling size; over 10 minutes causes oil separation.'] },
@@ -298,9 +298,17 @@ const DATA = [
   { n:['霸王牛肋条','Bawang Beef Short Rib'],
     s:[['牛肋条5千克 + 卤水基底10升 + 生抽300毫升 + 冰糖150克 + 香料包1个','肉质软糯，筋道不柴'],['5kg beef short rib + 10L master stock + 300ml light soy sauce + 150g rock sugar + 1 spice sachet','Soft and chewy, never dry']],
     p:[['牛肋条整条焯水，冲净','卤水烧开，加调料下牛肋条','小火卤2小时至软糯','关火浸泡40分钟，捞出晾凉分切'],['Blanch whole short rib, rinse','Bring stock to a boil, add seasoning and beef','Simmer on low for 2 hours until tender','Steep 40 minutes, remove, cool and slice']] },
+  { n:['小笼包面剂子','Xiaolongbao Dough Portions'],
+    s:[['中筋面粉1千克 + 温水（约40℃）500毫升 + 盐5克','面团软硬适中，剂子每个约10克，大小一致'],['1kg all-purpose flour + 500ml warm water (~40°C) + 5g salt','Medium-soft dough, each portion about 10g, uniform size']],
+    p:[['面粉加盐，分次加入温水，和成雪花状后揉成光滑面团','盖保鲜膜醒面30分钟','面团搓成长条，切成每个约10克的剂子','撒少许干粉防粘，盖湿布备用'],['Mix flour with salt, add warm water gradually, knead into a smooth dough','Cover and rest for 30 minutes','Roll into long strips and cut into portions of about 10g each','Dust lightly with flour and cover with a damp cloth']] },
+  { n:['小笼包馅料','Xiaolongbao Filling'],
+    s:[['猪肉泥5千克 + 皮冻2千克 + 生抽300毫升 + 姜末100克 + 盐、糖、香油适量','肉馅上劲有汁，皮冻融化后汤汁饱满'],['5kg ground pork + 2kg pork aspic + 300ml light soy sauce + 100g minced ginger + salt, sugar, sesame oil','Springy filling; aspic melts into a juicy broth']],
+    p:[['猪肉泥加盐、生抽、糖、姜末，顺一个方向搅拌上劲','分次加入少许清水，继续搅拌至肉馅粘稠','拌入切碎的皮冻和香油，拌匀','冷藏静置1小时后使用'],['Season ground pork with salt, soy sauce, sugar and ginger, stir in one direction until springy','Add a little water gradually, keep stirring until sticky','Fold in diced aspic and sesame oil','Refrigerate 1 hour before use']],
+    note:['馅料需全程冷藏，皮冻融化会影响包制。','Keep filling cold throughout; melted aspic makes wrapping difficult.'] },
  ]},
 ];
 
+function findDish(zn){for(let a=0;a<DATA.length;a++){const b=DATA[a].dishes.findIndex(x=>x.n[0]===zn);if(b>-1)return {si:a,di:b,d:DATA[a].dishes[b]};}}
 let stack=[{level:'home'}];
 let lang='zh';
 const ix=()=>lang==='zh'?0:1;
@@ -318,6 +326,7 @@ function render(){
   document.getElementById('backBtn').classList.toggle('show',stack.length>1);
   document.getElementById('topbar').classList.toggle('hide',s.level==='home');
   document.getElementById('backLabel').textContent=u.back;
+  document.getElementById('ver').style.display=s.level==='home'?'':'none';
 
   if(s.level==='home'){
     crumb.textContent='';
@@ -349,6 +358,7 @@ function render(){
     const st=DATA[s.si], d=st.dishes[s.di];
     crumb.textContent=`${u.home} › ${st.n[i]} › ${d.n[i]}`;
     const lines=d.s[i];
+    const rel=(d.rel||st.kind==='std')?`<div class="section-label">${u.relTitle}</div>${(d.rel&&d.rel.length)?`<div class="dish-list">${d.rel.map(zn=>{const f=findDish(zn);return `<div class="dish-row" onclick="openDish(${f.si},${f.di})"><div class="dot"></div><div class="name">${f.d.n[i]}</div><div class="arrow">›</div></div>`;}).join('')}</div>`:`<div class="note">${u.relEmpty}</div>`}`:'';
     view.innerHTML=`
       <div class="recipe-head"><h1 class="serif">${d.n[i]}</h1></div>
       <div class="section-label">${st.kind==='std'?u.std:u.rec}</div>
@@ -360,7 +370,7 @@ function render(){
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${u.video}</a>`:''}
       <div class="section-label">${u.proc}</div>
       <ol class="steps">${d.p[i].map(t=>`<li>${t}</li>`).join('')}</ol>
-      <div class="note">${d.note?`<b>${u.note}</b> ${d.note[i]}`:u.sample}</div>`;
+      <div class="note">${d.note?`<b>${u.note}</b> ${d.note[i]}`:u.sample}</div>${rel}`;
   }
   document.getElementById('scrollRoot').scrollTo(0,0);
 }
