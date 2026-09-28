@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#2E5C4E">
-<meta name="build" content="20260928072437">
+<meta name="build" content="20260928074130">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -174,6 +174,7 @@
   .formula{margin-top:0;}
   .formula .pt{font-size:13.5px; color:var(--muted); margin-top:8px; line-height:1.6;}
   .section-label{margin:22px 0 10px;}
+  .ver{position:fixed; z-index:15; right:12px; bottom:calc(8px + env(safe-area-inset-bottom,0px)); font-size:10.5px; color:var(--muted); opacity:.65; pointer-events:none; letter-spacing:.02em;}
   .hero-wrap{position:relative; margin:0 -20px; aspect-ratio:1200/601; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:36px;}
   .hero-wrap .hero-photo{position:absolute; inset:0; aspect-ratio:auto;}
   .hero-wrap .logo-wrap{position:relative; top:auto; left:auto; right:auto;}
@@ -184,6 +185,7 @@
 </head>
 <body>
 <button class="lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
+<div class="ver" id="ver"></div>
 <div id="scrollRoot">
 <header class="top" id="topbar">
   <button class="back-btn" id="backBtn" onclick="goBack()">
@@ -216,11 +218,11 @@ const cold=(n,main,seas,prep)=>({n,
 
 const DATA = [
  { seal:'点', kind:'std', n:['面点','Dim Sum'], dishes:[
-  { n:['鲜肉小笼包','Pork Xiaolongbao'], v:'https://youtu.be/JOMRxtRuKsI',
+  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/JOMRxtRuKsI',
     s:[['生坯8只 + 蒸笼垫纸1张 + 姜丝5克 + 香醋10毫升','皮薄不破，汤汁饱满，热笼出品'],['8 raw dumplings + 1 steamer liner + 5g ginger strips + 10ml black vinegar','Intact wrappers, juicy filling, served hot in the basket']],
     p:[['取生坯8只，均匀码入蒸笼，间距不小于1厘米','大火上汽后转中火，蒸8分钟','关火焖30秒再开盖，防止塌陷','配姜丝、香醋碟随笼上桌'],['Arrange 8 raw dumplings in the steamer, at least 1cm apart','Steam on high until steam rises, then medium heat for 8 minutes','Turn off heat, rest 30 seconds before lifting the lid','Serve with ginger strips and black vinegar']],
     note:['蒸制时间随生坯大小浮动，超过10分钟易出油走形。','Steaming time varies with dumpling size; over 10 minutes causes oil separation.'] },
-  wonton(['红油抄手','Chili Oil Wontons'],['红油料汁一勺','1 scoop chili oil sauce']),
+  wonton(['红油抄手','Chili Oil Wonton'],['红油料汁一勺','1 scoop chili oil sauce']),
   wonton(['酸辣抄手','Hot & Sour Wontons'],['酸辣汤汁一勺半','1.5 ladles hot & sour broth']),
   wonton(['金汤抄手','Golden Broth Wontons'],['金汤一勺半','1.5 ladles golden broth']),
   { n:['钟水饺','Zhong Dumplings'],
@@ -249,10 +251,10 @@ const DATA = [
   { n:['臊子蒸蛋','Steamed Egg with Minced Pork'],
     s:[['鸡蛋3枚 + 温水150毫升 + 肉臊一勺','蛋面平整无蜂窝，口感嫩滑'],['3 eggs + 150ml warm water + 1 scoop minced pork topping','Smooth surface, silky texture']],
     p:[['鸡蛋打散，兑温水搅匀过筛','盖保鲜膜，中火蒸8分钟','铺肉臊一勺，撒葱花出品'],['Beat eggs, mix with warm water and strain','Cover and steam on medium heat for 8 minutes','Top with minced pork and scallion']] },
-  { n:['牛肉卷饼','Beef Wrap'],
+  { n:['牛肉卷饼','Beef Pancake Roll'],
     s:[['薄饼1张 + 酱牛肉80克 + 黄瓜丝、葱丝适量 + 甜面酱少许','卷紧不散，切段装盘'],['1 flatbread + 80g braised beef + cucumber and scallion strips + hoisin sauce','Rolled tight, cut and plated']],
     p:[['薄饼煎热，刷甜面酱','铺酱牛肉片、黄瓜丝、葱丝','卷紧，斜切两段装盘'],['Heat the flatbread and brush with sauce','Add beef slices, cucumber and scallion','Roll tight, cut in two on the diagonal and plate']] },
-  { n:['酥炸鸡排','Crispy Fried Chicken Cutlet'],
+  { n:['酥炸鸡排','Fried Chicken Cutlet'],
     s:[['鸡排1片 + 裹粉适量 + 椒盐少许','外酥里嫩，金黄不焦'],['1 chicken cutlet + coating + pepper salt','Crispy outside, tender inside, golden not burnt']],
     p:[['鸡排拍松，腌制后裹粉','170℃油炸约5分钟至金黄','沥油，撒椒盐，切条装盘'],['Tenderize, marinate and coat the cutlet','Deep fry at 170°C (340°F) for about 5 minutes','Drain, season with pepper salt, slice and plate']] },
   { n:['狼牙土豆','Spicy Wolf-Tooth Potatoes'],
@@ -261,7 +263,7 @@ const DATA = [
   { n:['小面羊肉','Lamb Xiaomian'],
     s:[['小面一两 + 羊肉一勺 + 汤半勺','小碗出品，羊肉软烂无膻味'],['1 liang noodles + 1 scoop lamb + half ladle broth','Small bowl, tender lamb with no gaminess']],
     p:[['小面下沸水煮60秒','装小碗，加汤半勺','铺羊肉一勺，点缀香菜'],['Cook noodles in boiling water for 60 seconds','Place in a small bowl, add half ladle broth','Top with lamb, garnish with cilantro']] },
-  cold(['爽口黄瓜','Refreshing Cucumber'],['黄瓜1根','1 cucumber'],['蒜泥、香醋、盐、香油','garlic, vinegar, salt, sesame oil'],['黄瓜拍裂，切段','Smash and cut the cucumber']),
+  cold(['爽口黄瓜','Marinated Cucumber'],['黄瓜1根','1 cucumber'],['蒜泥、香醋、盐、香油','garlic, vinegar, salt, sesame oil'],['黄瓜拍裂，切段','Smash and cut the cucumber']),
   cold(['凉拌豆腐丝','Cold Tofu Strips'],['豆腐丝150克','150g tofu strips'],['香菜、红油、生抽、香油','cilantro, chili oil, soy sauce, sesame oil'],['豆腐丝焯水，过凉沥干','Blanch tofu strips, chill and drain']),
   cold(['山椒木耳','Pickled Pepper Wood Ear'],['泡发木耳100克','100g soaked wood ear'],['泡山椒、山椒水、香醋','pickled peppers, brine, vinegar'],['木耳焯水，过凉沥干','Blanch wood ear, chill and drain']),
   cold(['皮蛋豆腐','Century Egg Tofu'],['嫩豆腐1块 + 皮蛋1枚','1 soft tofu + 1 century egg'],['生抽、香油、辣椒油','soy sauce, sesame oil, chili oil'],['豆腐、皮蛋切块，摆盘','Cut tofu and egg, arrange on a plate']),
@@ -371,6 +373,8 @@ render();
 (function(){
   const meta=document.querySelector('meta[name="build"]');
   const BUILD=meta?Number(meta.content):0;
+  const ver=document.getElementById('ver');
+  if(ver&&meta){const b=meta.content; ver.textContent='v'+b.slice(0,4)+'.'+b.slice(4,6)+'.'+b.slice(6,8)+'.'+b.slice(8,12);}
   let last=0, pending=null;
   window.__applyUpdate=function(){ if(pending) location.replace(location.pathname+'?v='+pending); };
   async function check(){
