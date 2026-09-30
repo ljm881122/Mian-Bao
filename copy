@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260928224800">
+<meta name="build" content="20260930001500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -322,6 +322,29 @@
   .qty{color:#F0CF8C; font-weight:600; letter-spacing:.01em; white-space:nowrap;}
   .formula .pt .qty,.note .qty{color:#E3C07E; font-weight:500;}
 
+  /* descender-safe spacing (g, p, y no longer clipped) */
+  .sub{line-height:1.7 !important; padding-bottom:1px; margin-top:3px !important;}
+  .station-head .sub,.recipe-head .sub{margin-top:5px !important;}
+  .station-card{height:80px;}
+  .station-card .txt{display:flex; flex-direction:column; justify-content:center;}
+  .station-card .txt h2{line-height:1.4; padding-bottom:1px;}
+  .dish-row .name{line-height:1.5; padding:2px 0;}
+  .crumb{line-height:1.5; padding-top:1px; padding-bottom:1px;}
+
+  /* seamless bottom: every layer converges to the canvas color #0D2520 */
+  html{background:#0D2520 !important;}
+  html,body{background-color:#0D2520 !important;}
+  body::before{background:
+      radial-gradient(120% 60% at 50% -10%, rgba(216,183,124,.10), transparent 60%),
+      linear-gradient(180deg, #143530 0%, #11302A 40%, #0E2822 72%, #0D2520 88%, #0D2520 100%) !important;}
+  body::after{-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 90%); mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 90%);}
+
+  /* embedded training video */
+  .yt-wrap{position:relative; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#0A1D19;
+    border:1px solid rgba(216,183,124,.35); box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  .yt-wrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+  .yt-alt{display:inline-block; margin-top:8px; font-size:12px; letter-spacing:.04em; color:var(--muted); text-decoration:none;}
+
 </style>
 </head>
 <body>
@@ -339,9 +362,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', vsub:'YouTube · 教学演示', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', vsub:'YouTube · Training demo', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -349,27 +372,26 @@ const noodle=(n,top,soup)=>({n,
   s:[[`面二两 + ${top[0]}`+(soup?` + ${soup[0]}`:''),'汤面比例统一，趁热出品'],[`Noodles 2 liang (~100g) + ${top[1]}`+(soup?` + ${soup[1]}`:''),'Consistent broth-to-noodle ratio, served hot']],
   p:[['面二两下沸水锅，煮90秒至断生','捞面沥干，装碗',soup?`舀${soup[0]}入碗，铺上${top[0]}`:`铺上${top[0]}`,'点缀葱花，即可出品'],
      ['Cook 2 liang of noodles in boiling water for 90 seconds','Drain and place in a bowl',soup?`Ladle in ${soup[1]}, then top with ${top[1]}`:`Top with ${top[1]}`,'Garnish with scallion and serve']]});
-const wonton=(n,sc)=>({n,
-  s:[[`抄手8只 + ${sc[0]}`,'皮薄馅足，出品热烫'],[`8 chaoshou + ${sc[1]}`,'Thin dough wrappers, served hot']],
-  p:[['沸水下抄手8只，煮至浮起后再煮2分钟','捞出沥水，装碗',`加入${sc[0]}`,'点缀葱花，即可出品'],
-     ['Boil 8 chaoshou; once floating, cook 2 more minutes','Drain and place in a bowl',`Add ${sc[1]}`,'Garnish with scallion and serve']]});
+const WONTON_P=[['准备正方形抄手面皮','填充16g-18g馅料至面皮中心','对角线对折面皮，沾水按压粘合呈三角形','沾水并折叠面皮，将两边锐角粘合呈元宝形（船形）','煮面炉煮制4分钟，注意不要粘合'],
+     ['Prepare square chaoshou wrappers','Place 16g-18g of filling in the center of the wrapper','Fold diagonally, dab with water and press to seal into a triangle','Dab with water and fold the two sharp corners together into an ingot (boat) shape','Cook in the noodle cooker for 4 minutes; keep them from sticking together']];
+const wonton=(n,zh,en)=>({n, real:1, s:[zh,en], p:WONTON_P});
 const cold=(n,main,seas,prep)=>({n,
   s:[[`${main[0]} + ${seas[0]}`,'现拌现出，口感清脆'],[`${main[1]} + ${seas[1]}`,'Mixed to order, fresh and crisp']],
   p:[[prep[0],`加入${seas[0]}拌匀`,'装盘，即可出品'],[prep[1],`Toss with ${seas[1]}`,'Plate and serve']]});
 
 const DATA = [
  { seal:'点', kind:'std', n:['面点','Dim Sum'], dishes:[
-  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/JOMRxtRuKsI', rel:['小笼包面剂子','小笼包馅料'], real:1,
-    s:[['每蒸笼6只小笼包，间隔摆放。每只小笼包43g-48g（面皮8g + 馅料35g-40g）。','要求热笼出品，汤汁饱满不漏，良品具有18个工艺褶皱。'],
-       ['6 xiao long bao per steamer basket, evenly spaced. Each 43g-48g (8g wrapper + 35g-40g filling).','Serve hot in the basket; soup must be full with no leaks. A quality bun has 18 pleats.']],
-    p:[['将面剂子（8g）擀至中心略厚、边缘较薄的7-8cm直径面皮','填充35g-40g馅料至面皮中心','包制过程中右手拇指和食指捏褶，左手拇指调整馅料的同时旋转小笼包','蒸笼放入垫纸和小笼包，212°F（100°C）蒸制8分钟'],
-       ['Roll an 8g dough portion into a 7-8cm (about 3in) wrapper, slightly thicker in the center and thinner at the edge','Place 35g-40g of filling in the center of the wrapper','Pleat with the right thumb and index finger while the left thumb tucks the filling and turns the bun','Line the steamer basket with a liner, add the buns and steam at 212°F (100°C) for 8 minutes']] },
-  wonton(['红油抄手','Chili Oil Chaoshou'],['红油料汁一勺','1 scoop chili oil sauce']),
-  wonton(['酸辣抄手','Hot & Sour Chaoshou'],['酸辣汤汁一勺半','1.5 ladles hot & sour broth']),
-  wonton(['金汤抄手','Golden Soup Chaoshou'],['金汤一勺半','1.5 ladles golden soup']),
-  { n:['钟水饺','Chili Oil Dumplings'],
-    s:[['水饺6只 + 红油酱汁一勺 + 蒜泥少许','皮薄馅嫩，酱汁甜香微辣'],['6 dumplings + 1 scoop chili oil sauce + minced garlic','Tender filling, sweet and mildly spicy sauce']],
-    p:[['沸水下水饺6只，点水两次至浮起','捞出沥水，装盘','淋红油酱汁一勺，加蒜泥','即可出品'],['Boil 6 dumplings, add cold water twice until floating','Drain and plate','Pour over 1 scoop chili oil sauce, add garlic','Serve']] },
+  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/gu5LwsT0Svg?si=-HLwnZxMuTWNESHF', rel:['小笼包面剂子','小笼包馅料'], real:1,
+    s:[['每只小笼包43g-48g（面皮8g + 馅料35g-40g）','要求成品美观，面皮不破，良品具有18个工艺褶皱。'],
+       ['Each xiao long bao 43g-48g (8g wrapper + 35g-40g filling)','Finished buns must look neat with no torn wrappers. A quality bun has 18 pleats.']],
+    p:[['将面剂子（8g）擀至中心略厚、边缘较薄的7-8cm直径面皮','填充35g-40g馅料至面皮中心','包制过程中左手拇指按压调整馅料，右手拇指与食指配合提拉面皮捏褶，同时左手配合旋转推送面皮','蒸笼放入垫纸，间隔摆放6只小笼包，212°F（100°C）蒸制7分钟'],
+       ['Roll an 8g dough portion into a 7-8cm (about 3in) wrapper, slightly thicker in the center and thinner at the edge','Place 35g-40g of filling in the center of the wrapper','Press and adjust the filling with the left thumb while the right thumb and index finger lift and pleat the wrapper; the left hand turns and feeds the wrapper at the same time','Line the steamer basket, place 6 buns evenly spaced, and steam at 212°F (100°C) for 7 minutes']] },
+  wonton(['红油抄手','Chili Oil Chaoshou'],['抄手6只 + 红油抄手料汁','堂食料汁（配料机）提前配于碗底，外卖单独提供料汁盒。'],['6 chaoshou + chili oil chaoshou sauce','Dine-in: sauce (from the sauce dispenser) goes in the bottom of the bowl in advance. Takeout: sauce in a separate container.']),
+  wonton(['酸辣抄手','Hot & Sour Chaoshou'],['抄手6只 + 红油1勺 + 辣椒1勺 + 酸酱1勺 + 面汤1勺'],['6 chaoshou + 1 scoop chili oil + 1 scoop chili + 1 scoop sour sauce + 1 scoop noodle water']),
+  wonton(['金汤抄手','Golden Soup Chaoshou'],['抄手6只 + 金汤1勺'],['6 chaoshou + 1 scoop golden soup']),
+  { n:['钟水饺','Chili Oil Dumplings'], real:1,
+    s:[['钟水饺6只 + 钟水饺料汁2勺','堂食料汁淋在饺子上，外卖单独提供料汁盒。'],['6 chili oil dumplings + 2 scoops dumpling sauce','Dine-in: pour the sauce over the dumplings. Takeout: sauce in a separate container.']],
+    p:[['准备圆形饺子面皮','填充??g馅料至面皮中心','沾水对折，按压粘合呈半圆形','煮面炉煮制4分钟，注意不要粘合'],['Prepare round dumpling wrappers','Place ??g of filling in the center of the wrapper','Dab with water, fold in half and press to seal into a half-moon','Cook in the noodle cooker for 4 minutes; keep them from sticking together']] },
  ]},
  { seal:'面', kind:'std', n:['制面','Noodles'], dishes:[
   noodle(['滋味原汤牛肉面','Spicy Beef Soup Noodles'],['牛肉四块','4 pcs beef'],['原汤一勺半','1.5 ladles spicy beef broth']),
@@ -384,7 +406,7 @@ const DATA = [
     s:[['面二两 + 鸡丝50克 + 凉面酱一勺 + 黄瓜丝少许','冷面爽滑，酱汁均匀'],['Noodles 2 liang (~100g) + 50g shredded chicken + 1 scoop cold noodle sauce + cucumber strips','Chilled, springy noodles with evenly coated sauce']],
     p:[['面下沸水煮90秒，过冰水沥干','拌少许油防粘，入碗','铺鸡丝、黄瓜丝，淋凉面酱一勺','拌匀，即可出品'],['Cook noodles 90 seconds, chill in ice water and drain','Toss with a little oil, place in a bowl','Top with chicken and cucumber, add 1 scoop of sauce','Toss and serve']] },
   noodle(['霸王牛排面','Spicy Beef Rib Soup Noodles'],['霸王牛肋条两块','2 pcs beef rib'],['原汤一勺半','1.5 ladles spicy beef broth']),
-  noodle(['特指酸辣面','Sichuan Hot & Sour Soup Noodles'],['酸辣臊子一勺','1 scoop hot & sour topping'],['酸辣汤一勺半','1.5 ladles hot & sour soup']),
+  noodle(['特制酸辣面','Sichuan Hot & Sour Soup Noodles'],['酸辣臊子一勺','1 scoop hot & sour topping'],['酸辣汤一勺半','1.5 ladles hot & sour soup']),
   noodle(['生椒牛肉面','Beef Pickled Soup Noodles'],['牛肉四块 + 生椒圈少许','4 pcs beef + fresh pepper rings'],['原汤一勺半','1.5 ladles spicy beef broth']),
   noodle(['碗杂面','Chengdu Zajiang Noodles w/ Peas'],['碗杂（豌豆肉臊）一勺','1 scoop wanza topping (bawan beans & ground pork)'],['汤半勺','half ladle broth']),
   noodle(['金汤鸡丝面','Golden Soup Chicken Noodles'],['鸡丝50克','50g shredded chicken'],['金汤一勺半','1.5 ladles golden soup']),
@@ -510,7 +532,9 @@ function render(){
         <div class="val">${hl(lines[0])}</div>
         ${lines.slice(1).map(t=>`<div class="pt">${hl(t)}</div>`).join('')}
       </div>
-      ${d.v?`<a class="video-link" href="${d.v}" target="_blank" rel="noopener">
+      ${d.yt?`<div class="section-label">${u.videoT}</div>
+      <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/${d.yt}?playsinline=1&rel=0&modestbranding=1" title="YouTube video player" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+      <a class="yt-alt" href="https://youtu.be/${d.yt}" target="_blank" rel="noopener">${u.videoAlt} ↗</a>`:d.v?`<a class="video-link" href="${d.v}" target="_blank" rel="noopener">
         <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M10 8.6v6.8c0 .5.5.8.9.5l5-3.4c.4-.2.4-.8 0-1l-5-3.4c-.4-.3-.9 0-.9.5z" fill="currentColor" stroke="none"/></svg>${u.video}</a>`:''}
       <div class="section-label">${u.proc}</div>
       <ol class="steps">${d.p[i].map(t=>`<li><span>${hl(t)}</span></li>`).join('')}</ol>
