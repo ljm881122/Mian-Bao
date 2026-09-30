@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260928225600">
+<meta name="build" content="20260929194800">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -339,6 +339,12 @@
       linear-gradient(180deg, #143530 0%, #11302A 40%, #0E2822 72%, #0D2520 88%, #0D2520 100%) !important;}
   body::after{-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 90%); mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 90%);}
 
+  /* embedded training video */
+  .yt-wrap{position:relative; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#0A1D19;
+    border:1px solid rgba(216,183,124,.35); box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  .yt-wrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+  .yt-alt{display:inline-block; margin-top:8px; font-size:12px; letter-spacing:.04em; color:var(--muted); text-decoration:none;}
+
 </style>
 </head>
 <body>
@@ -356,9 +362,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', vsub:'YouTube · 教学演示', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', vsub:'YouTube · Training demo', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -376,7 +382,7 @@ const cold=(n,main,seas,prep)=>({n,
 
 const DATA = [
  { seal:'点', kind:'std', n:['面点','Dim Sum'], dishes:[
-  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/JOMRxtRuKsI', rel:['小笼包面剂子','小笼包馅料'], real:1,
+  { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/gu5LwsT0Svg?si=-HLwnZxMuTWNESHF', rel:['小笼包面剂子','小笼包馅料'], real:1,
     s:[['每蒸笼6只小笼包，间隔摆放。每只小笼包43g-48g（面皮8g + 馅料35g-40g）。','要求热笼出品，汤汁饱满不漏，良品具有18个工艺褶皱。'],
        ['6 xiao long bao per steamer basket, evenly spaced. Each 43g-48g (8g wrapper + 35g-40g filling).','Serve hot in the basket; soup must be full with no leaks. A quality bun has 18 pleats.']],
     p:[['将面剂子（8g）擀至中心略厚、边缘较薄的7-8cm直径面皮','填充35g-40g馅料至面皮中心','包制过程中右手拇指和食指捏褶，左手拇指调整馅料的同时旋转小笼包','蒸笼放入垫纸和小笼包，212°F（100°C）蒸制8分钟'],
@@ -527,7 +533,9 @@ function render(){
         <div class="val">${hl(lines[0])}</div>
         ${lines.slice(1).map(t=>`<div class="pt">${hl(t)}</div>`).join('')}
       </div>
-      ${d.v?`<a class="video-link" href="${d.v}" target="_blank" rel="noopener">
+      ${d.yt?`<div class="section-label">${u.videoT}</div>
+      <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/${d.yt}?playsinline=1&rel=0&modestbranding=1" title="YouTube video player" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+      <a class="yt-alt" href="https://youtu.be/${d.yt}" target="_blank" rel="noopener">${u.videoAlt} ↗</a>`:d.v?`<a class="video-link" href="${d.v}" target="_blank" rel="noopener">
         <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M10 8.6v6.8c0 .5.5.8.9.5l5-3.4c.4-.2.4-.8 0-1l-5-3.4c-.4-.3-.9 0-.9.5z" fill="currentColor" stroke="none"/></svg>${u.video}</a>`:''}
       <div class="section-label">${u.proc}</div>
       <ol class="steps">${d.p[i].map(t=>`<li><span>${hl(t)}</span></li>`).join('')}</ol>
