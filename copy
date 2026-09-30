@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260930004000">
+<meta name="build" content="20260930021500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -345,11 +345,55 @@
   .yt-wrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
   .yt-alt{display:inline-block; margin-top:8px; font-size:12px; letter-spacing:.04em; color:var(--muted); text-decoration:none;}
 
+  /* ratio calculator */
+  button.video-link{font-family:'Noto Sans SC',sans-serif; cursor:pointer; -webkit-appearance:none; appearance:none;}
+  .calc-btn{margin-top:14px;}
+  .sheet{position:fixed; inset:0; z-index:50;}
+  .sheet-bg{position:absolute; inset:0; background:rgba(4,14,12,.55); opacity:0; transition:opacity .25s;}
+  .sheet-panel{position:absolute; left:0; right:0; bottom:0; max-width:640px; margin:0 auto;
+    background:linear-gradient(180deg,#173A33,#10302A); border-top:1px solid rgba(216,183,124,.35); border-radius:20px 20px 0 0;
+    padding:10px 22px calc(22px + env(safe-area-inset-bottom,0px)); color:var(--ink);
+    transform:translateY(100%); transition:transform .28s cubic-bezier(.2,.8,.2,1); box-shadow:0 -12px 40px rgba(0,0,0,.45);}
+  .sheet.open .sheet-bg{opacity:1;} .sheet.open .sheet-panel{transform:none;}
+  .grab{width:38px; height:4px; border-radius:2px; background:rgba(239,230,212,.25); margin:0 auto 14px;}
+  .sheet-head{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .sheet-head h3{margin:0; font-family:'Noto Serif SC',serif; font-size:18px; font-weight:600; letter-spacing:.03em; line-height:1.5;}
+  .sheet-x{flex:none; width:32px; height:32px; border-radius:50%; border:1px solid var(--border); background:rgba(255,248,232,.05); color:var(--ink); font-size:20px; line-height:1; cursor:pointer;}
+  .sheet-tip{margin:6px 0 18px; font-size:12.5px; color:var(--muted); line-height:1.6;}
+  .calc-in{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border:1px solid rgba(216,183,124,.45); border-radius:12px; background:rgba(216,183,124,.07);}
+  .calc-in > span:first-child{font-family:'Noto Serif SC',serif; font-size:16px;}
+  .calc-field{display:flex; align-items:baseline; gap:6px;}
+  .calc-field input{width:130px; background:transparent; border:none; outline:none; text-align:right; color:#F0CF8C; font-family:'Noto Serif SC',serif; font-size:24px; font-weight:600; -webkit-user-select:text; user-select:text; padding:0;}
+  .calc-field em,.calc-row em{font-style:normal; font-size:13px; color:var(--muted); margin-left:4px; font-weight:400;}
+  .calc-chips{display:flex; gap:8px; margin:12px 0 18px; flex-wrap:wrap;}
+  .calc-chips button{flex:1; min-width:52px; padding:7px 0; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:12.5px; cursor:pointer; font-family:'Noto Sans SC',sans-serif;}
+  .calc-chips button.on{border-color:rgba(216,183,124,.7); color:#F0CF8C; background:rgba(216,183,124,.10);}
+  .calc-sub{font-size:11.5px; letter-spacing:.18em; color:var(--gold); margin-bottom:4px;}
+  .calc-row{display:flex; justify-content:space-between; align-items:baseline; padding:13px 2px;
+    background:linear-gradient(90deg,transparent,var(--border) 10%,var(--border) 90%,transparent) left bottom/100% 1px no-repeat;}
+  .calc-row span{font-family:'Noto Serif SC',serif; font-size:16px;}
+  .calc-row b{font-family:'Noto Serif SC',serif; font-size:21px; color:#F0CF8C; font-weight:600;}
+  .calc-reset{display:block; margin:16px auto 0; background:none; border:none; color:var(--muted); font-size:12.5px; letter-spacing:.06em; text-decoration:underline; text-underline-offset:3px; cursor:pointer; font-family:'Noto Sans SC',sans-serif;}
+  input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0;}
+
 </style>
 </head>
 <body>
 <button class="lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
 <div class="ver" id="ver"></div>
+<div id="calcSheet" class="sheet" hidden>
+  <div class="sheet-bg" onclick="closeCalc()"></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true">
+    <div class="grab"></div>
+    <div class="sheet-head"><h3 id="calcTitle"></h3><button class="sheet-x" onclick="closeCalc()" aria-label="Close">×</button></div>
+    <p class="sheet-tip" id="calcTip"></p>
+    <label class="calc-in"><span id="calcBaseName"></span><span class="calc-field"><input id="calcBase" type="number" inputmode="decimal" min="0" step="any" oninput="calcUpdate()"><em>g</em></span></label>
+    <div class="calc-chips" id="calcChips"></div>
+    <div class="calc-sub" id="calcNeed"></div>
+    <div id="calcOut"></div>
+    <button class="calc-reset" id="calcReset" onclick="calcSet(CALC.base.q)"></button>
+  </div>
+</div>
 <div id="scrollRoot">
 <header class="top" id="topbar">
   <button class="back-btn" id="backBtn" onclick="goBack()">
@@ -362,9 +406,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', calc:'配比计算器', calcTip:'输入面粉重量，自动换算其他材料用量', calcReset:'恢复官方配比', calcNeed:'所需材料', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', calc:'Ratio Calculator', calcTip:'Enter the flour weight to scale the other ingredients', calcReset:'Reset to official ratio', calcNeed:'Required', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -462,9 +506,11 @@ const DATA = [
   { n:['霸王牛肋条','Beef Rib'],
     s:[['牛肋条5千克 + 卤水基底10升 + 生抽300毫升 + 冰糖150克 + 香料包1个','肉质软糯，筋道不柴'],['5kg beef rib + 10L master stock + 300ml light soy sauce + 150g rock sugar + 1 spice sachet','Soft and chewy, never dry']],
     p:[['牛肋条整条焯水，冲净','卤水烧开，加调料下牛肋条','小火卤2小时至软糯','关火浸泡40分钟，捞出晾凉分切'],['Blanch whole beef rib, rinse','Bring stock to a boil, add seasoning and beef','Simmer on low for 2 hours until tender','Steep 40 minutes, remove, cool and slice']] },
-  { n:['小笼包面剂子','Xiao Long Bao Dough Portions'],
-    s:[['中筋面粉1千克 + 温水（约40℃）500毫升 + 盐5克','面团软硬适中，剂子每个约10克，大小一致'],['1kg all-purpose flour + 500ml warm water (~40°C) + 5g salt','Medium-soft dough, each portion about 10g, uniform size']],
-    p:[['面粉加盐，分次加入温水，和成雪花状后揉成光滑面团','盖保鲜膜醒面30分钟','面团搓成长条，切成每个约10克的剂子','撒少许干粉防粘，盖湿布备用'],['Mix flour with salt, add warm water gradually, knead into a smooth dough','Cover and rest for 30 minutes','Roll into long strips and cut into portions of about 10g each','Dust lightly with flour and cover with a damp cloth']] },
+  { n:['小笼包面剂子','Xiao Long Bao Dough Portions'], real:1, lab:['官方配比','Official Ratio'],
+    calc:{base:{n:['面粉','Flour'],q:1000,u:'g'}, items:[{n:['水','Water'],q:250,u:['g','g']},{n:['鸡蛋清','Egg White'],q:1,u:['个','pcs'],cnt:1}]},
+    s:[['面粉1000g + 水250g + 鸡蛋清1个','小笼包面剂子每个8g'],['1000g flour + 250g water + 1 egg white','Each xiao long bao dough portion is 8g']],
+    p:[['和面机加入面粉1000g + 水250g + 鸡蛋清1个，和面10分钟','面团放入收纳袋中醒面10分钟','使用压面机压至面团表面平滑','将面团分割成合适大小后，放入面剂子机器制作成面剂子','洒上面粉，筛选合格的面剂子，分装于收纳袋冷藏'],
+       ['Add 1000g flour + 250g water + 1 egg white to the dough mixer and mix for 10 minutes','Place the dough in a storage bag and rest for 10 minutes','Run the dough through the dough sheeter until the surface is smooth','Cut the dough into suitable pieces and feed them into the dough portioning machine','Dust with flour, sort out the qualified portions, pack into storage bags and refrigerate']] },
   { n:['小笼包馅料','Xiao Long Bao Filling'],
     s:[['猪肉泥5千克 + 皮冻2千克 + 生抽300毫升 + 姜末100克 + 盐、糖、香油适量','肉馅上劲有汁，皮冻融化后汤汁饱满'],['5kg ground pork + 2kg pork aspic + 300ml light soy sauce + 100g minced ginger + salt, sugar, sesame oil','Springy filling; aspic melts into a juicy broth']],
     p:[['猪肉泥加盐、生抽、糖、姜末，顺一个方向搅拌上劲','分次加入少许清水，继续搅拌至肉馅粘稠','拌入切碎的皮冻和香油，拌匀','冷藏静置1小时后使用'],['Season ground pork with salt, soy sauce, sugar and ginger, stir in one direction until springy','Add a little water gradually, keep stirring until sticky','Fold in diced aspic and sesame oil','Refrigerate 1 hour before use']],
@@ -487,6 +533,7 @@ function toggleLang(){
 }
 
 function render(){
+  if(typeof closeCalc==='function'&&CALC) closeCalc();
   const s=stack[stack.length-1], u=UI[lang], i=ix();
   const view=document.getElementById('view'), crumb=document.getElementById('crumb');
   document.getElementById('backBtn').classList.toggle('show',stack.length>1);
@@ -527,7 +574,7 @@ function render(){
     const rel=(d.rel||st.kind==='std')?`<div class="section-label">${u.relTitle}</div>${(d.rel&&d.rel.length)?`<div class="dish-list">${d.rel.map(zn=>{const f=findDish(zn);return `<div class="dish-row" onclick="openDish(${f.si},${f.di})"><div class="dot"></div><div class="name">${f.d.n[i]}</div><div class="arrow">›</div></div>`;}).join('')}</div>`:`<div class="note">${u.relEmpty}</div>`}`:'';
     view.innerHTML=`
       <div class="recipe-head"><h1 class="serif">${d.n[i]}</h1><p class="sub">${d.n[1-i]}</p></div>
-      <div class="section-label">${st.kind==='std'?u.std:u.rec}</div>
+      <div class="section-label">${d.lab?d.lab[i]:(st.kind==='std'?u.std:u.rec)}</div>
       <div class="formula">
         <div class="val">${hl(lines[0])}</div>
         ${lines.slice(1).map(t=>`<div class="pt">${hl(t)}</div>`).join('')}
@@ -536,6 +583,7 @@ function render(){
       <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/${d.yt}?playsinline=1&rel=0&modestbranding=1" title="YouTube video player" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
       <a class="yt-alt" href="https://youtu.be/${d.yt}" target="_blank" rel="noopener">${u.videoAlt} ↗</a>`:d.v?`<a class="video-link" href="${d.v}" target="_blank" rel="noopener">
         <svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M10 8.6v6.8c0 .5.5.8.9.5l5-3.4c.4-.2.4-.8 0-1l-5-3.4c-.4-.3-.9 0-.9.5z" fill="currentColor" stroke="none"/></svg>${u.video}</a>`:''}
+      ${d.calc?`<button class="video-link calc-btn" onclick="openCalc()"><svg class="pico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><rect x="7.5" y="5.5" width="9" height="4" rx="1"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01" stroke-width="2.2"/></svg>${u.calc}</button>`:''}
       <div class="section-label">${u.proc}</div>
       <ol class="steps">${d.p[i].map(t=>`<li><span>${hl(t)}</span></li>`).join('')}</ol>
       ${(d.real&&!d.note)?'':`<div class="note">${d.note?`<b>${u.note}</b> ${hl(d.note[i])}`:u.sample}</div>`}${rel}`;
@@ -545,6 +593,28 @@ function render(){
 }
 function openStation(k){stack.push({level:'station',si:k});render();}
 function openDish(a,b){stack.push({level:'dish',si:a,di:b});render();}
+let CALC=null;
+function calcFmt(v,cnt){ if(!isFinite(v)) return '—'; const r=cnt?Math.round(v*10)/10:(v>=100?Math.round(v):Math.round(v*10)/10); return String(r); }
+function openCalc(){
+  const st=stack[stack.length-1]; const d=DATA[st.si].dishes[st.di]; if(!d.calc) return; CALC=d.calc;
+  const u=UI[lang], i=ix();
+  document.getElementById('calcTitle').textContent=`${d.n[i]} · ${u.calc}`;
+  document.getElementById('calcTip').textContent=u.calcTip;
+  document.getElementById('calcBaseName').textContent=CALC.base.n[i];
+  document.getElementById('calcNeed').textContent=u.calcNeed;
+  document.getElementById('calcReset').textContent=u.calcReset;
+  document.getElementById('calcChips').innerHTML=[500,1000,2000,3000,5000].map(g=>`<button onclick="calcSet(${g})">${g>=1000?(g/1000)+'kg':g+'g'}</button>`).join('');
+  calcSet(CALC.base.q);
+  const sh=document.getElementById('calcSheet'); sh.hidden=false; requestAnimationFrame(()=>sh.classList.add('open'));
+}
+function calcSet(g){ document.getElementById('calcBase').value=g; calcUpdate(); }
+function calcUpdate(){
+  if(!CALC) return; const i=ix();
+  const v=parseFloat(document.getElementById('calcBase').value); const f=(v>=0)?v/CALC.base.q:NaN;
+  document.querySelectorAll('#calcChips button').forEach(b=>{const t=b.textContent; const g=t.endsWith('kg')?parseFloat(t)*1000:parseFloat(t); b.classList.toggle('on',g===v);});
+  document.getElementById('calcOut').innerHTML=CALC.items.map(it=>`<div class="calc-row"><span>${it.n[i]}</span><b>${calcFmt(it.q*f,it.cnt)}<em>${(Array.isArray(it.u)?it.u[i]:it.u)||(it.cnt&&lang==='en'?'':'')}</em></b></div>`).join('');
+}
+function closeCalc(){ const sh=document.getElementById('calcSheet'); if(sh.hidden) return; sh.classList.remove('open'); document.activeElement&&document.activeElement.blur(); setTimeout(()=>{sh.hidden=true;},260); }
 function goBack(){if(stack.length>1){stack.pop();render();if(stack.length===1&&window.__applyUpdate)window.__applyUpdate();}}
 render();
 
