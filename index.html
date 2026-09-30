@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260930002500">
+<meta name="build" content="20260930004000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -369,9 +369,9 @@ const UI = {
 };
 
 const noodle=(n,top,soup)=>({n,
-  s:[[`面二两 + ${top[0]}`+(soup?` + ${soup[0]}`:''),'汤面比例统一，趁热出品'],[`Noodles 2 liang (~100g) + ${top[1]}`+(soup?` + ${soup[1]}`:''),'Consistent broth-to-noodle ratio, served hot']],
-  p:[['面二两下沸水锅，煮90秒至断生','捞面沥干，装碗',soup?`舀${soup[0]}入碗，铺上${top[0]}`:`铺上${top[0]}`,'点缀葱花，即可出品'],
-     ['Cook 2 liang of noodles in boiling water for 90 seconds','Drain and place in a bowl',soup?`Ladle in ${soup[1]}, then top with ${top[1]}`:`Top with ${top[1]}`,'Garnish with scallion and serve']]});
+  s:[[`面150g + ${top[0]}`+(soup?` + ${soup[0]}`:''),'汤面比例统一，趁热出品'],[`Noodles 150g + ${top[1]}`+(soup?` + ${soup[1]}`:''),'Consistent broth-to-noodle ratio, served hot']],
+  p:[['面150g下沸水锅，煮90秒至断生','捞面沥干，装碗',soup?`舀${soup[0]}入碗，铺上${top[0]}`:`铺上${top[0]}`,'点缀葱花，即可出品'],
+     ['Cook 150g of noodles in boiling water for 90 seconds','Drain and place in a bowl',soup?`Ladle in ${soup[1]}, then top with ${top[1]}`:`Top with ${top[1]}`,'Garnish with scallion and serve']]});
 const WONTON_P=[['准备正方形抄手面皮','填充16g-18g馅料至面皮中心','对角线对折面皮，沾水按压粘合呈三角形','沾水并折叠面皮，将两边锐角粘合呈元宝形（船形）','煮面炉煮制4分钟，注意不要粘合'],
      ['Prepare square chaoshou wrappers','Place 16g-18g of filling in the center of the wrapper','Fold diagonally, dab with water and press to seal into a triangle','Dab with water and fold the two sharp corners together into an ingot (boat) shape','Cook in the noodle cooker for 4 minutes; keep them from sticking together']];
 const wonton=(n,zh,en)=>({n, real:1, s:[zh,en], p:WONTON_P});
@@ -382,8 +382,8 @@ const cold=(n,main,seas,prep)=>({n,
 const DATA = [
  { seal:'点', kind:'std', n:['面点','Dim Sum'], dishes:[
   { n:['鲜肉小笼包','Xiao Long Bao'], v:'https://youtu.be/gu5LwsT0Svg?si=-HLwnZxMuTWNESHF', rel:['小笼包面剂子','小笼包馅料'], real:1,
-    s:[['小笼包6只（每笼屉）间隔摆放<br>每只小笼包43g-48g（面皮8g + 馅料35g-40g）','要求成品美观，面皮不破，良品具有18个工艺褶皱。'],
-       ['6 xiao long bao (per steamer basket), evenly spaced<br>Each xiao long bao 43g-48g (8g wrapper + 35g-40g filling)','Finished buns must look neat with no torn wrappers. A quality bun has 18 pleats.']],
+    s:[['小笼包6只（每笼屉）<br>每只小笼包43g-48g（面皮8g + 馅料35g-40g）','要求成品美观，面皮不破，良品具有18个工艺褶皱。'],
+       ['6 xiao long bao (per steamer basket)<br>Each xiao long bao 43g-48g (8g wrapper + 35g-40g filling)','Finished buns must look neat with no torn wrappers. A quality bun has 18 pleats.']],
     p:[['将面剂子（8g）擀至中心略厚、边缘较薄的7-8cm直径面皮','填充35g-40g馅料至面皮中心','包制过程中左手拇指按压调整馅料，右手拇指与食指配合提拉面皮捏褶，同时左手配合旋转推送面皮','蒸笼放入蒸笼垫纸，间隔摆放6只小笼包，212°F（100°C）蒸制7分钟'],
        ['Roll an 8g dough portion into a 7-8cm (about 3in) wrapper, slightly thicker in the center and thinner at the edge','Place 35g-40g of filling in the center of the wrapper','Press and adjust the filling with the left thumb while the right thumb and index finger lift and pleat the wrapper; the left hand turns and feeds the wrapper at the same time','Line the steamer basket with a steamer liner, place 6 buns evenly spaced, and steam at 212°F (100°C) for 7 minutes']] },
   wonton(['红油抄手','Chili Oil Chaoshou'],['抄手6只 + 红油抄手料汁','堂食料汁（配料机）提前配于碗底，外卖单独提供料汁盒。'],['6 chaoshou + chili oil chaoshou sauce','Dine-in: sauce (from the sauce dispenser) goes in the bottom of the bowl in advance. Takeout: sauce in a separate container.']),
@@ -396,14 +396,14 @@ const DATA = [
  { seal:'面', kind:'std', n:['制面','Noodles'], dishes:[
   noodle(['滋味原汤牛肉面','Spicy Beef Soup Noodles'],['牛肉四块','4 pcs beef'],['原汤一勺半','1.5 ladles spicy beef broth']),
   { n:['成都杂酱面','Chengdu Zajiang Noodles'],
-    s:[['面二两 + 杂酱一勺 + 芽菜10克 + 花椒油3毫升 + 高汤半勺','干拌，汤汁宜少，拌匀出品'],['Noodles 2 liang (~100g) + 1 scoop zajiang sauce + 10g pickled greens + 3ml Sichuan pepper oil + half ladle stock','Served dry-tossed with minimal broth']],
-    p:[['面二两下沸水锅，煮90秒后捞出装碗','舀杂酱一勺铺于面上','撒芽菜10克','淋花椒油、高汤，拌匀上桌'],['Cook noodles 90 seconds, drain and plate','Top with a scoop of zajiang sauce','Sprinkle with pickled greens','Drizzle pepper oil and stock, toss and serve']] },
+    s:[['面150g + 杂酱一勺 + 芽菜10克 + 花椒油3毫升 + 高汤半勺','干拌，汤汁宜少，拌匀出品'],['Noodles 150g + 1 scoop zajiang sauce + 10g pickled greens + 3ml Sichuan pepper oil + half ladle stock','Served dry-tossed with minimal broth']],
+    p:[['面150g下沸水锅，煮90秒后捞出装碗','舀杂酱一勺铺于面上','撒芽菜10克','淋花椒油、高汤，拌匀上桌'],['Cook noodles 90 seconds, drain and plate','Top with a scoop of zajiang sauce','Sprinkle with pickled greens','Drizzle pepper oil and stock, toss and serve']] },
   noodle(['清汤牛肉面','Clear Broth Beef Noodles'],['牛肉四片','4 pcs sliced beef'],['清汤一勺半','1.5 ladles beef broth (non-spicy)']),
   noodle(['秘制排骨面','Spare Ribs Noodles'],['秘制排骨两块','2 pcs secret recipe spare ribs'],['原汤一勺','1 ladle spicy beef broth']),
   noodle(['麻婆豆腐面','Mapo Tofu Noodles'],['麻婆豆腐一勺','1 scoop mapo tofu'],null),
   noodle(['番茄牛肉面','Tomato & Beef Noodles'],['牛肉四块','4 pcs beef'],['番茄汤一勺半','1.5 ladles tomato soup']),
   { n:['四川鸡丝凉面','Sichuan Cold Noodles w/ Shredded Chicken'],
-    s:[['面二两 + 鸡丝50克 + 凉面酱一勺 + 黄瓜丝少许','冷面爽滑，酱汁均匀'],['Noodles 2 liang (~100g) + 50g shredded chicken + 1 scoop cold noodle sauce + cucumber strips','Chilled, springy noodles with evenly coated sauce']],
+    s:[['面150g + 鸡丝50克 + 凉面酱一勺 + 黄瓜丝少许','冷面爽滑，酱汁均匀'],['Noodles 150g + 50g shredded chicken + 1 scoop cold noodle sauce + cucumber strips','Chilled, springy noodles with evenly coated sauce']],
     p:[['面下沸水煮90秒，过冰水沥干','拌少许油防粘，入碗','铺鸡丝、黄瓜丝，淋凉面酱一勺','拌匀，即可出品'],['Cook noodles 90 seconds, chill in ice water and drain','Toss with a little oil, place in a bowl','Top with chicken and cucumber, add 1 scoop of sauce','Toss and serve']] },
   noodle(['霸王牛排面','Spicy Beef Rib Soup Noodles'],['霸王牛肋条两块','2 pcs beef rib'],['原汤一勺半','1.5 ladles spicy beef broth']),
   noodle(['特制酸辣面','Sichuan Hot & Sour Soup Noodles'],['酸辣臊子一勺','1 scoop hot & sour topping'],['酸辣汤一勺半','1.5 ladles hot & sour soup']),
