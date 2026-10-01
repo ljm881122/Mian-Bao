@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <style>
 html,body{background:#0D2520;}
-#splash{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease;
+#splash{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;transition:opacity .25s ease;
   background:radial-gradient(120% 60% at 50% -10%,rgba(216,183,124,.12),transparent 60%),linear-gradient(180deg,#143530,#0D2520);}
 #splash.out{opacity:0;pointer-events:none;}
 #splash .sp-in{display:flex;flex-direction:column;align-items:center;transform:translateY(-4vh);}
@@ -19,7 +19,7 @@ html,body{background:#0D2520;}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261001132000">
+<meta name="build" content="20261001133000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -644,6 +644,7 @@ const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\
 function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
 /* ===== changelog (newest first; first entry must match the build meta) ===== */
 const CHANGELOG=[
+ {b:'20261001133000', zh:['启动页检查完版本后立即进入，无需等待'], en:['Splash closes as soon as the version check finishes']},
  {b:'20261001132000', zh:['新增品牌启动页','本地缓存加速打开，自动后台更新'], en:['Added branded splash screen','Local caching for faster launch, background updates']},
  {b:'20261001000500', zh:['确认按钮恢复金色渐变，最新标签扁平化'], en:['Gold confirm button restored; flat latest tag']},
  {b:'20260930235900', zh:['权限名称改为“基础权限”','美化更新提示确认按钮，日志新增最新标识'], en:['Renamed role to “Basic Access”','Refined update button; latest tag in log']},
@@ -839,8 +840,8 @@ render();
   const ver=document.getElementById('ver');
   if(ver&&meta){const b=meta.content; ver.textContent='v'+b.slice(0,4)+'.'+b.slice(4,6)+'.'+b.slice(6,8)+'.'+b.slice(8,12);}
   let last=0, pending=null, booted=false;
-  function hideSplash(){ if(booted) return; booted=true; const sp=document.getElementById('splash'); const wait=Math.max(0,1000-(Date.now()-window.__splashT));
-    setTimeout(()=>{ sp.classList.add('out'); setTimeout(()=>{sp.style.display='none';},500); if(window.__afterSplash) window.__afterSplash(); },wait); }
+  function hideSplash(){ if(booted) return; booted=true; const sp=document.getElementById('splash'); const wait=0;
+    setTimeout(()=>{ sp.classList.add('out'); setTimeout(()=>{sp.style.display='none';},300); if(window.__afterSplash) window.__afterSplash(); },wait); }
   setTimeout(hideSplash,3000);
   window.__applyUpdate=function(){ if(!pending) return; let tried=null; try{tried=sessionStorage.getItem('sop_try');}catch(e){} if(tried===pending){ hideSplash(); return; } try{sessionStorage.setItem('sop_try',pending);}catch(e){} location.replace(location.pathname+'?v='+pending); };
   async function check(){
