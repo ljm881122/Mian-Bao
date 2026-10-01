@@ -2,12 +2,13 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<style>html,body{margin:0;background:#0D2520;color:#EFE6D4;}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261001000500">
+<meta name="build" content="20261001131000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -17,7 +18,7 @@
 <title>后厨作业手册 · Mian & Bao</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root{
     box-sizing:border-box;
@@ -630,6 +631,7 @@ const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\
 function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
 /* ===== changelog (newest first; first entry must match the build meta) ===== */
 const CHANGELOG=[
+ {b:'20261001131000', zh:['优化启动速度，消除打开时的白屏'], en:['Faster launch, no white screen on open']},
  {b:'20261001000500', zh:['确认按钮恢复金色渐变，最新标签扁平化'], en:['Gold confirm button restored; flat latest tag']},
  {b:'20260930235900', zh:['权限名称改为“基础权限”','美化更新提示确认按钮，日志新增最新标识'], en:['Renamed role to “Basic Access”','Refined update button; latest tag in log']},
  {b:'20260930235000', zh:['新增员工PIN码权限验证','新增版本更新提示与更新日志'], en:['Added staff PIN access control','Added update notice and update log']},
