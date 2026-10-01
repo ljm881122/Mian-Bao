@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260930021500">
+<meta name="build" content="20260930235000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -376,11 +376,100 @@
   .calc-reset{display:block; margin:16px auto 0; background:none; border:none; color:var(--muted); font-size:12.5px; letter-spacing:.06em; text-decoration:underline; text-underline-offset:3px; cursor:pointer; font-family:'Noto Sans SC',sans-serif;}
   input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0;}
 
+  /* ===== PIN gate ===== */
+  .lang-toggle{z-index:70 !important;}
+  .gate{position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .3s;
+    background:radial-gradient(120% 60% at 50% -10%, rgba(216,183,124,.12), transparent 60%), linear-gradient(180deg,#143530,#0D2520);}
+  .gate.open{opacity:1;}
+  .gate-in{width:100%; max-width:340px; padding:calc(40px + env(safe-area-inset-top,0px)) 28px calc(24px + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; align-items:center;}
+  .gate-logo{width:72px; height:72px; border-radius:10px; border:1px solid rgba(216,183,124,.45); box-shadow:0 10px 28px rgba(0,0,0,.45);}
+  .gate-title{margin:18px 0 4px; font-size:19px; letter-spacing:.12em; color:var(--ink); line-height:1.5;}
+  .gate-sub{margin:0; font-size:12.5px; color:var(--muted); letter-spacing:.04em; line-height:1.6;}
+  .pin-dots{display:flex; gap:18px; margin:26px 0 8px;}
+  .pin-dots i{width:13px; height:13px; border-radius:50%; border:1.5px solid rgba(216,183,124,.6); transition:background .15s, transform .15s;}
+  .pin-dots i.on{background:#E3C488; border-color:#E3C488; transform:scale(1.05);}
+  .pin-dots.shake{animation:shake .4s;}
+  @keyframes shake{0%,100%{transform:none}20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+  .pin-err{height:18px; margin:4px 0 14px; font-size:12.5px; color:#E58A8A; letter-spacing:.04em;}
+  .keypad{display:grid; grid-template-columns:repeat(3,72px); gap:16px 26px; justify-content:center;}
+  .keypad button{width:72px; height:72px; border-radius:50%; border:1px solid rgba(216,183,124,.28); background:rgba(255,248,232,.04);
+    color:var(--ink); font-family:'Noto Serif SC',serif; font-size:26px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .12s;}
+  .keypad button:active{background:rgba(216,183,124,.18);}
+  .keypad button.del{border-color:transparent; background:transparent; color:var(--muted);}
+  .gate-cancel{margin-top:22px; background:none; border:none; color:var(--muted); font-size:13px; letter-spacing:.08em; cursor:pointer; font-family:'Noto Sans SC',sans-serif;}
+  /* role chip & version button */
+  .role-chip{position:fixed; z-index:20; top:calc(12px + env(safe-area-inset-top,0px)); left:16px; display:flex; align-items:center; gap:6px;
+    height:30px; padding:0 12px; border-radius:20px; background:rgba(13,35,30,.45); border:1px solid rgba(201,162,101,.35); color:#fff;
+    font-family:'Noto Sans SC',sans-serif; font-size:12px; letter-spacing:.04em; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); cursor:pointer;}
+  .role-chip svg{color:#E3C488;}
+  button.ver{pointer-events:auto !important; background:none; border:none; padding:6px 0 6px 10px; font-family:'Noto Sans SC',sans-serif; cursor:pointer;}
+  button.ver u{text-decoration:none; color:var(--gold); border-bottom:1px solid rgba(201,162,101,.4);}
+  /* update dialog */
+  .dlg{position:fixed; inset:0; z-index:55; display:flex; align-items:center; justify-content:center; padding:24px;}
+  .dlg-bg{position:absolute; inset:0; background:rgba(4,14,12,.6); opacity:0; transition:opacity .25s;}
+  .dlg-card{position:relative; width:100%; max-width:330px; padding:26px 24px 18px; border-radius:18px; text-align:center;
+    background:linear-gradient(180deg,#183C35,#10302A); border:1px solid rgba(216,183,124,.4); box-shadow:0 20px 50px rgba(0,0,0,.5);
+    transform:scale(.94); opacity:0; transition:transform .25s cubic-bezier(.2,.8,.2,1), opacity .25s;}
+  .dlg.open .dlg-bg{opacity:1;} .dlg.open .dlg-card{transform:none; opacity:1;}
+  .dlg-badge{display:inline-block; padding:3px 12px; border-radius:999px; border:1px solid rgba(216,183,124,.5); color:#E3C488; font-size:11.5px; letter-spacing:.14em;}
+  .dlg-card h3{margin:12px 0 2px; font-size:22px; color:#F0CF8C; letter-spacing:.03em; line-height:1.4;}
+  .dlg-time{margin:0 0 16px; font-size:12px; color:var(--muted); letter-spacing:.04em;}
+  .dlg-label{text-align:left; font-size:11.5px; letter-spacing:.18em; color:var(--gold); margin-bottom:6px;}
+  .dlg-list,.log-item ul{list-style:none; margin:0; padding:0; text-align:left;}
+  .dlg-list li,.log-item li{position:relative; padding:6px 0 6px 16px; font-size:14.5px; line-height:1.6; color:var(--ink);}
+  .dlg-list li::before,.log-item li::before{content:''; position:absolute; left:2px; top:15px; width:5px; height:5px; background:var(--gold); transform:rotate(45deg);}
+  .dlg-ok{display:block; width:100%; margin-top:18px; height:44px; border-radius:999px; border:none; cursor:pointer;
+    background:linear-gradient(180deg,#E3C488,#C49D5E); color:#10302A; font-size:15px; font-weight:600; letter-spacing:.1em; font-family:'Noto Sans SC',sans-serif;}
+  .dlg-link{margin-top:10px; background:none; border:none; color:var(--muted); font-size:12.5px; cursor:pointer; font-family:'Noto Sans SC',sans-serif; letter-spacing:.04em;}
+  /* update log sheet */
+  .log-panel{max-height:78vh; display:flex; flex-direction:column;}
+  .log-list{overflow-y:auto; -webkit-overflow-scrolling:touch; margin-top:10px; padding-bottom:4px;}
+  .log-item{padding:14px 2px 10px; background:linear-gradient(90deg,transparent,var(--border) 10%,var(--border) 90%,transparent) left bottom/100% 1px no-repeat;}
+  .log-item:last-child{background:none;}
+  .log-h{display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .log-h b{font-family:'Noto Serif SC',serif; font-size:15px; color:var(--ink); font-weight:600;}
+  .log-item.cur .log-h b{color:#F0CF8C;}
+  .log-h span{font-size:11.5px; color:var(--muted);}
+  .log-item li{font-size:13.5px; color:var(--muted); padding:3px 0 3px 16px;}
+  .log-item li::before{top:11px;}
+
 </style>
 </head>
 <body>
 <button class="lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
-<div class="ver" id="ver"></div>
+<button class="ver" id="ver" onclick="openLog()"></button>
+<button class="role-chip" id="roleChip" onclick="openGate(true)"></button>
+<div id="gate" class="gate" hidden>
+  <div class="gate-in">
+    <img class="gate-logo" id="gateLogo" alt="">
+    <p class="gate-title serif" id="gateTitle"></p>
+    <p class="gate-sub" id="gateSub"></p>
+    <div class="pin-dots" id="pinDots"><i></i><i></i><i></i><i></i></div>
+    <p class="pin-err" id="pinErr"></p>
+    <div class="keypad" id="keypad"></div>
+    <button class="gate-cancel" id="gateCancel" onclick="closeGate()"></button>
+  </div>
+</div>
+<div id="updDlg" class="dlg" hidden>
+  <div class="dlg-bg"></div>
+  <div class="dlg-card">
+    <div class="dlg-badge" id="updBadge"></div>
+    <h3 class="serif" id="updVer"></h3>
+    <p class="dlg-time" id="updTime"></p>
+    <div class="dlg-label" id="updLabel"></div>
+    <ul class="dlg-list" id="updList"></ul>
+    <button class="dlg-ok" id="updOk" onclick="closeUpd()"></button>
+    <button class="dlg-link" id="updLog" onclick="closeUpd();openLog()"></button>
+  </div>
+</div>
+<div id="logSheet" class="sheet" hidden>
+  <div class="sheet-bg" onclick="closeLog()"></div>
+  <div class="sheet-panel log-panel" role="dialog" aria-modal="true">
+    <div class="grab"></div>
+    <div class="sheet-head"><h3 id="logTitle"></h3><button class="sheet-x" onclick="closeLog()" aria-label="Close">×</button></div>
+    <div class="log-list" id="logList"></div>
+  </div>
+</div>
 <div id="calcSheet" class="sheet" hidden>
   <div class="sheet-bg" onclick="closeCalc()"></div>
   <div class="sheet-panel" role="dialog" aria-modal="true">
@@ -406,9 +495,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', calc:'配比计算器', calcTip:'输入面粉重量，自动换算其他材料用量', calcReset:'恢复官方配比', calcNeed:'所需材料', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', pinT:'员工验证', pinS:'请输入4位员工PIN码', pinErr:'PIN码错误，请重试', cancel:'取消', roleFull:'全部权限', roleBasic:'基础岗位', updBadge:'版本已更新', updTime:'更新时间', updLabel:'本次更新内容', ok:'知道了', viewLog:'查看更新日志', logT:'版本更新日志', logBtn:'更新日志', calc:'配比计算器', calcTip:'输入面粉重量，自动换算其他材料用量', calcReset:'恢复官方配比', calcNeed:'所需材料', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', calc:'Ratio Calculator', calcTip:'Enter the flour weight to scale the other ingredients', calcReset:'Reset to official ratio', calcNeed:'Required', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', pinT:'Staff Verification', pinS:'Enter your 4-digit staff PIN', pinErr:'Incorrect PIN, please try again', cancel:'Cancel', roleFull:'Full Access', roleBasic:'Basic Stations', updBadge:'App Updated', updTime:'Updated', updLabel:'What\'s new', ok:'Got it', viewLog:'View update log', logT:'Update Log', logBtn:'Update log', calc:'Ratio Calculator', calcTip:'Enter the flour weight to scale the other ingredients', calcReset:'Reset to official ratio', calcNeed:'Required', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -520,6 +609,94 @@ const DATA = [
 
 const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\d+(?:\.\d+)?)?(?:\s*(?:°F|°C|℉|℃|千克|克|毫升|厘米|分钟|小时|秒|升|只|个|张|块|片|根|枚|两|勺|kg|mL|ml|mm|cm|in\b|g\b|L\b)半?)?(?:\s+(?:minutes?|seconds?|hours?|pcs|ladles?|scoops?|liang|slices?|pleats)\b)?)|((?:[一二两三四五六七八九十]+|半)(?:两|勺|块|片|只|张|根|枚)半?)|(half ladle)/g;
 function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
+/* ===== changelog (newest first; first entry must match the build meta) ===== */
+const CHANGELOG=[
+ {b:'20260930235000', zh:['新增员工PIN码权限验证','新增版本更新提示与更新日志'], en:['Added staff PIN access control','Added update notice and update log']},
+ {b:'20260930021500', zh:['小笼包面剂子更新官方配比与制作流程','新增配比计算器'], en:['Updated XLB dough ratio and process','Added ratio calculator']},
+ {b:'20260930004000', zh:['制面类面量统一改为150g'], en:['Noodle portions set to 150g']},
+ {b:'20260930003100', zh:['更新小笼包、抄手、钟水饺出品标准与制作流程','更正特制酸辣面名称'], en:['Updated XLB, chaoshou and dumpling standards','Fixed Special Hot & Sour Noodles name']},
+ {b:'20260929194800', zh:['更新小笼包教学视频链接'], en:['Updated XLB training video link']},
+ {b:'20260928225600', zh:['修复屏幕底部色块，优化全屏显示'], en:['Fixed bottom color band, full-screen display']},
+ {b:'20260928225200', zh:['标准化数据金色醒目显示，优化文字间距'], en:['Highlighted standard quantities, spacing fixes']},
+ {b:'20260928223800', zh:['小笼包更新正式出品标准与制作流程'], en:['XLB official standard and process']},
+ {b:'20260928221500', zh:['校正全部英文菜名与用语'], en:['Corrected English dish names and terms']},
+ {b:'20260928214000', zh:['教学视频按钮美化'], en:['Refined video button']},
+ {b:'20260928211500', zh:['双语副标题、排版与动效优化'], en:['Bilingual subtitles, layout and motion polish']},
+ {b:'20260928203000', zh:['墨绿质感品牌主题配色'], en:['Ink-green brand theme']},
+];
+const verFmt=b=>'v'+b.slice(0,4)+'.'+b.slice(4,6)+'.'+b.slice(6,8)+'.'+b.slice(8,12);
+const timeFmt=b=>b.slice(0,4)+'-'+b.slice(4,6)+'-'+b.slice(6,8)+' '+b.slice(8,10)+':'+b.slice(10,12);
+const CUR_BUILD=(document.querySelector('meta[name="build"]')||{}).content||'';
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+
+/* ===== staff PIN access ===== */
+const PINH={'1jzlh3x':'full','w0jxq1':'basic'};
+function pinHash(str){let x=2166136261;for(const c of 'mb-sop:'+str){x^=c.charCodeAt(0);x=Math.imul(x,16777619)>>>0;}return x.toString(36);}
+let ROLE=lsGet('sop_role'); if(ROLE!=='full'&&ROLE!=='basic') ROLE=null;
+function allowed(st){return ROLE==='full'||(ROLE==='basic'&&st.kind==='std');}
+function relOK(d){return (d.rel||[]).filter(zn=>{const f=findDish(zn);return f&&allowed(DATA[f.si]);});}
+let pinBuf='';
+function renderGate(){
+  const u=UI[lang];
+  document.getElementById('gateTitle').textContent=u.pinT;
+  document.getElementById('gateSub').textContent=u.pinS;
+  document.getElementById('gateCancel').textContent=u.cancel;
+  document.getElementById('keypad').innerHTML=['1','2','3','4','5','6','7','8','9','','0','del'].map(k=>k===''?'<span></span>':`<button onclick="pinKey('${k}')" ${k==='del'?'class="del" aria-label="Delete"':''}>${k==='del'?'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>':k}</button>`).join('');
+  dots();
+}
+function dots(){document.querySelectorAll('#pinDots i').forEach((e,j)=>e.classList.toggle('on',j<pinBuf.length));}
+function openGate(cancelable){
+  pinBuf=''; document.getElementById('pinErr').textContent='';
+  const g=document.getElementById('gate'); renderGate();
+  document.getElementById('gateCancel').style.visibility=(cancelable&&ROLE)?'visible':'hidden';
+  const lg=document.querySelector('.logo-badge'); if(lg) document.getElementById('gateLogo').src=lg.src;
+  g.hidden=false; requestAnimationFrame(()=>g.classList.add('open'));
+}
+function closeGate(){const g=document.getElementById('gate'); g.classList.remove('open'); setTimeout(()=>{g.hidden=true;},300);}
+function pinKey(k){
+  const err=document.getElementById('pinErr');
+  if(k==='del'){pinBuf=pinBuf.slice(0,-1); err.textContent=''; dots(); return;}
+  if(pinBuf.length>=4) return;
+  pinBuf+=k; dots();
+  if(pinBuf.length===4){
+    const r=PINH[pinHash(pinBuf)];
+    setTimeout(()=>{
+      if(r){ ROLE=r; lsSet('sop_role',r); stack=[stack[0]]; render(); closeGate(); setTimeout(maybeShowUpd,350); }
+      else { err.textContent=UI[lang].pinErr; const d=document.getElementById('pinDots'); d.classList.remove('shake'); void d.offsetWidth; d.classList.add('shake'); if(navigator.vibrate) navigator.vibrate(120); pinBuf=''; setTimeout(dots,350); }
+    },120);
+  }
+}
+
+/* ===== update notice & log ===== */
+function maybeShowUpd(){
+  if(!ROLE) return;
+  if(lsGet('sop_seen_build')===CUR_BUILD) return;
+  const e=CHANGELOG.find(x=>x.b===CUR_BUILD); lsSet('sop_seen_build',CUR_BUILD); if(!e) return;
+  const u=UI[lang], i=ix();
+  document.getElementById('updBadge').textContent=u.updBadge;
+  document.getElementById('updVer').textContent=verFmt(e.b);
+  document.getElementById('updTime').textContent=`${u.updTime} ${timeFmt(e.b)}`;
+  document.getElementById('updLabel').textContent=u.updLabel;
+  document.getElementById('updList').innerHTML=(i?e.en:e.zh).map(t=>`<li>${t}</li>`).join('');
+  document.getElementById('updOk').textContent=u.ok;
+  document.getElementById('updLog').textContent=u.viewLog;
+  const d=document.getElementById('updDlg'); d.hidden=false; requestAnimationFrame(()=>d.classList.add('open'));
+}
+function closeUpd(){const d=document.getElementById('updDlg'); d.classList.remove('open'); setTimeout(()=>{d.hidden=true;},250);}
+function openLog(){
+  const u=UI[lang], i=ix();
+  document.getElementById('logTitle').textContent=u.logT;
+  document.getElementById('logList').innerHTML=CHANGELOG.map((e,k)=>`<div class="log-item${k===0?' cur':''}"><div class="log-h"><b>${verFmt(e.b)}</b><span>${timeFmt(e.b)}</span></div><ul>${(i?e.en:e.zh).map(t=>`<li>${t}</li>`).join('')}</ul></div>`).join('');
+  const sh=document.getElementById('logSheet'); sh.hidden=false; requestAnimationFrame(()=>sh.classList.add('open'));
+}
+function closeLog(){const sh=document.getElementById('logSheet'); if(sh.hidden) return; sh.classList.remove('open'); setTimeout(()=>{sh.hidden=true;},260);}
+function renderChrome(){
+  const u=UI[lang], home=stack.length===1;
+  const v=document.getElementById('ver'); v.innerHTML=`${verFmt(CUR_BUILD)} · <u>${u.logBtn}</u>`; v.style.display=home?'':'none';
+  const c=document.getElementById('roleChip'); c.style.display=(home&&ROLE)?'':'none';
+  c.innerHTML=`<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>${ROLE==='full'?u.roleFull:u.roleBasic}`;
+}
 function findDish(zn){for(let a=0;a<DATA.length;a++){const b=DATA[a].dishes.findIndex(x=>x.n[0]===zn);if(b>-1)return {si:a,di:b,d:DATA[a].dishes[b]};}}
 let stack=[{level:'home'}];
 let lang='zh';
@@ -533,6 +710,7 @@ function toggleLang(){
 }
 
 function render(){
+  setTimeout(()=>{renderChrome(); const g=document.getElementById('gate'); if(g&&!g.hidden) renderGate();},0);
   if(typeof closeCalc==='function'&&CALC) closeCalc();
   const s=stack[stack.length-1], u=UI[lang], i=ix();
   const view=document.getElementById('view'), crumb=document.getElementById('crumb');
@@ -549,7 +727,7 @@ function render(){
       <p class="hero-title serif">${u.title}</p></div>
       <p class="section-tag">${u.sel}</p>
       <div class="stations">
-        ${DATA.map((st,k)=>`
+        ${DATA.map((st,k)=>!allowed(st)?'':`
           <div class="station-card" onclick="openStation(${k})">
             <div class="seal">${st.seal}</div>
             <div class="txt"><h2 class="serif">${st.n[i]}</h2><p class="sub">${st.n[1-i]}</p></div>
@@ -571,7 +749,7 @@ function render(){
     const st=DATA[s.si], d=st.dishes[s.di];
     crumb.textContent=`${u.home} › ${st.n[i]} › ${d.n[i]}`;
     const lines=d.s[i];
-    const rel=(d.rel||st.kind==='std')?`<div class="section-label">${u.relTitle}</div>${(d.rel&&d.rel.length)?`<div class="dish-list">${d.rel.map(zn=>{const f=findDish(zn);return `<div class="dish-row" onclick="openDish(${f.si},${f.di})"><div class="dot"></div><div class="name">${f.d.n[i]}</div><div class="arrow">›</div></div>`;}).join('')}</div>`:`<div class="note">${u.relEmpty}</div>`}`:'';
+    const rel=(d.rel||st.kind==='std')?`<div class="section-label">${u.relTitle}</div>${(relOK(d).length)?`<div class="dish-list">${relOK(d).map(zn=>{const f=findDish(zn);return `<div class="dish-row" onclick="openDish(${f.si},${f.di})"><div class="dot"></div><div class="name">${f.d.n[i]}</div><div class="arrow">›</div></div>`;}).join('')}</div>`:`<div class="note">${u.relEmpty}</div>`}`:'';
     view.innerHTML=`
       <div class="recipe-head"><h1 class="serif">${d.n[i]}</h1><p class="sub">${d.n[1-i]}</p></div>
       <div class="section-label">${d.lab?d.lab[i]:(st.kind==='std'?u.std:u.rec)}</div>
@@ -591,7 +769,7 @@ function render(){
   document.getElementById('scrollRoot').dataset.st=s.level==='home'?'':s.si;
   document.getElementById('scrollRoot').scrollTo(0,0);
 }
-function openStation(k){stack.push({level:'station',si:k});render();}
+function openStation(k){if(!allowed(DATA[k]))return;stack.push({level:'station',si:k});render();}
 function openDish(a,b){stack.push({level:'dish',si:a,di:b});render();}
 let CALC=null;
 function calcFmt(v,cnt){ if(!isFinite(v)) return '—'; const r=cnt?Math.round(v*10)/10:(v>=100?Math.round(v):Math.round(v*10)/10); return String(r); }
@@ -639,6 +817,8 @@ render();
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) check(); });
   window.addEventListener('pageshow',e=>{ if(e.persisted) check(); });
 })();
+renderChrome();
+if(!ROLE) openGate(false); else setTimeout(maybeShowUpd,500);
 </script>
 
 </body>
