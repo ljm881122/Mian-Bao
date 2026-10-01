@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261001133500">
+<meta name="build" content="20261001141000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -630,6 +630,7 @@ const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\
 function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
 /* ===== changelog (newest first; first entry must match the build meta) ===== */
 const CHANGELOG=[
+ {b:'20261001141000', zh:['开启本地缓存，打开更快，没网也能用','检查更新只确认版本，不再重复下载'], en:['Local caching: faster launch, works offline','Update check no longer re-downloads the app']},
  {b:'20261001133500', zh:['恢复至 v2026.10.01.0005 版本内容'], en:['Restored v2026.10.01.0005 content']},
  {b:'20261001000500', zh:['确认按钮恢复金色渐变，最新标签扁平化'], en:['Gold confirm button restored; flat latest tag']},
  {b:'20260930235900', zh:['权限名称改为“基础权限”','美化更新提示确认按钮，日志新增最新标识'], en:['Renamed role to “Basic Access”','Refined update button; latest tag in log']},
@@ -825,18 +826,18 @@ render();
   const ver=document.getElementById('ver');
   if(ver&&meta){const b=meta.content; ver.textContent='v'+b.slice(0,4)+'.'+b.slice(4,6)+'.'+b.slice(6,8)+'.'+b.slice(8,12);}
   let last=0, pending=null;
-  window.__applyUpdate=function(){ if(pending) location.replace(location.pathname+'?v='+pending); };
+  window.__applyUpdate=function(){ if(!pending) return; let tried=null; try{tried=sessionStorage.getItem('sop_try');}catch(e){} if(tried===pending) return; try{sessionStorage.setItem('sop_try',pending);}catch(e){} location.replace(location.pathname+'?v='+pending); };
   async function check(){
     if(Date.now()-last<20000) return; last=Date.now();
     try{
-      const r=await fetch(location.pathname,{cache:'reload'});
+      const r=await fetch(location.pathname,{cache:'no-cache'});
       if(!r.ok) return;
       const m=(await r.text()).match(/<meta name="build" content="(\d+)"/);
       if(m && Number(m[1])>BUILD){ pending=m[1]; if(stack.length===1) window.__applyUpdate(); }
     }catch(e){}
   }
   check();
-  if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{}); if(window.caches) caches.keys().then(ks=>ks.forEach(k=>caches.delete(k))).catch(()=>{}); }
+  if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) check(); });
   window.addEventListener('pageshow',e=>{ if(e.persisted) check(); });
 })();
