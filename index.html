@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20260930235000">
+<meta name="build" content="20261001000500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -433,6 +433,25 @@
   .log-item li{font-size:13.5px; color:var(--muted); padding:3px 0 3px 16px;}
   .log-item li::before{top:11px;}
 
+  /* refined dialog button & latest tag */
+  .dlg-ok{position:relative; height:46px; margin-top:20px; border-radius:999px; overflow:hidden;
+    background:linear-gradient(180deg,rgba(240,207,140,.16),rgba(216,183,124,.06)); border:1px solid rgba(232,198,132,.75);
+    color:#F3D79C; font-size:14.5px; font-weight:500; letter-spacing:.32em; text-indent:.32em;
+    box-shadow:inset 0 1px 0 rgba(255,240,210,.18), 0 6px 18px rgba(0,0,0,.28);}
+  .dlg-ok::after{content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,236,196,.18),transparent); transform:skewX(-20deg); animation:sheen 2.8s ease-in-out 0.6s infinite;}
+  @keyframes sheen{0%{left:-60%}55%,100%{left:130%}}
+  .dlg-ok:active{background:rgba(216,183,124,.2);}
+  .new-tag{display:inline-block; margin-left:8px; padding:1px 8px; border-radius:999px; font-style:normal; font-family:'Noto Sans SC',sans-serif;
+    font-size:10.5px; font-weight:600; letter-spacing:.08em; color:#10302A; background:linear-gradient(180deg,#EACB8E,#C9A265); vertical-align:2px;}
+
+  /* v2026.10.01.0005: solid gold confirm button, flat latest tag */
+  .dlg-ok{background:linear-gradient(180deg,#EACB8E 0%,#D2AC6A 55%,#BF9757 100%); border:none; color:#10302A; font-weight:600;
+    box-shadow:inset 0 1px 0 rgba(255,245,220,.55), 0 6px 18px rgba(0,0,0,.3);}
+  .dlg-ok::after{background:linear-gradient(100deg,transparent,rgba(255,250,235,.35),transparent);}
+  .dlg-ok:active{background:linear-gradient(180deg,#D9B877,#B98F50);}
+  .new-tag{background:#C9A265; color:#10302A; border-radius:3px; padding:0 6px; font-size:10px; letter-spacing:.06em; line-height:17px; vertical-align:1px; font-weight:600;}
+
 </style>
 </head>
 <body>
@@ -495,9 +514,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', pinT:'员工验证', pinS:'请输入4位员工PIN码', pinErr:'PIN码错误，请重试', cancel:'取消', roleFull:'全部权限', roleBasic:'基础岗位', updBadge:'版本已更新', updTime:'更新时间', updLabel:'本次更新内容', ok:'知道了', viewLog:'查看更新日志', logT:'版本更新日志', logBtn:'更新日志', calc:'配比计算器', calcTip:'输入面粉重量，自动换算其他材料用量', calcReset:'恢复官方配比', calcNeed:'所需材料', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', pinT:'员工验证', pinS:'请输入4位员工PIN码', pinErr:'PIN码错误，请重试', cancel:'取消', roleFull:'全部权限', roleBasic:'基础权限', updBadge:'版本已更新', updTime:'更新时间', updLabel:'本次更新内容', ok:'知道了', viewLog:'查看更新日志', logT:'版本更新日志', logBtn:'更新日志', latest:'最新', calc:'配比计算器', calcTip:'输入面粉重量，自动换算其他材料用量', calcReset:'恢复官方配比', calcNeed:'所需材料', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', pinT:'Staff Verification', pinS:'Enter your 4-digit staff PIN', pinErr:'Incorrect PIN, please try again', cancel:'Cancel', roleFull:'Full Access', roleBasic:'Basic Stations', updBadge:'App Updated', updTime:'Updated', updLabel:'What\'s new', ok:'Got it', viewLog:'View update log', logT:'Update Log', logBtn:'Update log', calc:'Ratio Calculator', calcTip:'Enter the flour weight to scale the other ingredients', calcReset:'Reset to official ratio', calcNeed:'Required', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', pinT:'Staff Verification', pinS:'Enter your 4-digit staff PIN', pinErr:'Incorrect PIN, please try again', cancel:'Cancel', roleFull:'Full Access', roleBasic:'Basic Access', updBadge:'App Updated', updTime:'Updated', updLabel:'What\'s new', ok:'Got it', viewLog:'View update log', logT:'Update Log', logBtn:'Update log', latest:'Latest', calc:'Ratio Calculator', calcTip:'Enter the flour weight to scale the other ingredients', calcReset:'Reset to official ratio', calcNeed:'Required', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -611,6 +630,8 @@ const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\
 function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
 /* ===== changelog (newest first; first entry must match the build meta) ===== */
 const CHANGELOG=[
+ {b:'20261001000500', zh:['确认按钮恢复金色渐变，最新标签扁平化'], en:['Gold confirm button restored; flat latest tag']},
+ {b:'20260930235900', zh:['权限名称改为“基础权限”','美化更新提示确认按钮，日志新增最新标识'], en:['Renamed role to “Basic Access”','Refined update button; latest tag in log']},
  {b:'20260930235000', zh:['新增员工PIN码权限验证','新增版本更新提示与更新日志'], en:['Added staff PIN access control','Added update notice and update log']},
  {b:'20260930021500', zh:['小笼包面剂子更新官方配比与制作流程','新增配比计算器'], en:['Updated XLB dough ratio and process','Added ratio calculator']},
  {b:'20260930004000', zh:['制面类面量统一改为150g'], en:['Noodle portions set to 150g']},
@@ -687,7 +708,7 @@ function closeUpd(){const d=document.getElementById('updDlg'); d.classList.remov
 function openLog(){
   const u=UI[lang], i=ix();
   document.getElementById('logTitle').textContent=u.logT;
-  document.getElementById('logList').innerHTML=CHANGELOG.map((e,k)=>`<div class="log-item${k===0?' cur':''}"><div class="log-h"><b>${verFmt(e.b)}</b><span>${timeFmt(e.b)}</span></div><ul>${(i?e.en:e.zh).map(t=>`<li>${t}</li>`).join('')}</ul></div>`).join('');
+  document.getElementById('logList').innerHTML=CHANGELOG.map((e,k)=>`<div class="log-item${k===0?' cur':''}"><div class="log-h"><b>${verFmt(e.b)}${k===0?`<em class="new-tag">${u.latest}</em>`:''}</b><span>${timeFmt(e.b)}</span></div><ul>${(i?e.en:e.zh).map(t=>`<li>${t}</li>`).join('')}</ul></div>`).join('');
   const sh=document.getElementById('logSheet'); sh.hidden=false; requestAnimationFrame(()=>sh.classList.add('open'));
 }
 function closeLog(){const sh=document.getElementById('logSheet'); if(sh.hidden) return; sh.classList.remove('open'); setTimeout(()=>{sh.hidden=true;},260);}
