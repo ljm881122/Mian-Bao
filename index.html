@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261003011500">
+<meta name="build" content="20261003013000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -530,6 +530,7 @@
   .photo-box{box-shadow:0 0 0 400px rgba(4,12,10,.94);}
   .gate{box-shadow:0 0 0 400px #0D2520;}
 
+
 </style>
 </head>
 <body>
@@ -593,9 +594,9 @@
 
 <script>
 const UI = {
-  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频', searchPh:'搜索菜名或拼音首字母，如 xlb', noRes:'没有找到相关结果，换个关键词试试', resN:n=>`找到 ${n} 项`, hot:'常用搜索', updDate:'更新日期', pending:'具体配方待更新', pinT:'权限验证', pinS:'请输入4位PIN码', pinErr:'PIN码错误，请重试', cancel:'取消', roleFull:'全部权限', roleBasic:'基础权限', updBadge:'版本已更新', updTime:'更新时间', updLabel:'本次更新内容', ok:'知道了', viewLog:'查看更新日志', logT:'版本更新日志', logBtn:'更新日志', latest:'最新', calc:'配比计算器', calcTip:'输入面粉重量，自动换算其他材料用量', calcReset:'恢复官方配比', calcNeed:'所需材料', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
+  zh:{ sel:'选择分类', title:'厨房标准作业流程', relTitle:'相关制作', relEmpty:'暂无相关制作，稍后添加。', back:'返回', home:'首页', std:'出品标准', rec:'配方配比', proc:'制作流程', video:'观看教学视频',  searchPh:'搜索菜名或拼音首字母，如 xlb', noRes:'没有找到相关结果，换个关键词试试', resN:n=>`找到 ${n} 项`, hot:'常用搜索', updDate:'更新日期', pending:'具体配方待更新', pinT:'权限验证', pinS:'请输入4位PIN码', pinErr:'PIN码错误，请重试', cancel:'取消', roleFull:'全部权限', roleBasic:'基础权限', updBadge:'版本已更新', updTime:'更新时间', updLabel:'本次更新内容', ok:'知道了', viewLog:'查看更新日志', logT:'版本更新日志', logBtn:'更新日志', latest:'最新', calc:'配比计算器', calcTip:'输入面粉重量，自动换算其他材料用量', calcReset:'恢复官方配比', calcNeed:'所需材料', videoT:'教学视频', videoAlt:'无法播放？在 YouTube 中打开', vsub:'YouTube · 教学演示', note:'提示：',
        items:n=>`${n}项`, sample:'示例内容，请按门店实际标准修改。' },
-  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video', searchPh:'Search name or initials, e.g. pxlb', noRes:'No results. Try another keyword.', resN:n=>`${n} result${n===1?'':'s'}`, hot:'Popular', updDate:'Last updated', pending:'Recipe details coming soon', pinT:'Access Verification', pinS:'Enter your 4-digit PIN', pinErr:'Incorrect PIN, please try again', cancel:'Cancel', roleFull:'Full Access', roleBasic:'Basic Access', updBadge:'App Updated', updTime:'Updated', updLabel:'What\'s new', ok:'Got it', viewLog:'View update log', logT:'Update Log', logBtn:'Update log', latest:'Latest', calc:'Ratio Calculator', calcTip:'Enter the flour weight to scale the other ingredients', calcReset:'Reset to official ratio', calcNeed:'Required', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
+  en:{ sel:'Select a Category', title:'Kitchen SOP', relTitle:'Related Preparation', relEmpty:'No related preparation linked yet.', back:'Back', home:'Home', std:'Serving Standard', rec:'Formula', proc:'Preparation Process', video:'Watch Training Video',  searchPh:'Search name or initials, e.g. pxlb', noRes:'No results. Try another keyword.', resN:n=>`${n} result${n===1?'':'s'}`, hot:'Popular', updDate:'Last updated', pending:'Recipe details coming soon', pinT:'Access Verification', pinS:'Enter your 4-digit PIN', pinErr:'Incorrect PIN, please try again', cancel:'Cancel', roleFull:'Full Access', roleBasic:'Basic Access', updBadge:'App Updated', updTime:'Updated', updLabel:'What\'s new', ok:'Got it', viewLog:'View update log', logT:'Update Log', logBtn:'Update log', latest:'Latest', calc:'Ratio Calculator', calcTip:'Enter the flour weight to scale the other ingredients', calcReset:'Reset to official ratio', calcNeed:'Required', videoT:'Training Video', videoAlt:'Not playing? Open in YouTube', vsub:'YouTube · Training demo', note:'Note:',
        items:n=>`${n} items`, sample:'Sample content - please adjust to your store standard.' }
 };
 
@@ -606,7 +607,7 @@ function SUB(a){ return lang==='en'?a[0]:a[1]; }
 function SUBH(a){ return SUB(a); }
 function CL(e){ return lang==='zh'?e.zh:(lang==='es'?(e.es||e.en.map(x=>ES[x]||x)):e.en); }
 UI.es={ sel:'Selecciona una categoría', title:'Manual de Cocina', relTitle:'Preparaciones relacionadas', relEmpty:'Aún no hay preparaciones relacionadas.', back:'Atrás', home:'Inicio',
-  std:'Estándar de presentación', rec:'Fórmula', proc:'Proceso de preparación', video:'Ver video de capacitación', searchPh:'Busca nombre o iniciales, ej. xlbc', noRes:'Sin resultados. Prueba otra palabra.', resN:n=>`${n} resultado${n===1?'':'s'}`, hot:'Búsquedas frecuentes', updDate:'Actualizado', pending:'Receta pendiente de actualizar',
+  std:'Estándar de presentación', rec:'Fórmula', proc:'Proceso de preparación', video:'Ver video de capacitación',  searchPh:'Busca nombre o iniciales, ej. xlbc', noRes:'Sin resultados. Prueba otra palabra.', resN:n=>`${n} resultado${n===1?'':'s'}`, hot:'Búsquedas frecuentes', updDate:'Actualizado', pending:'Receta pendiente de actualizar',
   pinT:'Verificación de acceso', pinS:'Ingresa tu PIN de 4 dígitos', pinErr:'PIN incorrecto, intenta de nuevo', cancel:'Cancelar',
   roleFull:'Acceso total', roleBasic:'Acceso básico', updBadge:'App actualizada', updTime:'Actualizado', updLabel:'Novedades', ok:'Entendido',
   viewLog:'Ver historial de versiones', logT:'Historial de versiones', logBtn:'Historial', latest:'Nuevo',
@@ -809,7 +810,7 @@ function maybeShowUpd(){
   const latestFor=b=>CHANGELOG.filter(x=>x.b<=b).sort((x,y)=>y.b.localeCompare(x.b))[0];
   const e=latestFor(CUR_BUILD); const prev=lsGet('sop_seen_build');
   let seenLog=lsGet('sop_seen_log'); if(!seenLog&&prev){ const pe=latestFor(prev); seenLog=pe?pe.b:''; }
-  lsSet('sop_seen_build',CUR_BUILD); if(!e||e.b===seenLog) return; lsSet('sop_seen_log',e.b);
+  lsSet('sop_seen_build',CUR_BUILD); if(!e||(seenLog&&e.b<=seenLog)) return; lsSet('sop_seen_log',e.b);
   const u=UI[lang], i=ix();
   document.getElementById('updBadge').textContent=u.updBadge;
   document.getElementById('updVer').textContent=verFmt(e.b);
