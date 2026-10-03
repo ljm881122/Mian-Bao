@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261003010500">
+<meta name="build" content="20261003011500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -525,6 +525,11 @@
   .station-card .txt h2{font-size:18px; letter-spacing:.06em;}
   .station-card .sub{margin-top:2px !important; letter-spacing:.16em;}
 
+  /* overlays reach under the status bar and home indicator (no light strip) */
+  .dlg-bg,.sheet-bg{top:-120px !important; bottom:-240px !important;}
+  .photo-box{box-shadow:0 0 0 400px rgba(4,12,10,.94);}
+  .gate{box-shadow:0 0 0 400px #0D2520;}
+
 </style>
 </head>
 <body>
@@ -800,7 +805,11 @@ function pinKey(k){
 function maybeShowUpd(){
   if(!ROLE) return;
   if(lsGet('sop_seen_build')===CUR_BUILD) return;
-  const e=CHANGELOG.find(x=>x.b===CUR_BUILD); lsSet('sop_seen_build',CUR_BUILD); if(!e) return;
+  // latest entry that has a log (builds without a log fall back to the previous logged entry)
+  const latestFor=b=>CHANGELOG.filter(x=>x.b<=b).sort((x,y)=>y.b.localeCompare(x.b))[0];
+  const e=latestFor(CUR_BUILD); const prev=lsGet('sop_seen_build');
+  let seenLog=lsGet('sop_seen_log'); if(!seenLog&&prev){ const pe=latestFor(prev); seenLog=pe?pe.b:''; }
+  lsSet('sop_seen_build',CUR_BUILD); if(!e||e.b===seenLog) return; lsSet('sop_seen_log',e.b);
   const u=UI[lang], i=ix();
   document.getElementById('updBadge').textContent=u.updBadge;
   document.getElementById('updVer').textContent=verFmt(e.b);
