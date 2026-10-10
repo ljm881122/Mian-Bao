@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261010143000">
+<meta name="build" content="20261010144000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -555,6 +555,13 @@
   .role-chip{height:30px;}
   .crumb{line-height:30px;}
 
+  /* sheets: never taller than the screen, scroll inside, close button always visible */
+  .sheet-panel{max-height:calc(100% - env(safe-area-inset-top,0px) - 20px); overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+    touch-action:pan-y; box-shadow:0 -12px 40px rgba(0,0,0,.45), 0 320px 0 0 #10302A;}
+  .sheet-panel .grab{position:sticky; top:-10px; z-index:3;}
+  .sheet-head{position:sticky; top:-10px; z-index:2; margin:0 -22px; padding:12px 22px 10px; background:linear-gradient(180deg,#173A33 80%,rgba(23,58,51,0));}
+  .sheet-open .lang-toggle,.sheet-open .role-chip{visibility:hidden;}
+
 </style>
 </head>
 <body>
@@ -853,9 +860,9 @@ function openLog(){
   const u=UI[lang], i=ix();
   document.getElementById('logTitle').textContent=u.logT;
   document.getElementById('logList').innerHTML=CHANGELOG.map((e,k)=>`<div class="log-item${k===0?' cur':''}"><div class="log-h"><b>${verFmt(e.b)}${k===0?`<em class="new-tag">${u.latest}</em>`:''}</b><span>${timeFmt(e.b)}</span></div><ul>${(CL(e)).map(t=>`<li>${t}</li>`).join('')}</ul></div>`).join('');
-  const sh=document.getElementById('logSheet'); sh.hidden=false; requestAnimationFrame(()=>sh.classList.add('open'));
+  document.body.classList.add('sheet-open'); const sh=document.getElementById('logSheet'); sh.hidden=false; requestAnimationFrame(()=>sh.classList.add('open'));
 }
-function closeLog(){const sh=document.getElementById('logSheet'); if(sh.hidden) return; sh.classList.remove('open'); setTimeout(()=>{sh.hidden=true;},260);}
+function closeLog(){const sh=document.getElementById('logSheet'); if(sh.hidden) return; document.body.classList.remove('sheet-open'); sh.classList.remove('open'); setTimeout(()=>{sh.hidden=true;},260);}
 function renderChrome(){
   const u=UI[lang], home=stack.length===1;
   document.body.classList.toggle('is-home',home);
@@ -1059,7 +1066,7 @@ function openCalc(){
   const bu=CALC.base.u||'g'; document.getElementById('calcBaseU').textContent=bu;
   document.getElementById('calcChips').innerHTML=(CALC.chips||[500,1000,2000,3000,5000]).map(g=>`<button onclick="calcSet(${g})">${bu==='g'?(g>=1000?(g/1000)+'kg':g+'g'):g+bu}</button>`).join('');
   calcSet(CALC.base.q);
-  const sh=document.getElementById('calcSheet'); sh.hidden=false; requestAnimationFrame(()=>sh.classList.add('open'));
+  document.body.classList.add('sheet-open'); const sh=document.getElementById('calcSheet'); sh.hidden=false; requestAnimationFrame(()=>sh.classList.add('open'));
 }
 function calcSet(g){ document.getElementById('calcBase').value=g; calcUpdate(); }
 function calcUpdate(){
@@ -1068,7 +1075,7 @@ function calcUpdate(){
   document.querySelectorAll('#calcChips button').forEach(b=>{const t=b.textContent; const g=t.endsWith('kg')?parseFloat(t)*1000:parseFloat(t); b.classList.toggle('on',g===v);});
   document.getElementById('calcOut').innerHTML=CALC.items.map(it=>`<div class="calc-row"><span>${L(it.n)}</span><b>${Array.isArray(it.q)?it.q.map(x=>calcFmt(x*f,it.cnt)).join('-'):calcFmt(it.q*f,it.cnt)}<em>${(Array.isArray(it.u)?L(it.u):it.u)||(it.cnt&&lang==='en'?'':'')}</em></b></div>`).join('');
 }
-function closeCalc(){ const sh=document.getElementById('calcSheet'); if(sh.hidden) return; sh.classList.remove('open'); document.activeElement&&document.activeElement.blur(); setTimeout(()=>{sh.hidden=true;},260); }
+function closeCalc(){ const sh=document.getElementById('calcSheet'); if(sh.hidden) return; document.body.classList.remove('sheet-open'); sh.classList.remove('open'); document.activeElement&&document.activeElement.blur(); setTimeout(()=>{sh.hidden=true;},260); }
 function openPhoto(k,cap){ const b=document.getElementById('photoBox'); document.getElementById('photoImg').src=IMGS[k]; document.getElementById('photoCap').textContent=cap; b.hidden=false; requestAnimationFrame(()=>b.classList.add('open')); }
 function closePhoto(){ const b=document.getElementById('photoBox'); if(b.hidden) return; b.classList.remove('open'); setTimeout(()=>{b.hidden=true;},250); }
 function goBack(){if(stack.length>1){stack.pop();render();if(stack.length===1&&window.__applyUpdate)window.__applyUpdate();}}
