@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261010144000">
+<meta name="build" content="20261011003500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -764,6 +764,7 @@ const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\
 function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
 /* ===== changelog (newest first; first entry must match the build meta) ===== */
 const CHANGELOG=[
+ {b:'20261011003500', zh:['根据手机系统语言自动选择默认语言'], en:['Default language now follows the phone system language'], es:['El idioma predeterminado ahora sigue el idioma del teléfono']},
  {b:'20261010140000', zh:['更新爽口黄瓜、狼牙土豆、酥炸鸡排、红烧牛肉、杂酱肉臊等配方，多项加入配比计算器','新增金汤底料、狼牙土豆调料粉、凉面凉粉汁，抄手与钟水饺馅料合并'], en:['Updated recipes for cucumber, Chengdu fries, chicken cutlet, braised beef, zajiang pork and more, with calculators','New golden soup base, fries seasoning and cold noodle sauce; merged chaoshou & dumpling filling'], es:['Recetas actualizadas de pepino, papas Chengdu, milanesa de pollo, res estofada, cerdo zajiang y más, con calculadoras','Nuevos: base de caldo dorado, sazonador para papas y salsa para fideos fríos; relleno de chaoshou y dumplings unificado']},
  {b:'20261009174000', zh:['更新酸辣抄手、特制酸辣面出品标准'], en:['Updated hot & sour chaoshou and hot & sour noodle standards'], es:['Estándares actualizados de chaoshou y fideos agridulces picantes']},
  {b:'20261009012500', zh:['食材加工新增小笼包分类，汇总面剂子、馅料、皮冻、调味粉'], en:['Ingredient Prep: new Xiao Long Bao group (dough, filling, aspic, seasoning)'], es:['Preparación: nuevo grupo Xiao Long Bao (masa, relleno, gelatina, sazonador)']},
@@ -954,13 +955,25 @@ function setSearch(h){ const qi=document.getElementById('q'); qi.value=h; doSear
 function clearSearch(){ const qi=document.getElementById('q'); qi.value=''; doSearch(''); qi.focus(); }
 function findDish(zn){for(let a=0;a<DATA.length;a++){const b=DATA[a].dishes.findIndex(x=>x.n[0]===zn);if(b>-1)return {si:a,di:b,d:DATA[a].dishes[b]};}}
 let stack=[{level:'home'}];
-let lang='zh';
+let lang=(function(){
+  let v=null; try{ v=localStorage.getItem('sop_lang'); }catch(e){}
+  if(v==='zh'||v==='en'||v==='es') return v;           // language the user picked before
+  const ls=(navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language||''];
+  for(const l of ls){ const x=String(l).toLowerCase();  // otherwise follow the phone's system language
+    if(x.startsWith('zh')) return 'zh'; if(x.startsWith('es')) return 'es'; if(x.startsWith('en')) return 'en'; }
+  return 'en';
+})();
+function applyLangUI(){
+  const b=document.getElementById('langBtn'); if(b) b.textContent=lang==='zh'?'EN':(lang==='en'?'ES':'中文');
+  document.documentElement.lang=lang==='zh'?'zh-CN':lang;
+}
+applyLangUI();
 const ix=()=>lang==='zh'?0:1;
 
 function toggleLang(){
   lang=lang==='zh'?'en':(lang==='en'?'es':'zh');
-  document.getElementById('langBtn').textContent=lang==='zh'?'EN':(lang==='en'?'ES':'中文');
-  document.documentElement.lang=lang==='zh'?'zh-CN':lang;
+  try{ localStorage.setItem('sop_lang',lang); }catch(e){}
+  applyLangUI();
   render();
 }
 
