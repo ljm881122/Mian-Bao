@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261015202000">
+<meta name="build" content="20261016223000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -772,6 +772,7 @@ const QTY_RE=/(~?\d+(?:\.\d+)?(?:(?:kg|g|ml|cm|克|毫升|厘米)?\s*[-–~]\s*\
 function hl(t){return String(t).replace(QTY_RE,m=>`<span class="qty">${m}</span>`);}
 /* ===== changelog (newest first; first entry must match the build meta) ===== */
 const CHANGELOG=[
+ {b:'20261016215000', zh:['页面支持右滑返回上一页','使用中屏幕保持常亮，10分钟无操作后恢复自动黑屏'], en:['Swipe right to go back','Screen stays on while in use; normal auto-lock resumes after 10 minutes without touch'], es:['Desliza a la derecha para regresar','La pantalla se mantiene encendida mientras la usas; el bloqueo automático vuelve tras 10 minutos sin tocar']},
  {b:'20261015202000', zh:['小笼包面剂子配比更新：面粉1000g + 水480g'], en:['XLB dough ratio updated: 1000g flour + 480g water'], es:['Proporción de masa para XLB actualizada: 1000g de harina + 480g de agua']},
  {b:'20261012131500', zh:['首页新增工具箱：配料机设置、开档/收档、大清扫标准','更新金汤、番茄汤、酸辣汁、芝麻酱、麻婆豆腐、红烧牛肉、辣萝卜干、干拌牛肉、山椒木耳、臊子蒸蛋等配方','新增基础酱油、豆瓣酱、香料粉、花椒粉、蒸蛋液；秘制排骨更名为红烧排骨并更新配方','制面顺序调整'], en:['New Toolbox on the home page: sauce dispenser settings, opening/closing, deep cleaning standards','Updated golden soup, tomato soup, hot & sour sauce, sesame paste, mapo tofu, braised beef, spicy radish, beef in chili sauce, spicy black fungus, steamed egg and more','New: base soy sauce, chili bean paste, spice powder, Sichuan pepper powder, steamed egg mixture; secret recipe ribs renamed Braised Spare Ribs with new recipe','Noodle menu reordered'], es:['Nueva Caja de Herramientas: ajustes del dispensador, apertura/cierre, limpieza profunda','Recetas actualizadas: caldo dorado, caldo de tomate, salsa agridulce picante, pasta de ajonjolí, tofu mapo, res estofada, rábano picante, res en salsa de chile, hongo negro picante, huevo al vapor y más','Nuevos: salsa de soya base, pasta de frijol picante, especias en polvo, pimienta de Sichuan en polvo, mezcla para huevo al vapor; costillas renombradas a Costillas Estofadas con nueva receta','Nuevo orden del menú de fideos']},
  {b:'20261012025500', zh:['更新抄手、钟水饺出品标准与馅料用量（抄手每只16g-18g，钟水饺每只23g-25g）'], en:['Updated chaoshou and dumpling standards and filling amounts (chaoshou 16g-18g each, dumplings 23g-25g each)'], es:['Estándares de chaoshou y dumplings actualizados (chaoshou 16g-18g c/u, dumplings 23g-25g c/u)']},
@@ -1106,6 +1107,43 @@ function openPhoto(k,cap){ const b=document.getElementById('photoBox'); document
 function closePhoto(){ const b=document.getElementById('photoBox'); if(b.hidden) return; b.classList.remove('open'); setTimeout(()=>{b.hidden=true;},250); }
 function goBack(){if(stack.length>1){stack.pop();render();if(stack.length===1&&window.__applyUpdate)window.__applyUpdate();}}
 render();
+
+/* swipe right to go back (page follows finger) */
+(function(){
+  let sx=0,sy=0,st=0,on=false,dir=0,sY=0;
+  const V=()=>document.getElementById('view'), SR=()=>document.getElementById('scrollRoot');
+  const lock=(y)=>{const sr=SR(); if(!sr) return; if(y){ sr.style.overflowY='hidden'; sr.scrollTop=sY; } else sr.style.overflowY=''; };
+  const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden;};
+  const blocked=()=>stack.length<=1||document.body.classList.contains('sheet-open')||vis('photoBox')||vis('gate')||vis('logSheet')||vis('calcSheet');
+  const reset=(anim)=>{lock(false); const el=V();el.style.transition=anim?'transform .14s ease-out, opacity .14s':'none';el.style.transform='';el.style.opacity='';};
+  addEventListener('touchstart',e=>{ if(e.touches.length!==1||blocked()){on=false;return;} const t=e.touches[0]; if(t.clientX>Math.min(64,innerWidth*.16)) {on=false;return;} sx=t.clientX; sy=t.clientY; st=Date.now(); on=true; dir=0; const sr=SR(); sY=sr?sr.scrollTop:0; },{passive:true});
+  addEventListener('touchmove',e=>{ if(!on) return; const t=e.touches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+    if(!dir){ if(!dx&&!dy) return; dir=(dx>0&&Math.abs(dx)>=Math.abs(dy))?1:-1; if(dir===1) lock(true); }
+    if(dir!==1){ on=false; return; }
+    if(e.cancelable) e.preventDefault();
+    const sr=SR(); if(sr&&sr.scrollTop!==sY) sr.scrollTop=sY;
+    const x=Math.max(0,dx), el=V(); el.style.transition='none'; el.style.transform='translateX('+x+'px)'; el.style.opacity=String(1-Math.min(x/innerWidth,1)*.4);
+  },{passive:false});
+  addEventListener('touchend',e=>{ if(!on) return; on=false; if(dir!==1) return; lock(false);
+    const dx=e.changedTouches[0].clientX-sx, vel=dx/Math.max(1,Date.now()-st), el=V();
+    if(dx>innerWidth*.28||(dx>50&&vel>.45)){ el.style.transition='transform .11s ease-out, opacity .11s'; el.style.transform='translateX('+innerWidth+'px)'; el.style.opacity='0';
+      setTimeout(()=>{reset(false); goBack();},100); }
+    else reset(true);
+  },{passive:true});
+  addEventListener('touchcancel',()=>{ if(on&&dir===1) reset(true); on=false; },{passive:true});
+})();
+
+/* keep the screen awake while in use; let it sleep after 10 min without touch */
+(function(){
+  if(!('wakeLock' in navigator)) return;
+  let lock=null, timer=null; const IDLE=10*60*1000;
+  async function acquire(){ if(lock||document.visibilityState!=='visible') return; try{ lock=await navigator.wakeLock.request('screen'); lock.addEventListener('release',()=>{lock=null;}); }catch(e){} }
+  function release(){ if(lock){ lock.release().catch(()=>{}); lock=null; } }
+  function poke(){ acquire(); clearTimeout(timer); timer=setTimeout(release,IDLE); }
+  ['touchstart','click','keydown'].forEach(ev=>addEventListener(ev,poke,{passive:true}));
+  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') poke(); else clearTimeout(timer); });
+  poke();
+})();
 
 /* auto-update: compare build stamp with the latest online copy */
 (function(){
