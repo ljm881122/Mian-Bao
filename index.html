@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261018131000">
+<meta name="build" content="20261018141500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -622,6 +622,54 @@
   .pay-note b{display:block; color:var(--wood); font-weight:600; letter-spacing:.06em; margin-bottom:2px;}
   .pay-row.pay-owner{background:none; margin:4px -14px 0; padding:13px 16px 14px; border-top:1px solid rgba(216,183,124,.35); border-radius:0 0 13px 13px; background:rgba(216,183,124,.08);}
   .pay-card{padding-bottom:0; overflow:hidden;}
+  /* break-even calculator */
+  .be-sample{font-size:12px; color:var(--muted); margin:2px 2px 4px;}
+  .be-sec{margin:18px 2px 8px; font-size:11.5px; letter-spacing:.16em; color:var(--gold);}
+  .be-grp{border:1px solid var(--border); border-radius:14px; overflow:hidden; background:rgba(255,248,232,.03);}
+  .be-row{display:flex; align-items:center; gap:10px; padding:11px 14px; border-bottom:1px solid rgba(201,162,101,.12);}
+  .be-row:last-child{border-bottom:none;}
+  .be-row > span{flex:1; font-size:14px; color:var(--ink); line-height:1.35;}
+  .be-field{display:flex; align-items:baseline; gap:3px; flex:none;}
+  .be-field em{font-style:normal; font-size:12.5px; color:var(--muted);}
+  .be-field input{width:88px; background:transparent; border:none; outline:none; text-align:right; color:#F0CF8C; font-family:'Noto Serif SC',serif; font-size:18px; font-weight:600; padding:0; -webkit-user-select:text; user-select:text;}
+  .pay-row.be-one{grid-template-columns:1fr auto;}
+  .pay-row.be-key{margin:4px -14px 0; padding:13px 16px 6px; background:rgba(216,183,124,.08); border-top:1px solid rgba(216,183,124,.35);}
+  .pay-row.be-key span{font-weight:600;} .pay-row.be-key b{font-size:17px;} .pay-row.be-key b:last-child{font-size:17px;}
+  .pay-row.be-g{margin:0 -14px; padding:4px 16px 13px; background:rgba(216,183,124,.08);}
+  .pay-row.be-g span{color:var(--muted); font-size:13px;}
+  .pay-row.be-tgt b{color:#F2C46D;}
+  .pay-row.be-pos b{color:#9FC9B5;} .pay-row.be-neg b{color:#F2B8B0;}
+  .be-src{margin:0 2px 10px; padding:8px 12px; border-radius:10px; font-size:12px; color:var(--muted); background:rgba(216,183,124,.06); border:1px dashed rgba(216,183,124,.3);}
+  .be-sec{display:flex; justify-content:space-between; align-items:baseline;}
+  .be-sec span{font-family:'Noto Serif SC',serif; font-size:14px; letter-spacing:0; color:#F0CF8C;}
+  .be-field input::placeholder{color:rgba(240,207,140,.3);}
+  .be-kpis{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 4px;}
+  .be-kpi{padding:12px 14px; border-radius:14px; border:1px solid var(--border); background:rgba(255,248,232,.04); display:flex; flex-direction:column; gap:4px; min-width:0;}
+  .be-kpi.main{grid-column:1/-1; background:linear-gradient(135deg,rgba(216,183,124,.16),rgba(216,183,124,.05)); border-color:rgba(216,183,124,.45);}
+  .be-kpi small{font-size:11.5px; letter-spacing:.08em; color:var(--muted);}
+  .be-kpi b{font-family:'Noto Serif SC',serif; font-size:21px; color:#F0CF8C; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .be-kpi.main b{font-size:30px;}
+  .be-empty{margin-top:16px; padding:18px; text-align:center; font-size:13px; color:var(--muted); border:1px dashed var(--border); border-radius:14px;}
+  .pay-row.be-three{grid-template-columns:1fr 72px 62px 58px; column-gap:6px;}
+  .pay-row.be-three b{font-size:13.5px !important;}
+  .be-legend{display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--muted); padding:2px 2px 8px;}
+  .be-legend i{display:inline-block; width:14px; height:3px; border-radius:2px; margin-right:6px; vertical-align:middle;}
+  .be-legend i.dash{background:repeating-linear-gradient(90deg,var(--muted) 0 4px,transparent 4px 7px);}
+  .be-chart{width:100%; touch-action:pan-y;} .be-chart svg{display:block; overflow:visible;}
+  .be-chart .g{stroke:rgba(201,162,101,.12); stroke-width:1;}
+  .be-chart text{font-size:10px; fill:var(--muted); font-family:'Noto Sans SC',sans-serif;}
+  .be-chart .fx{stroke:var(--muted); stroke-width:1.2; stroke-dasharray:4 3;}
+  .be-chart .bl{stroke:rgba(185,138,44,.6); stroke-width:1; stroke-dasharray:2 3;}
+  .be-chart .bt{fill:#F0CF8C; font-size:11px; font-weight:600;}
+  .be-chart .lz{fill:rgba(242,184,176,.08);} .be-chart .pz{fill:rgba(159,201,181,.10);}
+  .be-chart .cx{stroke:rgba(240,207,140,.5); stroke-width:1;}
+  .be-tip{display:flex; gap:12px; flex-wrap:wrap; min-height:22px; padding:6px 2px 12px; font-size:12px; color:var(--muted); visibility:hidden;}
+  .be-tip.on{visibility:visible;} .be-tip b{color:var(--ink); font-weight:600;} .be-tip b.pos{color:#9FC9B5;} .be-tip b.neg{color:#F2B8B0;}
+  .be-sens{width:100%; border-collapse:collapse; font-size:13px; margin-top:4px;}
+  .be-sens th{font-weight:500; font-size:11px; letter-spacing:.06em; color:var(--gold); text-align:right; padding:6px 4px; border-bottom:1px solid var(--border);}
+  .be-sens th:first-child,.be-sens td:first-child{text-align:left;}
+  .be-sens td{text-align:right; padding:9px 4px; color:var(--ink); font-variant-numeric:tabular-nums; border-bottom:1px solid rgba(201,162,101,.10);}
+  .be-sens tr.cur td{color:#F0CF8C; font-weight:600; background:rgba(216,183,124,.07);}
 </style>
 </head>
 <body>
@@ -829,7 +877,7 @@ const DATA = [
   {"n": ["卫生局规章", "Health Department Regulations"], "grp": "gzbz", "pend": 1},
   {"n": ["薪资计算器（测试）", "Payroll Calculator (Beta)"], "tool": "pay"},
   {"n": ["小费计算器", "Tip Calculator"], "pend": 1},
-  {"n": ["盈亏平衡计算器", "Break-Even Calculator"], "pend": 1},
+  {"n": ["盈亏平衡计算器", "Break-Even Calculator"], "tool": "be"},
  ]},
 ];
 
@@ -1162,6 +1210,158 @@ function payCalc(fromSplit){
   out.innerHTML=tipped+plain(t.none,false);
 }
 
+/* ===== break-even calculator (CVP model) ===== */
+const BEF=[ // fixed monthly costs
+ ['rent',['房租及物业费（CAM）','Rent & CAM','Renta y CAM']],
+ ['flab',['月薪人员薪资','Salaried payroll','Nómina asalariada']],
+ ['slab',['排班小时工（含雇主税）','Scheduled hourly labor (incl. payroll tax)','Personal por hora programado (incl. impuestos)']],
+ ['ins',['保险','Insurance','Seguros']],
+ ['util',['水电燃气','Utilities','Servicios (luz, agua, gas)']],
+ ['loan',['设备租赁 / 贷款还款','Equipment lease / loan payments','Arrendamiento / pagos de préstamo']],
+ ['mkt',['营销推广','Marketing','Mercadotecnia']],
+ ['ofix',['软件、维修及其他固定费用','Software, repairs & other fixed','Software, reparaciones y otros fijos']]];
+const BEV=[ // variable costs, % of sales
+ ['food',['食材及饮料成本（COGS）','Food & beverage cost (COGS)','Costo de alimentos y bebidas (COGS)']],
+ ['vlab',['变动人工（加班 / 临时）','Variable labor (overtime / temp)','Personal variable (horas extra / temporal)']],
+ ['card',['刷卡手续费','Card processing fees','Comisiones de tarjeta']],
+ ['dlv',['外卖平台佣金（按全店营业额折算）','Delivery commissions (as % of total sales)','Comisiones de entrega (% de ventas totales)']],
+ ['pack',['包装及耗材','Packaging & supplies','Empaque e insumos']],
+ ['ovar',['其他变动费用','Other variable costs','Otros costos variables']]];
+const BEO=[ // operating parameters
+ ['check','$',['平均客单价','Average check per guest','Ticket promedio por cliente']],
+ ['seats','',['座位数（可选）','Seats (optional)','Asientos (opcional)']],
+ ['days','',['每月营业天数','Operating days per month','Días de operación por mes']],
+ ['target','$',['目标月利润（可选）','Target monthly profit (optional)','Utilidad mensual objetivo (opcional)']],
+ ['sales','$',['预计月营业额（可选）','Projected monthly sales (optional)','Ventas mensuales proyectadas (opcional)']]];
+const BET={
+ zh:{fixed:'固定成本（每月）',vari:'变动成本（占营业额 %）',ops:'经营参数',res:'盈亏平衡分析',mo:'每月',wk:'每周',dy:'每天',day:'天',
+  kBE:'盈亏平衡月营业额',kD:'每日营业额',kG:'每日客数',empty:'请输入固定成本、变动成本率及平均客单价',
+  fixT:'固定成本合计',varT:'变动成本率',cm:'边际贡献率',cmF:'= 1 − 变动成本率',cmU:'每位客人边际贡献',cmUF:'= 平均客单价 × 边际贡献率',
+  be:'盈亏平衡营业额',beF:'= 固定成本合计 ÷ 边际贡献率',beG:'盈亏平衡客数',beGF:'= 盈亏平衡营业额 ÷ 平均客单价',turn:'每日座位翻台率',turnF:'= 每日客数 ÷ 座位数',
+  tgt:'目标利润所需营业额',tgtF:'= (固定成本合计 + 目标利润) ÷ 边际贡献率',tgtG:'目标利润所需客数',
+  proj:'预计经营情况',pl:'预计月利润',loss:'预计月亏损',plF:'= 预计营业额 × 边际贡献率 − 固定成本合计',mos:'安全边际率',mosF:'= (预计营业额 − 盈亏平衡营业额) ÷ 预计营业额',
+  dol:'经营杠杆系数',dolF:'= 边际贡献 ÷ 经营利润；营业额每变动1%，利润约变动该倍数',
+  prime:'盈亏平衡点主要成本率',primeF:'= (食材 + 全部人工) ÷ 盈亏平衡营业额；行业参考 60%–65%',primeHi:'高于行业参考上限，建议优化食材或人工成本',
+  chart:'本量利图（CVP）',rev:'营业额',cost:'总成本',fx:'固定成本',bep:'盈亏平衡点',profit:'利润',lossW:'亏损',
+  sens:'敏感性分析：食材成本率变化',sensCol:['食材成本率','盈亏平衡月营业额','每日客数'],
+  bad:'变动成本率达到或超过 100%，无法实现盈亏平衡，请检查输入',guests:'人',src:'模拟数据参考洛杉矶小龙坎2024年月度平均数据',
+  notes:['<b>计算方法</b>采用本量利分析（CVP）中的边际贡献法：边际贡献率 = 1 − 变动成本率；盈亏平衡营业额 = 固定成本合计 ÷ 边际贡献率；目标利润所需营业额 = (固定成本合计 + 目标利润) ÷ 边际贡献率；安全边际率 = (预计营业额 − 盈亏平衡营业额) ÷ 预计营业额；经营杠杆系数 = 边际贡献 ÷ 经营利润。',
+   '<b>成本划分</b>固定成本指在一定营业额范围内不随营业额变化的支出（房租、月薪人员、按固定排班的小时工、保险、设备租赁等）；变动成本指随营业额同比例变化的支出，以占营业额百分比输入。外卖佣金请按「外卖营业额 × 佣金率 ÷ 全店营业额」折算后填写。水电燃气为半变动成本，计入固定成本属保守估算。',
+   '<b>说明</b>结果为税前经营口径，不含所得税、折旧摊销及一次性开办费用；每月按所填营业天数计，每周按 7 ÷ 每月营业天数 × 每月金额 估算。']},
+ en:{fixed:'Fixed costs (monthly)',vari:'Variable costs (% of sales)',ops:'Operating parameters',res:'Break-even analysis',mo:'Monthly',wk:'Weekly',dy:'Daily',day:'days',
+  kBE:'Break-even monthly sales',kD:'Daily sales',kG:'Daily guests',empty:'Enter fixed costs, variable cost ratios and the average check',
+  fixT:'Total fixed costs',varT:'Variable cost ratio',cm:'Contribution margin ratio',cmF:'= 1 − variable cost ratio',cmU:'Contribution per guest',cmUF:'= average check × contribution margin ratio',
+  be:'Break-even sales',beF:'= total fixed costs ÷ contribution margin ratio',beG:'Break-even guests',beGF:'= break-even sales ÷ average check',turn:'Daily seat turnover',turnF:'= daily guests ÷ seats',
+  tgt:'Sales needed for target profit',tgtF:'= (total fixed costs + target profit) ÷ contribution margin ratio',tgtG:'Guests needed for target profit',
+  proj:'Projection',pl:'Projected monthly profit',loss:'Projected monthly loss',plF:'= projected sales × contribution margin ratio − total fixed costs',mos:'Margin of safety',mosF:'= (projected sales − break-even sales) ÷ projected sales',
+  dol:'Degree of operating leverage',dolF:'= contribution margin ÷ operating profit; profit changes about this many times each 1% change in sales',
+  prime:'Prime cost at break-even',primeF:'= (food + all labor) ÷ break-even sales; industry guide 60%–65%',primeHi:'Above the industry guide; review food or labor costs',
+  chart:'Cost-volume-profit (CVP) chart',rev:'Sales',cost:'Total cost',fx:'Fixed cost',bep:'Break-even point',profit:'Profit',lossW:'Loss',
+  sens:'Sensitivity: food cost ratio',sensCol:['Food cost','Break-even monthly sales','Daily guests'],
+  bad:'Variable costs are 100% of sales or more, so break-even is impossible; check the inputs',guests:'',src:'Sample data based on Xiaolongkan Los Angeles 2024 monthly averages',
+  notes:['<b>Method</b>Contribution margin method of cost-volume-profit (CVP) analysis: contribution margin ratio = 1 − variable cost ratio; break-even sales = total fixed costs ÷ contribution margin ratio; sales for a target profit = (total fixed costs + target profit) ÷ contribution margin ratio; margin of safety = (projected sales − break-even sales) ÷ projected sales; degree of operating leverage = contribution margin ÷ operating profit.',
+   '<b>Cost classification</b>Fixed costs stay the same within a normal range of sales (rent, salaried staff, hourly staff on a fixed schedule, insurance, equipment leases, etc.); variable costs move in proportion to sales and are entered as a % of sales. Enter delivery commissions as delivery sales × commission rate ÷ total sales. Utilities are semi-variable; treating them as fixed is conservative.',
+   '<b>Notes</b>Results are pre-tax operating figures and exclude income tax, depreciation and amortization, and one-time opening costs; monthly figures use the days you enter, and weekly figures are estimated as monthly × 7 ÷ operating days.']},
+ es:{fixed:'Costos fijos (mensuales)',vari:'Costos variables (% de ventas)',ops:'Parámetros de operación',res:'Análisis de punto de equilibrio',mo:'Mensual',wk:'Semanal',dy:'Diario',day:'días',
+  kBE:'Ventas mensuales de equilibrio',kD:'Ventas diarias',kG:'Clientes diarios',empty:'Ingresa costos fijos, porcentajes de costo variable y el ticket promedio',
+  fixT:'Total de costos fijos',varT:'Porcentaje de costo variable',cm:'Margen de contribución',cmF:'= 1 − porcentaje de costo variable',cmU:'Contribución por cliente',cmUF:'= ticket promedio × margen de contribución',
+  be:'Ventas de equilibrio',beF:'= total de costos fijos ÷ margen de contribución',beG:'Clientes de equilibrio',beGF:'= ventas de equilibrio ÷ ticket promedio',turn:'Rotación diaria de asientos',turnF:'= clientes diarios ÷ asientos',
+  tgt:'Ventas para la utilidad objetivo',tgtF:'= (costos fijos + utilidad objetivo) ÷ margen de contribución',tgtG:'Clientes para la utilidad objetivo',
+  proj:'Proyección',pl:'Utilidad mensual proyectada',loss:'Pérdida mensual proyectada',plF:'= ventas proyectadas × margen de contribución − costos fijos',mos:'Margen de seguridad',mosF:'= (ventas proyectadas − ventas de equilibrio) ÷ ventas proyectadas',
+  dol:'Grado de apalancamiento operativo',dolF:'= margen de contribución ÷ utilidad operativa; la utilidad cambia aproximadamente este múltiplo por cada 1% de cambio en ventas',
+  prime:'Costo primo en el punto de equilibrio',primeF:'= (alimentos + todo el personal) ÷ ventas de equilibrio; referencia de la industria 60%–65%',primeHi:'Por encima de la referencia; revisa costos de alimentos o personal',
+  chart:'Gráfica costo-volumen-utilidad (CVU)',rev:'Ventas',cost:'Costo total',fx:'Costo fijo',bep:'Punto de equilibrio',profit:'Utilidad',lossW:'Pérdida',
+  sens:'Sensibilidad: costo de alimentos',sensCol:['Costo de alimentos','Ventas mensuales de equilibrio','Clientes diarios'],
+  bad:'Los costos variables son 100% de las ventas o más; no hay punto de equilibrio. Revisa los datos',guests:'',src:'Datos de muestra basados en los promedios mensuales de 2024 de Xiaolongkan Los Ángeles',
+  notes:['<b>Método</b>Método del margen de contribución del análisis costo-volumen-utilidad (CVU): margen de contribución = 1 − porcentaje de costo variable; ventas de equilibrio = costos fijos ÷ margen de contribución; ventas para una utilidad objetivo = (costos fijos + utilidad objetivo) ÷ margen de contribución; margen de seguridad = (ventas proyectadas − ventas de equilibrio) ÷ ventas proyectadas; apalancamiento operativo = margen de contribución ÷ utilidad operativa.',
+   '<b>Clasificación de costos</b>Los costos fijos no cambian dentro de un rango normal de ventas (renta, personal asalariado, personal por hora con horario fijo, seguros, arrendamientos, etc.); los variables cambian en proporción a las ventas y se ingresan como % de ventas. Ingresa las comisiones de entrega como ventas de entrega × comisión ÷ ventas totales. Los servicios son semivariables; tratarlos como fijos es conservador.',
+   '<b>Notas</b>Resultados operativos antes de impuestos; no incluyen impuesto sobre la renta, depreciación y amortización ni gastos únicos de apertura; los montos mensuales usan los días indicados y los semanales se estiman como mensual × 7 ÷ días de operación.']}};
+let BEVAL=null, BECH=null;
+const BEDEF={rent:21824,flab:10000,slab:35700,ins:4784,util:5845,loan:2934,mkt:452,ofix:2982,food:28,vlab:0,card:3,dlv:0,pack:0,ovar:1,check:43,seats:0,days:30,target:0,sales:0};
+function beInit(){ if(BEVAL) return; BEVAL={}; [...BEF,...BEV,...BEO].forEach(([k])=>BEVAL[k]=BEDEF[k]||0); }
+function beIn(k,pre,suf){return `<span class="be-field">${pre?`<em>${pre}</em>`:''}<input id="be_${k}" type="text" inputmode="decimal" autocomplete="off" placeholder="0" value="${BEVAL[k]||''}" oninput="beCalc()">${suf?`<em>${suf}</em>`:''}</span>`;}
+function beRow(label,k,pre,suf){return `<label class="be-row"><span>${label}</span>${beIn(k,pre,suf)}</label>`;}
+function beLI(){return lang==='zh'?0:(lang==='es'?2:1);}
+function beHTML(){ beInit(); const t=BET[lang], i=beLI(); return `
+      <div class="be-box">
+        <div class="be-src">${t.src}</div>
+        <div id="beKpi" class="be-kpis"></div>
+        <div class="be-sec">${t.fixed}<span id="beFixT"></span></div><div class="be-grp">${BEF.map(([k,n])=>beRow(n[i],k,'$','')).join('')}</div>
+        <div class="be-sec">${t.vari}<span id="beVarT"></span></div><div class="be-grp">${BEV.map(([k,n])=>beRow(n[i],k,'','%')).join('')}</div>
+        <div class="be-sec">${t.ops}</div><div class="be-grp">${BEO.map(([k,p,n])=>beRow(n[i],k,p,k==='days'?t.day:'')).join('')}</div>
+        <div id="beOut"></div>
+        <div class="note pay-note">${t.notes.map(x=>`<p>${x}</p>`).join('')}</div>
+      </div>`;}
+function beCalc(){
+  const out=document.getElementById('beOut'); if(!out) return; const t=BET[lang];
+  const g=k=>{const e=document.getElementById('be_'+k); const v=parseFloat(String(e?e.value:'').replace(/[^0-9.]/g,'')); return isFinite(v)?v:0;};
+  Object.keys(BEVAL).forEach(k=>BEVAL[k]=g(k));
+  const V=BEVAL, fixed=BEF.reduce((a,[k])=>a+V[k],0), vr=BEV.reduce((a,[k])=>a+V[k],0)/100, cm=1-vr;
+  const $=v=>(v<0?'−':'')+'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const $0=v=>(v<0?'−':'')+'$'+Math.abs(Math.round(v)).toLocaleString('en-US');
+  const pct=v=>(v<0?'−':'')+Math.abs(v*100).toFixed(1)+'%', days=V.days>0?V.days:30, ck=V.check;
+  const gn=v=>ck>0?Math.ceil(v/ck).toLocaleString('en-US')+(t.guests?' '+t.guests:''):'—';
+  document.getElementById('beFixT').textContent=fixed>0?$0(fixed):'';
+  document.getElementById('beVarT').textContent=vr>0?pct(vr):'';
+  const kpi=document.getElementById('beKpi');
+  const tile=(l,v,cls='')=>`<div class="be-kpi ${cls}"><small>${l}</small><b>${v}</b></div>`;
+  const r1=(l,v,cls='',sub='')=>`<div class="pay-row be-one ${cls}"><span>${l}</span><b>${v}</b>${sub?`<small class="pay-sub">${sub}</small>`:''}</div>`;
+  const r3=(l,m,cls='',sub='')=>`<div class="pay-row be-three ${cls}"><span>${l}</span><b>${m[0]}</b><b>${m[1]}</b><b>${m[2]}</b>${sub?`<small class="pay-sub">${sub}</small>`:''}</div>`;
+  const hd3=`<div class="pay-row be-three pay-colhd"><span></span><b>${t.mo}</b><b>${t.wk}</b><b>${t.dy}</b></div>`;
+  if(cm<=0){ kpi.innerHTML=''; out.innerHTML=`<div class="pay-card"><div class="pay-warn">${t.bad}</div>${r1(t.fixT,$(fixed))}${r1(t.varT,pct(vr))}<div style="height:8px"></div></div>`; return; }
+  if(!(fixed>0)){ kpi.innerHTML=[t.kBE,t.kD,t.kG].map(l=>tile(l,'—')).join(''); out.innerHTML=`<div class="be-empty">${t.empty}</div>`; return; }
+  const be=fixed/cm, tg=(fixed+V.target)/cm, wkF=7/days;
+  kpi.innerHTML=tile(t.kBE,$0(be),'main')+tile(t.kD,$0(be/days))+tile(t.kG,gn(be/days));
+  const labor=V.flab+V.slab, prime=(V.food+V.vlab)/100+labor/be;
+  let h=`<div class="pay-card"><div class="pay-hd"><h3>${t.res}</h3></div>
+    ${r1(t.fixT,$(fixed))}${r1(t.varT,pct(vr))}${r1(t.cm,pct(cm),'pay-sum',t.cmF)}${ck>0?r1(t.cmU,$(ck*cm),'',t.cmUF):''}
+    ${hd3}${r3(t.be,[$0(be),$0(be*wkF),$0(be/days)],'be-key',t.beF)}${r3(t.beG,[gn(be),gn(be*wkF),gn(be/days)],'be-g',t.beGF)}
+    ${V.seats>0&&ck>0?r1(t.turn,(be/days/ck/V.seats).toFixed(2)+'×','',t.turnF):''}
+    ${V.target>0?r3(t.tgt,[$0(tg),$0(tg*wkF),$0(tg/days)],'be-tgt',t.tgtF)+r3(t.tgtG,[gn(tg),gn(tg*wkF),gn(tg/days)],'be-tgt'):''}
+    ${r1(t.prime,pct(prime),prime>0.65?'be-neg':'',t.primeF+(prime>0.65?'<br>'+t.primeHi:''))}<div style="height:8px"></div></div>`;
+  if(V.sales>0){ const pl=V.sales*cm-fixed, mos=(V.sales-be)/V.sales, dol=pl>0?(V.sales*cm)/pl:null;
+    h+=`<div class="pay-card"><div class="pay-hd"><h3>${t.proj}</h3></div>${r1(pl>=0?t.pl:t.loss,$(pl),pl>=0?'be-pos':'be-neg',t.plF)}${r1(t.mos,pct(mos),mos>=0?'be-pos':'be-neg',t.mosF)}${dol?r1(t.dol,dol.toFixed(2)+'×','',t.dolF):''}<div style="height:8px"></div></div>`; }
+  // CVP chart
+  h+=`<div class="pay-card be-chart-card"><div class="pay-hd"><h3>${t.chart}</h3></div>
+    <div class="be-legend"><span><i style="background:#B98A2C"></i>${t.rev}</span><span><i style="background:#3B93CF"></i>${t.cost}</span><span><i class="dash"></i>${t.fx}</span></div>
+    <div class="be-chart" id="beChart"></div><div class="be-tip" id="beTip"></div></div>`;
+  // sensitivity
+  const rows=[-4,-2,0,2,4].map(d=>{const f=V.food+d; if(f<0) return ''; const c2=cm-d/100; const b2=c2>0?fixed/c2:NaN;
+    return `<tr class="${d===0?'cur':''}"><td>${f.toFixed(1)}%</td><td>${isFinite(b2)?$0(b2):'—'}</td><td>${isFinite(b2)?gn(b2/days):'—'}</td></tr>`;}).join('');
+  h+=`<div class="pay-card"><div class="pay-hd"><h3>${t.sens}</h3></div><table class="be-sens"><thead><tr>${t.sensCol.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table><div style="height:8px"></div></div>`;
+  out.innerHTML=h;
+  BECH={fixed,vr,be,max:Math.max(be*2,(V.sales||0)*1.2,1)};
+  beChart();
+}
+function beChart(x){
+  const el=document.getElementById('beChart'); if(!el||!BECH) return; const t=BET[lang];
+  const W=el.clientWidth||320, H=200, P={l:44,r:10,t:10,b:24}, iw=W-P.l-P.r, ih=H-P.t-P.b;
+  const {fixed,vr,be,max}=BECH, ymax=Math.max(max, fixed+vr*max)*1.05;
+  const sx=v=>P.l+v/max*iw, sy=v=>P.t+ih-v/ymax*ih;
+  const k=v=>v>=1000?'$'+Math.round(v/1000)+'k':'$'+Math.round(v);
+  let grid='',ticks=''; for(let i=0;i<=4;i++){const v=ymax*i/4; grid+=`<line x1="${P.l}" x2="${W-P.r}" y1="${sy(v)}" y2="${sy(v)}" class="g"/>`; ticks+=`<text x="${P.l-6}" y="${sy(v)+3}" text-anchor="end">${k(v)}</text>`;}
+  for(let i=0;i<=4;i++){const v=max*i/4; ticks+=`<text x="${sx(v)}" y="${H-6}" text-anchor="${i===0?'start':i===4?'end':'middle'}">${k(v)}</text>`;}
+  const bx=sx(be), byv=sy(be);
+  const lossPoly=`${sx(0)},${sy(0)} ${bx},${byv} ${sx(0)},${sy(fixed)}`, profPoly=`${bx},${byv} ${sx(max)},${sy(max)} ${sx(max)},${sy(fixed+vr*max)}`;
+  el.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${t.chart}">
+    ${grid}<polygon points="${lossPoly}" class="lz"/><polygon points="${profPoly}" class="pz"/>
+    <line x1="${sx(0)}" x2="${sx(max)}" y1="${sy(fixed)}" y2="${sy(fixed)}" class="fx"/>
+    <line x1="${sx(0)}" x2="${sx(max)}" y1="${sy(fixed)}" y2="${sy(fixed+vr*max)}" stroke="#3B93CF" stroke-width="2"/>
+    <line x1="${sx(0)}" x2="${sx(max)}" y1="${sy(0)}" y2="${sy(max)}" stroke="#B98A2C" stroke-width="2"/>
+    <line x1="${bx}" x2="${bx}" y1="${byv}" y2="${P.t+ih}" class="bl"/>
+    <circle cx="${bx}" cy="${byv}" r="5" fill="#B98A2C" stroke="#15342D" stroke-width="2"/>
+    <text x="${bx+8}" y="${byv+20}" class="bt">${t.bep} ${k(be)}</text>
+    ${ticks}<line id="beX" class="cx" y1="${P.t}" y2="${P.t+ih}" x1="-9" x2="-9"/>
+    <rect x="${P.l}" y="${P.t}" width="${iw}" height="${ih}" fill="transparent" id="beHit"/></svg>`;
+  const hit=document.getElementById('beHit'), tip=document.getElementById('beTip'), cx=document.getElementById('beX');
+  const show=e=>{const r=hit.getBoundingClientRect(); const px=Math.min(Math.max(0,(e.touches?e.touches[0].clientX:e.clientX)-r.left),iw); const s=px/iw*max, c=fixed+vr*s, p=s-c;
+    cx.setAttribute('x1',P.l+px); cx.setAttribute('x2',P.l+px);
+    const $0=v=>(v<0?'−':'')+'$'+Math.abs(Math.round(v)).toLocaleString('en-US');
+    tip.innerHTML=`<span>${t.rev} <b>${$0(s)}</b></span><span>${t.cost} <b>${$0(c)}</b></span><span>${p>=0?t.profit:t.lossW} <b class="${p>=0?'pos':'neg'}">${$0(p)}</b></span>`; tip.classList.add('on');};
+  ['mousemove','touchstart','touchmove'].forEach(ev=>hit.addEventListener(ev,show,{passive:true}));
+}
+window.addEventListener('resize',()=>{ if(document.getElementById('beChart')) beChart(); });
+
 function render(){
   if(typeof closePhoto==='function') closePhoto();
   setTimeout(()=>{renderChrome(); const g=document.getElementById('gate'); if(g&&!g.hidden) renderGate();},0);
@@ -1225,6 +1425,8 @@ function render(){
     crumb.textContent=`${u.home} › ${L(st.n)} › ${dpg?L(dpg.n)+' › ':''}${dg?L(dg.n)+' › ':''}${L(d.n)}`;
     const lines=d.s?L(d.s):[];
     const rel=(d.rel||st.kind==='std')?`<div class="section-label">${u.relTitle}</div>${(relOK(d).length)?`<div class="dish-list">${relOK(d).map(zn=>{const f=findDish(zn);return `<div class="dish-row" onclick="openDish(${f.si},${f.di})"><div class="dot"></div><div class="name">${L(f.d.n)}${lang==='es'?`<small>${f.d.n[1]}</small>`:''}</div><div class="arrow">›</div></div>`;}).join('')}</div>`:`<div class="note">${u.relEmpty}</div>`}`:'';
+    if(d.tool==='be'){ view.innerHTML=`
+      <div class="recipe-head"><div class="rh-txt"><h1 class="serif">${L(d.n)}</h1><p class="sub">${SUB(d.n)}</p></div></div>${beHTML()}`; beCalc(); return; }
     if(d.tool==='pay'){ view.innerHTML=`
       <div class="recipe-head"><div class="rh-txt"><h1 class="serif">${L(d.n)}</h1><p class="sub">${SUB(d.n)}</p></div></div>${payHTML()}`; payCalc(); return; }
     if(d.pend){ view.innerHTML=`
@@ -1294,7 +1496,7 @@ render();
   const vis=id=>{const e=document.getElementById(id);return e&&!e.hidden;};
   const blocked=()=>stack.length<=1||document.body.classList.contains('sheet-open')||vis('photoBox')||vis('gate')||vis('logSheet')||vis('calcSheet');
   const reset=(anim)=>{lock(false); const el=V();el.style.transition=anim?'transform .14s ease-out, opacity .14s':'none';el.style.transform='';el.style.opacity='';};
-  addEventListener('touchstart',e=>{ if(e.touches.length!==1||blocked()){on=false;return;} const t=e.touches[0]; sx=t.clientX; sy=t.clientY; st=Date.now(); on=true; dir=0; const sr=SR(); sY=sr?sr.scrollTop:0; },{passive:true});
+  addEventListener('touchstart',e=>{ if(e.touches.length!==1||blocked()||(e.target.closest&&e.target.closest('.be-chart'))){on=false;return;} const t=e.touches[0]; sx=t.clientX; sy=t.clientY; st=Date.now(); on=true; dir=0; const sr=SR(); sY=sr?sr.scrollTop:0; },{passive:true});
   addEventListener('touchmove',e=>{ if(!on) return; const t=e.touches[0], dx=t.clientX-sx, dy=t.clientY-sy;
     if(!dir){ if(Math.abs(dx)<5&&Math.abs(dy)<5) return; dir=(dx>0&&Math.abs(dx)>Math.abs(dy)*1.2)?1:-1; if(dir===1) lock(true); }
     if(dir!==1){ on=false; return; }
