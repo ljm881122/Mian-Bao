@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261018143500">
+<meta name="build" content="20261018151500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -649,6 +649,7 @@
   .be-kpi small{font-size:11.5px; letter-spacing:.08em; color:var(--muted);}
   .be-kpi b{font-family:'Noto Serif SC',serif; font-size:21px; color:#F0CF8C; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .be-kpi.main b{font-size:30px;}
+  .be-kpi em{font-style:normal; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums;}
   .be-empty{margin-top:16px; padding:18px; text-align:center; font-size:13px; color:var(--muted); border:1px dashed var(--border); border-radius:14px;}
   .pay-row.be-three{grid-template-columns:1fr 72px 62px 58px; column-gap:6px;}
   .pay-row.be-three b{font-size:13.5px !important;}
@@ -1228,16 +1229,17 @@ const BEV=[ // variable costs, % of sales
  ['pack',['包装及耗材','Packaging & supplies','Empaque e insumos']],
  ['ovar',['其他变动费用','Other variable costs','Otros costos variables']]];
 const BEO=[ // operating parameters
- ['check','$',['平均客单价','Average check per guest','Ticket promedio por cliente']],
+ ['check','$',['平均客单价（税前）','Average check per guest (pre-tax)','Ticket promedio por cliente (antes de impuestos)']],
+ ['tax','',['销售税率','Sales tax rate','Tasa de impuesto sobre ventas']],
  ['seats','',['座位数（可选）','Seats (optional)','Asientos (opcional)']],
  ['days','',['每月营业天数','Operating days per month','Días de operación por mes']],
  ['target','$',['目标月利润（可选）','Target monthly profit (optional)','Utilidad mensual objetivo (opcional)']],
  ['sales','$',['预计月营业额（可选）','Projected monthly sales (optional)','Ventas mensuales proyectadas (opcional)']]];
 const BET={
  zh:{fixed:'固定成本（每月）',vari:'变动成本（占营业额 %）',ops:'经营参数',res:'盈亏平衡分析',mo:'每月',wk:'每周',dy:'每天',day:'天',
-  kBE:'盈亏平衡月营业额',kD:'每日营业额',kG:'每日客数',empty:'请输入固定成本、变动成本率及平均客单价',
+  kBE:'盈亏平衡月营业额（税前）',kTax:v=>`含销售税 ${v}`,beTax:'含销售税营业额',beTaxF:'= 税前营业额 × (1 + 销售税率)；销售税为代收代缴，不计入收入',kD:'每日营业额',kG:'每日客数',empty:'请输入固定成本、变动成本率及平均客单价',
   fixT:'固定成本合计',varT:'变动成本率',cm:'边际贡献率',cmF:'= 1 − 变动成本率',cmU:'每位客人边际贡献',cmUF:'= 平均客单价 × 边际贡献率',
-  be:'盈亏平衡营业额',beF:'= 固定成本合计 ÷ 边际贡献率',beG:'盈亏平衡客数',beGF:'= 盈亏平衡营业额 ÷ 平均客单价',turn:'每日座位翻台率',turnF:'= 每日客数 ÷ 座位数',
+  be:'盈亏平衡营业额（税前）',beF:'= 固定成本合计 ÷ 边际贡献率',beG:'盈亏平衡客数',beGF:'= 盈亏平衡营业额 ÷ 平均客单价',turn:'每日座位翻台率',turnF:'= 每日客数 ÷ 座位数',
   tgt:'目标利润所需营业额',tgtF:'= (固定成本合计 + 目标利润) ÷ 边际贡献率',tgtG:'目标利润所需客数',
   proj:'预计经营情况',pl:'预计月利润',loss:'预计月亏损',plF:'= 预计营业额 × 边际贡献率 − 固定成本合计',mos:'安全边际率',mosF:'= (预计营业额 − 盈亏平衡营业额) ÷ 预计营业额',
   dol:'经营杠杆系数',dolF:'= 边际贡献 ÷ 经营利润；营业额每变动1%，利润约变动该倍数',
@@ -1249,9 +1251,9 @@ const BET={
    '<b>成本划分</b>固定成本指在一定营业额范围内不随营业额变化的支出（房租、月薪人员、按固定排班的小时工、保险、设备租赁等）；变动成本指随营业额同比例变化的支出，以占营业额百分比输入。外卖佣金请按「外卖营业额 × 佣金率 ÷ 全店营业额」折算后填写。水电燃气为半变动成本，计入固定成本属保守估算。',
    '<b>说明</b>结果为税前经营口径，不含所得税、折旧摊销及一次性开办费用；每月按所填营业天数计，每周按 7 ÷ 每月营业天数 × 每月金额 估算。']},
  en:{fixed:'Fixed costs (monthly)',vari:'Variable costs (% of sales)',ops:'Operating parameters',res:'Break-even analysis',mo:'Monthly',wk:'Weekly',dy:'Daily',day:'days',
-  kBE:'Break-even monthly sales',kD:'Daily sales',kG:'Daily guests',empty:'Enter fixed costs, variable cost ratios and the average check',
+  kBE:'Break-even monthly sales (pre-tax)',kTax:v=>`With sales tax ${v}`,beTax:'Sales incl. sales tax',beTaxF:'= pre-tax sales × (1 + sales tax rate); sales tax is collected for the state and is not revenue',kD:'Daily sales',kG:'Daily guests',empty:'Enter fixed costs, variable cost ratios and the average check',
   fixT:'Total fixed costs',varT:'Variable cost ratio',cm:'Contribution margin ratio',cmF:'= 1 − variable cost ratio',cmU:'Contribution per guest',cmUF:'= average check × contribution margin ratio',
-  be:'Break-even sales',beF:'= total fixed costs ÷ contribution margin ratio',beG:'Break-even guests',beGF:'= break-even sales ÷ average check',turn:'Daily seat turnover',turnF:'= daily guests ÷ seats',
+  be:'Break-even sales (pre-tax)',beF:'= total fixed costs ÷ contribution margin ratio',beG:'Break-even guests',beGF:'= break-even sales ÷ average check',turn:'Daily seat turnover',turnF:'= daily guests ÷ seats',
   tgt:'Sales needed for target profit',tgtF:'= (total fixed costs + target profit) ÷ contribution margin ratio',tgtG:'Guests needed for target profit',
   proj:'Projection',pl:'Projected monthly profit',loss:'Projected monthly loss',plF:'= projected sales × contribution margin ratio − total fixed costs',mos:'Margin of safety',mosF:'= (projected sales − break-even sales) ÷ projected sales',
   dol:'Degree of operating leverage',dolF:'= contribution margin ÷ operating profit; profit changes about this many times each 1% change in sales',
@@ -1263,9 +1265,9 @@ const BET={
    '<b>Cost classification</b>Fixed costs stay the same within a normal range of sales (rent, salaried staff, hourly staff on a fixed schedule, insurance, equipment leases, etc.); variable costs move in proportion to sales and are entered as a % of sales. Enter delivery commissions as delivery sales × commission rate ÷ total sales. Utilities are semi-variable; treating them as fixed is conservative.',
    '<b>Notes</b>Results are pre-tax operating figures and exclude income tax, depreciation and amortization, and one-time opening costs; monthly figures use the days you enter, and weekly figures are estimated as monthly × 7 ÷ operating days.']},
  es:{fixed:'Costos fijos (mensuales)',vari:'Costos variables (% de ventas)',ops:'Parámetros de operación',res:'Análisis de punto de equilibrio',mo:'Mensual',wk:'Semanal',dy:'Diario',day:'días',
-  kBE:'Ventas mensuales de equilibrio',kD:'Ventas diarias',kG:'Clientes diarios',empty:'Ingresa costos fijos, porcentajes de costo variable y el ticket promedio',
+  kBE:'Ventas mensuales de equilibrio (antes de impuestos)',kTax:v=>`Con impuesto ${v}`,beTax:'Ventas con impuesto',beTaxF:'= ventas antes de impuestos × (1 + tasa de impuesto); el impuesto se cobra para el estado y no es ingreso',kD:'Ventas diarias',kG:'Clientes diarios',empty:'Ingresa costos fijos, porcentajes de costo variable y el ticket promedio',
   fixT:'Total de costos fijos',varT:'Porcentaje de costo variable',cm:'Margen de contribución',cmF:'= 1 − porcentaje de costo variable',cmU:'Contribución por cliente',cmUF:'= ticket promedio × margen de contribución',
-  be:'Ventas de equilibrio',beF:'= total de costos fijos ÷ margen de contribución',beG:'Clientes de equilibrio',beGF:'= ventas de equilibrio ÷ ticket promedio',turn:'Rotación diaria de asientos',turnF:'= clientes diarios ÷ asientos',
+  be:'Ventas de equilibrio (antes de impuestos)',beF:'= total de costos fijos ÷ margen de contribución',beG:'Clientes de equilibrio',beGF:'= ventas de equilibrio ÷ ticket promedio',turn:'Rotación diaria de asientos',turnF:'= clientes diarios ÷ asientos',
   tgt:'Ventas para la utilidad objetivo',tgtF:'= (costos fijos + utilidad objetivo) ÷ margen de contribución',tgtG:'Clientes para la utilidad objetivo',
   proj:'Proyección',pl:'Utilidad mensual proyectada',loss:'Pérdida mensual proyectada',plF:'= ventas proyectadas × margen de contribución − costos fijos',mos:'Margen de seguridad',mosF:'= (ventas proyectadas − ventas de equilibrio) ÷ ventas proyectadas',
   dol:'Grado de apalancamiento operativo',dolF:'= margen de contribución ÷ utilidad operativa; la utilidad cambia aproximadamente este múltiplo por cada 1% de cambio en ventas',
@@ -1277,7 +1279,7 @@ const BET={
    '<b>Clasificación de costos</b>Los costos fijos no cambian dentro de un rango normal de ventas (renta, personal asalariado, personal por hora con horario fijo, seguros, arrendamientos, etc.); los variables cambian en proporción a las ventas y se ingresan como % de ventas. Ingresa las comisiones de entrega como ventas de entrega × comisión ÷ ventas totales. Los servicios son semivariables; tratarlos como fijos es conservador.',
    '<b>Notas</b>Resultados operativos antes de impuestos; no incluyen impuesto sobre la renta, depreciación y amortización ni gastos únicos de apertura; los montos mensuales usan los días indicados y los semanales se estiman como mensual × 7 ÷ días de operación.']}};
 let BEVAL=null, BECH=null;
-const BEDEF={rent:21824,flab:10000,slab:35700,ins:4784,util:5845,loan:2934,mkt:452,ofix:2982,food:28,vlab:0,card:3,dlv:0,pack:0,ovar:1,check:43,seats:0,days:30,target:0,sales:0};
+const BEDEF={rent:21824,flab:10000,slab:31700,ins:4784,util:5845,loan:2934,mkt:452,ofix:2982,food:28,vlab:0,card:3,dlv:0,pack:0,ovar:1,check:39,tax:10.25,seats:0,days:30,target:0,sales:0};
 function beInit(){ if(BEVAL) return; BEVAL={}; [...BEF,...BEV,...BEO].forEach(([k])=>BEVAL[k]=BEDEF[k]||0); }
 function beIn(k,pre,suf){return `<span class="be-field">${pre?`<em>${pre}</em>`:''}<input id="be_${k}" type="text" inputmode="decimal" autocomplete="off" placeholder="0" value="${BEVAL[k]||''}" oninput="beCalc()">${suf?`<em>${suf}</em>`:''}</span>`;}
 function beRow(label,k,pre,suf){return `<label class="be-row"><span>${label}</span>${beIn(k,pre,suf)}</label>`;}
@@ -1288,7 +1290,7 @@ function beHTML(){ beInit(); const t=BET[lang], i=beLI(); return `
         <div id="beKpi" class="be-kpis"></div>
         <div class="be-sec">${t.fixed}<span id="beFixT"></span></div><div class="be-grp">${BEF.map(([k,n])=>beRow(n[i],k,'$','')).join('')}</div>
         <div class="be-sec">${t.vari}<span id="beVarT"></span></div><div class="be-grp">${BEV.map(([k,n])=>beRow(n[i],k,'','%')).join('')}</div>
-        <div class="be-sec">${t.ops}</div><div class="be-grp">${BEO.map(([k,p,n])=>beRow(n[i],k,p,k==='days'?t.day:'')).join('')}</div>
+        <div class="be-sec">${t.ops}</div><div class="be-grp">${BEO.map(([k,p,n])=>beRow(n[i],k,p,k==='days'?t.day:(k==='tax'?'%':''))).join('')}</div>
         <div id="beOut"></div>
         <div class="note pay-note">${t.notes.map(x=>`<p>${x}</p>`).join('')}</div>
       </div>`;}
@@ -1304,18 +1306,19 @@ function beCalc(){
   document.getElementById('beFixT').textContent=fixed>0?$0(fixed):'';
   document.getElementById('beVarT').textContent=vr>0?pct(vr):'';
   const kpi=document.getElementById('beKpi');
-  const tile=(l,v,cls='')=>`<div class="be-kpi ${cls}"><small>${l}</small><b>${v}</b></div>`;
+  const tile=(l,v,cls='',sub='')=>`<div class="be-kpi ${cls}"><small>${l}</small><b>${v}</b>${sub?`<em>${sub}</em>`:''}</div>`;
   const r1=(l,v,cls='',sub='')=>`<div class="pay-row be-one ${cls}"><span>${l}</span><b>${v}</b>${sub?`<small class="pay-sub">${sub}</small>`:''}</div>`;
   const r3=(l,m,cls='',sub='')=>`<div class="pay-row be-three ${cls}"><span>${l}</span><b>${m[0]}</b><b>${m[1]}</b><b>${m[2]}</b>${sub?`<small class="pay-sub">${sub}</small>`:''}</div>`;
   const hd3=`<div class="pay-row be-three pay-colhd"><span></span><b>${t.mo}</b><b>${t.wk}</b><b>${t.dy}</b></div>`;
   if(cm<=0){ kpi.innerHTML=''; out.innerHTML=`<div class="pay-card"><div class="pay-warn">${t.bad}</div>${r1(t.fixT,$(fixed))}${r1(t.varT,pct(vr))}<div style="height:8px"></div></div>`; return; }
   if(!(fixed>0)){ kpi.innerHTML=[t.kBE,t.kD,t.kG].map(l=>tile(l,'—')).join(''); out.innerHTML=`<div class="be-empty">${t.empty}</div>`; return; }
   const be=fixed/cm, tg=(fixed+V.target)/cm, wkF=7/days;
-  kpi.innerHTML=tile(t.kBE,$0(be),'main')+tile(t.kD,$0(be/days))+tile(t.kG,gn(be/days));
+  const tx=1+V.tax/100;
+  kpi.innerHTML=tile(t.kBE,$0(be),'main',V.tax>0?t.kTax($0(be*tx)):'')+tile(t.kD,$0(be/days),'',V.tax>0?t.kTax($0(be/days*tx)):'')+tile(t.kG,gn(be/days));
   const labor=V.flab+V.slab, prime=(V.food+V.vlab)/100+labor/be;
   let h=`<div class="pay-card"><div class="pay-hd"><h3>${t.res}</h3></div>
     ${r1(t.fixT,$(fixed))}${r1(t.varT,pct(vr))}${r1(t.cm,pct(cm),'pay-sum',t.cmF)}${ck>0?r1(t.cmU,$(ck*cm),'',t.cmUF):''}
-    ${hd3}${r3(t.be,[$0(be),$0(be*wkF),$0(be/days)],'be-key',t.beF)}${r3(t.beG,[gn(be),gn(be*wkF),gn(be/days)],'be-g',t.beGF)}
+    ${hd3}${r3(t.be,[$0(be),$0(be*wkF),$0(be/days)],'be-key',t.beF)}${V.tax>0?r3(t.beTax,[$0(be*tx),$0(be*wkF*tx),$0(be/days*tx)],'be-g',t.beTaxF):''}${r3(t.beG,[gn(be),gn(be*wkF),gn(be/days)],'be-g',t.beGF)}
     ${V.seats>0&&ck>0?r1(t.turn,(be/days/ck/V.seats).toFixed(2)+'×','',t.turnF):''}
     ${V.target>0?r3(t.tgt,[$0(tg),$0(tg*wkF),$0(tg/days)],'be-tgt',t.tgtF)+r3(t.tgtG,[gn(tg),gn(tg*wkF),gn(tg/days)],'be-tgt'):''}
     ${r1(t.prime,pct(prime),prime>0.65?'be-neg':'',t.primeF+(prime>0.65?'<br>'+t.primeHi:''))}<div style="height:8px"></div></div>`;
