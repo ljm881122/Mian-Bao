@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261019085000">
+<meta name="build" content="20261019145500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -780,6 +780,23 @@
   .dlg-badge,.dlg-link{align-self:center;}
   .dlg-card .dlg-list{flex:0 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;}
   .dlg-open .lang-toggle,.dlg-open .role-chip,.dlg-open .set-btn,.dlg-open .ver{visibility:hidden;}
+  /* break-even: business hours */
+  .be-hrs{padding:11px 14px 12px; border-bottom:1px solid rgba(201,162,101,.12);}
+  .be-hrs-h{display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-size:14px; color:var(--ink); line-height:1.35;}
+  .be-hrs-h em{font-style:normal; font-size:12.5px; color:#F0CF8C; white-space:nowrap;}
+  .be-hday{display:flex; align-items:flex-start; gap:10px; margin-top:10px;}
+  .be-hday > span{flex:none; width:58px; padding-top:7px; font-size:13px; color:var(--muted);}
+  .be-hlist{flex:1; min-width:0; display:flex; flex-direction:column; align-items:flex-end; gap:6px;}
+  .be-hp{display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 2px 0 12px; border-radius:999px; border:1px solid var(--border); background:rgba(255,248,232,.04);}
+  .be-hp em{font-style:normal; color:var(--muted); font-size:13px;}
+  .be-t{position:relative; display:inline-flex; align-items:baseline; gap:2px; color:#F0CF8C; cursor:pointer; white-space:nowrap;}
+  .be-t b{font-family:'Noto Serif SC',serif; font-size:15px; font-weight:600;}
+  .be-t small{font-size:10.5px; font-weight:600; letter-spacing:.02em; color:rgba(240,207,140,.75);}
+  .be-t i{font-style:normal; font-size:13px; color:var(--muted); border-bottom:1px dashed rgba(216,183,124,.45);}
+  .be-t input{position:absolute; inset:-8px -6px; width:auto; height:auto; opacity:0; border:none; padding:0; margin:0; cursor:pointer; -webkit-appearance:none; appearance:none; color-scheme:dark;}
+  .be-hx{flex:none; width:26px; height:26px; border:none; border-radius:50%; background:none; color:var(--muted); font-size:15px; line-height:1; cursor:pointer; padding:0;}
+  .be-hx:active{background:rgba(216,183,124,.12);}
+  .be-hadd{height:30px; padding:0 12px; border-radius:999px; border:1px dashed rgba(216,183,124,.45); background:none; color:#E9C98A; font-size:12.5px; cursor:pointer; font-family:'Noto Sans SC',sans-serif;}
 </style>
 </head>
 <body>
@@ -1386,7 +1403,7 @@ const BET={
   prime:'盈亏平衡点主要成本率',primeF:'= (食材 + 全部人工) ÷ 盈亏平衡营业额；行业参考 60%–65%',primeHi:'高于行业参考上限，建议优化食材或人工成本',
   chart:'本量利图（CVP）',rev:'营业额',cost:'总成本',fx:'固定成本',bep:'盈亏平衡点',profit:'利润',lossW:'亏损',
   sens:'敏感性分析：食材成本率变化',sensCol:['食材成本率','盈亏平衡月营业额','每日客数'],
-  bad:'变动成本率达到或超过 100%，无法实现盈亏平衡，请检查输入',guests:'人',src:'模拟数据参考洛杉矶小龙坎2024年月度平均数据',
+  bad:'变动成本率达到或超过 100%，无法实现盈亏平衡，请检查输入',guests:'人',src:'模拟数据参考洛杉矶小龙坎2024年月度平均数据',hrs:'营业时间（可选）',hAdd:'添加时段',hS:'开始',hE:'结束',wd:'工作日',we:'周末',hW:v=>`每周 ${v} 小时`,perH:'每营业小时营业额（盈亏平衡）',perHF:'= 盈亏平衡营业额 ÷ 每月营业小时；每月营业小时 = 每周营业小时 × 每月营业天数 ÷ 7',perG:'每营业小时客数（盈亏平衡）',perGF:'= 每营业小时营业额 ÷ 平均客单价',
   notes:['<b>计算方法</b>采用本量利分析（CVP）中的边际贡献法：边际贡献率 = 1 − 变动成本率；盈亏平衡营业额 = 固定成本合计 ÷ 边际贡献率；目标利润所需营业额 = (固定成本合计 + 目标利润) ÷ 边际贡献率；安全边际率 = (预计营业额 − 盈亏平衡营业额) ÷ 预计营业额；经营杠杆系数 = 边际贡献 ÷ 经营利润。',
    '<b>成本划分</b>固定成本指在一定营业额范围内不随营业额变化的支出（房租、月薪人员、按固定排班的小时工、保险、设备租赁等）；变动成本指随营业额同比例变化的支出，以占营业额百分比输入。外卖佣金请按「外卖营业额 × 佣金率 ÷ 全店营业额」折算后填写。水电燃气为半变动成本，计入固定成本属保守估算。',
    '<b>说明</b>结果为税前经营口径，不含所得税、折旧摊销及一次性开办费用；每月按所填营业天数计，每周按 7 ÷ 每月营业天数 × 每月金额 估算。']},
@@ -1400,7 +1417,7 @@ const BET={
   prime:'Prime cost at break-even',primeF:'= (food + all labor) ÷ break-even sales; industry guide 60%–65%',primeHi:'Above the industry guide; review food or labor costs',
   chart:'Cost-volume-profit (CVP) chart',rev:'Sales',cost:'Total cost',fx:'Fixed cost',bep:'Break-even point',profit:'Profit',lossW:'Loss',
   sens:'Sensitivity: food cost ratio',sensCol:['Food cost','Break-even monthly sales','Daily guests'],
-  bad:'Variable costs are 100% of sales or more, so break-even is impossible; check the inputs',guests:'',src:'Sample data based on Xiaolongkan Los Angeles 2024 monthly averages',
+  bad:'Variable costs are 100% of sales or more, so break-even is impossible; check the inputs',guests:'',src:'Sample data based on Xiaolongkan Los Angeles 2024 monthly averages',hrs:'Business hours (optional)',hAdd:'Add hours',hS:'Start',hE:'End',wd:'Weekdays',we:'Weekends',hW:v=>`${v} h per week`,perH:'Break-even sales per open hour',perHF:'= break-even sales ÷ monthly open hours; monthly open hours = weekly hours × operating days ÷ 7',perG:'Break-even guests per open hour',perGF:'= sales per open hour ÷ average check',
   notes:['<b>Method</b>Contribution margin method of cost-volume-profit (CVP) analysis: contribution margin ratio = 1 − variable cost ratio; break-even sales = total fixed costs ÷ contribution margin ratio; sales for a target profit = (total fixed costs + target profit) ÷ contribution margin ratio; margin of safety = (projected sales − break-even sales) ÷ projected sales; degree of operating leverage = contribution margin ÷ operating profit.',
    '<b>Cost classification</b>Fixed costs stay the same within a normal range of sales (rent, salaried staff, hourly staff on a fixed schedule, insurance, equipment leases, etc.); variable costs move in proportion to sales and are entered as a % of sales. Enter delivery commissions as delivery sales × commission rate ÷ total sales. Utilities are semi-variable; treating them as fixed is conservative.',
    '<b>Notes</b>Results are pre-tax operating figures and exclude income tax, depreciation and amortization, and one-time opening costs; monthly figures use the days you enter, and weekly figures are estimated as monthly × 7 ÷ operating days.']},
@@ -1414,13 +1431,27 @@ const BET={
   prime:'Costo primo en el punto de equilibrio',primeF:'= (alimentos + todo el personal) ÷ ventas de equilibrio; referencia de la industria 60%–65%',primeHi:'Por encima de la referencia; revisa costos de alimentos o personal',
   chart:'Gráfica costo-volumen-utilidad (CVU)',rev:'Ventas',cost:'Costo total',fx:'Costo fijo',bep:'Punto de equilibrio',profit:'Utilidad',lossW:'Pérdida',
   sens:'Sensibilidad: costo de alimentos',sensCol:['Costo de alimentos','Ventas mensuales de equilibrio','Clientes diarios'],
-  bad:'Los costos variables son 100% de las ventas o más; no hay punto de equilibrio. Revisa los datos',guests:'',src:'Datos de muestra basados en los promedios mensuales de 2024 de Xiaolongkan Los Ángeles',
+  bad:'Los costos variables son 100% de las ventas o más; no hay punto de equilibrio. Revisa los datos',guests:'',src:'Datos de muestra basados en los promedios mensuales de 2024 de Xiaolongkan Los Ángeles',hrs:'Horario de operación (opcional)',hAdd:'Agregar horario',hS:'Inicio',hE:'Fin',wd:'Entre semana',we:'Fin de semana',hW:v=>`${v} h por semana`,perH:'Ventas por hora de operación (equilibrio)',perHF:'= ventas de equilibrio ÷ horas de operación al mes; horas al mes = horas semanales × días de operación ÷ 7',perG:'Clientes por hora de operación (equilibrio)',perGF:'= ventas por hora ÷ ticket promedio',
   notes:['<b>Método</b>Método del margen de contribución del análisis costo-volumen-utilidad (CVU): margen de contribución = 1 − porcentaje de costo variable; ventas de equilibrio = costos fijos ÷ margen de contribución; ventas para una utilidad objetivo = (costos fijos + utilidad objetivo) ÷ margen de contribución; margen de seguridad = (ventas proyectadas − ventas de equilibrio) ÷ ventas proyectadas; apalancamiento operativo = margen de contribución ÷ utilidad operativa.',
    '<b>Clasificación de costos</b>Los costos fijos no cambian dentro de un rango normal de ventas (renta, personal asalariado, personal por hora con horario fijo, seguros, arrendamientos, etc.); los variables cambian en proporción a las ventas y se ingresan como % de ventas. Ingresa las comisiones de entrega como ventas de entrega × comisión ÷ ventas totales. Los servicios son semivariables; tratarlos como fijos es conservador.',
    '<b>Notas</b>Resultados operativos antes de impuestos; no incluyen impuesto sobre la renta, depreciación y amortización ni gastos únicos de apertura; los montos mensuales usan los días indicados y los semanales se estiman como mensual × 7 ÷ días de operación.']}};
 let BEVAL=null, BECH=null;
 const BEDEF={rent:21824,flab:10000,slab:31700,ins:4784,util:5845,loan:2934,mkt:452,ofix:2982,food:28,vlab:0,card:3,dlv:0,pack:0,ovar:1,check:39,tax:10.25,seats:0,days:30,target:0,sales:0};
-function beInit(){ if(BEVAL) return; BEVAL={}; [...BEF,...BEV,...BEO].forEach(([k])=>BEVAL[k]=BEDEF[k]||0); }
+const BEHDEF={wd:[['11:00','14:30'],['17:00','21:30']], we:[['11:30','22:00']]};
+let BEH=null;
+function beT12(s){ const m=/^(\d{1,2}):(\d{2})/.exec(s||''); if(!m) return ''; const H=+m[1]; return `<b>${(H%12)||12}:${m[2]}</b><small>${H<12?'AM':'PM'}</small>`; }
+function beHrsHTML(t){ return `<div class="be-hrs" id="beHrs">${beHrsBody(t)}</div>`; }
+function beHrsBody(t){ t=t||BET[lang];
+  const tv=(k,j,x)=>{ const v=BEH[k][j][x]; return `<label class="be-t${v?'':' empty'}">${v?beT12(v):`<i>${x?t.hE:t.hS}</i>`}<input type="time" value="${v}" onclick="try{this.showPicker()}catch(e){}" onchange="beHSet(this,'${k}',${j},${x})" oninput="beHSet(this,'${k}',${j},${x})"></label>`; };
+  const day=k=>`<div class="be-hday"><span>${t[k]}</span><div class="be-hlist">${BEH[k].map((p,j)=>`<div class="be-hp">${tv(k,j,0)}<em>–</em>${tv(k,j,1)}<button class="be-hx" onclick="beHDel('${k}',${j})" aria-label="×">×</button></div>`).join('')}${BEH[k].length<2?`<button class="be-hadd" onclick="beHAdd('${k}')">+ ${t.hAdd}</button>`:''}</div></div>`;
+  return `<div class="be-hrs-h"><span>${t.hrs}</span><em id="beHrsT"></em></div>${day('wd')}${day('we')}`; }
+function beHDraw(){ const el=document.getElementById('beHrs'); if(el) el.innerHTML=beHrsBody(); beCalc(); }
+function beHSet(el,k,j,x){ const v=el.value, lab=el.parentNode; if(!BEH[k][j]) return; BEH[k][j][x]=v;   // update in place so an open picker is not interrupted
+  [...lab.childNodes].forEach(n=>{ if(n!==el) lab.removeChild(n); });
+  lab.insertAdjacentHTML('afterbegin', v?beT12(v):`<i>${x?BET[lang].hE:BET[lang].hS}</i>`); lab.classList.toggle('empty',!v); beCalc(); }
+function beHAdd(k){ if(BEH[k].length<2) BEH[k].push(['','']); beHDraw(); }
+function beHDel(k,j){ BEH[k].splice(j,1); beHDraw(); }
+function beInit(){ if(!BEH) BEH=JSON.parse(JSON.stringify(BEHDEF)); if(BEVAL) return; BEVAL={}; [...BEF,...BEV,...BEO].forEach(([k])=>BEVAL[k]=BEDEF[k]||0); }
 function beIn(k,pre,suf){return `<span class="be-field">${pre?`<em>${pre}</em>`:''}<input id="be_${k}" type="text" inputmode="decimal" autocomplete="off" placeholder="0" value="${BEVAL[k]||''}" oninput="beCalc()">${suf?`<em>${suf}</em>`:''}</span>`;}
 function beRow(label,k,pre,suf){return `<label class="be-row"><span>${label}</span>${beIn(k,pre,suf)}</label>`;}
 function beLI(){return lang==='zh'?0:(lang==='es'?2:1);}
@@ -1430,15 +1461,18 @@ function beHTML(){ beInit(); const t=BET[lang], i=beLI(); return `
         <div id="beKpi" class="be-kpis"></div>
         <div class="be-sec">${t.fixed}<span id="beFixT"></span></div><div class="be-grp">${BEF.map(([k,n])=>beRow(n[i],k,'$','')).join('')}</div>
         <div class="be-sec">${t.vari}<span id="beVarT"></span></div><div class="be-grp">${BEV.map(([k,n])=>beRow(n[i],k,'','%')).join('')}</div>
-        <div class="be-sec">${t.ops}</div><div class="be-grp">${BEO.map(([k,p,n])=>beRow(n[i],k,p,k==='days'?t.day:(k==='tax'?'%':''))).join('')}</div>
+        <div class="be-sec">${t.ops}</div><div class="be-grp">${BEO.map(([k,p,n])=>beRow(n[i],k,p,k==='days'?t.day:(k==='tax'?'%':''))+(k==='days'?beHrsHTML(t):'')).join('')}</div>
         <div id="beOut"></div>
         <div class="note pay-note">${t.notes.map(x=>`<p>${x}</p>`).join('')}</div>
       </div>`;}
-function beClear(){ Object.keys(BEVAL).forEach(k=>{const e=document.getElementById('be_'+k); if(e) e.value='';}); beCalc(); }
+function beClear(){ Object.keys(BEVAL).forEach(k=>{const e=document.getElementById('be_'+k); if(e) e.value='';}); BEH={wd:[],we:[]}; beHDraw(); }
 function beCalc(){
   const out=document.getElementById('beOut'); if(!out) return; const t=BET[lang];
   const g=k=>{const e=document.getElementById('be_'+k); const v=parseFloat(String(e?e.value:'').replace(/[^0-9.]/g,'')); return isFinite(v)?v:0;};
   Object.keys(BEVAL).forEach(k=>BEVAL[k]=g(k));
+  const tm=s=>{const m=/^(\d{1,2}):(\d{2})/.exec(s||''); return m?(+m[1])*60+(+m[2]):null;};
+  const dayH=k=>BEH[k].reduce((a,[s,e])=>{const S=tm(s),E=tm(e); if(S==null||E==null||S===E) return a; return a+((E-S+1440)%1440)/60;},0);
+  const wH=5*dayH('wd')+2*dayH('we'), hT=document.getElementById('beHrsT'); if(hT) hT.textContent=wH>0?t.hW(+wH.toFixed(1)):'';
   const V=BEVAL, fixed=BEF.reduce((a,[k])=>a+V[k],0), vr=BEV.reduce((a,[k])=>a+V[k],0)/100, cm=1-vr;
   const $=v=>(v<0?'−':'')+'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   const $0=v=>(v<0?'−':'')+'$'+Math.abs(Math.round(v)).toLocaleString('en-US');
