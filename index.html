@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261019074500">
+<meta name="build" content="20261019082000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -769,12 +769,23 @@
   .cv-ref span{font-size:12.5px; color:var(--muted);}
   .cv-ref b{font-family:'Noto Serif SC',serif; font-size:15px; color:#F0CF8C; font-weight:600;}
   .cv-src{margin:10px 2px 0; font-size:12px; line-height:1.6; color:var(--muted);}
+  button.ver{cursor:default;}
+  button.ver u{cursor:pointer; position:relative;}
+  button.ver u::after{content:''; position:absolute; left:-8px; right:-8px; top:-12px; bottom:-12px;}
+  /* update dialog: fits the screen, nothing bright floats above it */
+  .dlg{padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));}
+  .dlg-bg{background:rgba(4,14,12,.72) !important;}
+  .dlg-card{max-height:100%; display:flex; flex-direction:column; overflow:hidden;}
+  .dlg-card > *{flex:none;}
+  .dlg-badge,.dlg-link{align-self:center;}
+  .dlg-card .dlg-list{flex:0 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;}
+  .dlg-open .lang-toggle,.dlg-open .role-chip,.dlg-open .set-btn,.dlg-open .ver{visibility:hidden;}
 </style>
 </head>
 <body>
 <button class="lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
 <button class="set-btn" id="setBtn" onclick="openSet()" aria-label="Settings"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-<button class="ver" id="ver" onclick="openLog()"></button>
+<button class="ver" id="ver" tabindex="-1"></button>
 <button class="role-chip" id="roleChip" onclick="openGate(true)"></button>
 <div id="gate" class="gate" hidden>
   <div class="gate-in">
@@ -1098,9 +1109,13 @@ function maybeShowUpd(){
   document.getElementById('updList').innerHTML=(CLR(e)).map(t=>`<li>${t}</li>`).join('');
   document.getElementById('updOk').textContent=u.ok;
   document.getElementById('updLog').textContent=u.viewLog;
-  const d=document.getElementById('updDlg'); d.hidden=false; requestAnimationFrame(()=>d.classList.add('open'));
+  const d=document.getElementById('updDlg'); d.hidden=false; requestAnimationFrame(()=>d.classList.add('open')); dlgTint(true);
 }
-function closeUpd(){const d=document.getElementById('updDlg'); d.classList.remove('open'); setTimeout(()=>{d.hidden=true;},250);}
+/* while the update dialog is up, the phone's status-bar / home-indicator area takes the same dimmed color as the overlay */
+function dlgTint(on){ const c=on?'#061411':''; document.body.classList.toggle('dlg-open',on);
+  const m=document.querySelector('meta[name="theme-color"]'); if(m) m.content=on?'#061411':'#12302A';
+  [document.documentElement,document.body].forEach(e=>{ if(c) e.style.setProperty('background-color',c,'important'); else e.style.removeProperty('background-color'); }); }
+function closeUpd(){dlgTint(false); const d=document.getElementById('updDlg'); d.classList.remove('open'); setTimeout(()=>{d.hidden=true;},250);}
 function openLog(){
   const u=UI[lang], i=ix();
   document.getElementById('logTitle').textContent=u.logT;
@@ -1113,7 +1128,7 @@ function _closeLog(){const sh=document.getElementById('logSheet'); if(sh.hidden)
 function renderChrome(){
   const u=UI[lang], home=stack.length===1;
   document.body.classList.toggle('is-home',home);
-  const v=document.getElementById('ver'); v.innerHTML=`${verFmt(CUR_BUILD)} · <u>${u.logBtn}</u>`; v.style.display=home?'':'none';
+  const v=document.getElementById('ver'); v.innerHTML=`${verFmt(CUR_BUILD)} · <u role="button" onclick="openLog()">${u.logBtn}</u>`; v.style.display=home?'':'none';
   const c=document.getElementById('roleChip'); c.style.display=(home&&ROLE)?'':'none';
   document.getElementById('setBtn').style.display=home?'':'none';
   if(!document.getElementById('setSheet').hidden) renderSet();
@@ -1675,8 +1690,8 @@ function render(){
       <div class="pend-box">${st.doc?u.pendC:u.pending}</div>${rel}`; } else {
     view.innerHTML=`
       <div class="recipe-head${d.img&&IMGS[d.img]?' has-img':''}"><div class="rh-txt"><h1 class="serif">${L(d.n)}</h1><p class="sub">${SUB(d.n)}</p></div>${d.img&&IMGS[d.img]?`<button class="dish-thumb" onclick="openPhoto('${d.img}','${L(d.n).replace(/'/g,"")}')" aria-label="photo"><img src="${IMGS[d.img]}" alt=""></button>`:''}</div>
-      ${algHTML(s.si,s.di)}${d.intro?`<div class="note intro">${L(d.intro)}</div>`:''}${vagueHTML(d)}
-      ${d.serve?`<div class="section-label">${u.std}</div><div class="formula">${L(d.serve).map((t,j)=>`<div class="${j?'pt':'val'}">${hl(t)}</div>`).join('')}</div>`:''}
+      ${algHTML(s.si,s.di)}${d.intro?`<div class="note intro">${L(d.intro)}</div>`:''}
+      ${d.serve?`<div class="section-label">${u.std}</div><div class="formula">${L(d.serve).map((t,j)=>`<div class="${j?'pt':'val'}">${hl(t)}</div>`).join('')}</div>`:''}${d.serve?vagueHTML(d):''}
       ${d.pre?`<div class="section-label">${L(d.pre.lab)}</div><ol class="steps">${L(d.pre.p).map(t=>`<li><span>${hl(t)}</span></li>`).join('')}</ol>`:''}
       ${d.rules?(d.secs||[]).map((x,i)=>{const it=L(x.t), pend=it.length===1&&(x.t[0][0]==='待更新');return `<div class="rule-card"><div class="rule-hd"><span class="rule-no">${String(i+1).padStart(2,'0')}</span><h3>${L(x.lab)}</h3></div>${pend?`<p class="rule-pend">${it[0]}</p>`:`<ul class="rule-list">${it.map(t=>`<li>${t}</li>`).join('')}</ul>`}</div>`;}).join(''):''}
       ${d.rules?'':(d.secs||[]).map(x=>`<div class="section-label">${L(x.lab)}</div><div class="formula">${L(x.t).map((t,j)=>`<div class="${j?'pt':'val'}">${t}</div>`).join('')}</div>`).join('')}
@@ -1684,7 +1699,7 @@ function render(){
       <div class="formula">
         <div class="val">${hl(lines[0])}</div>
         ${lines.slice(1).map(t=>`<div class="pt">${hl(t)}</div>`).join('')}
-      </div>`:''}
+      </div>`:''}${d.serve?'':vagueHTML(d)}
       ${d.yt?`<div class="section-label">${u.videoT}</div>
       <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/${d.yt}?playsinline=1&rel=0&modestbranding=1" title="YouTube video player" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
       <a class="yt-alt" href="https://youtu.be/${d.yt}" target="_blank" rel="noopener">${u.videoAlt} ↗</a>`:d.v?`<a class="video-link" href="${d.v}" target="_blank" rel="noopener">
@@ -1731,10 +1746,10 @@ function openPhoto(k,cap){ const b=document.getElementById('photoBox'); document
 function closePhoto(){ sheetClose('photo'); }
 function _closePhoto(){ const b=document.getElementById('photoBox'); if(b.hidden) return; b.classList.remove('open'); setTimeout(()=>{b.hidden=true;},250); }
 function goBack(){if(stack.length>1){stack.pop();render();if(stack.length===1&&window.__applyUpdate)window.__applyUpdate();
-  const s=history.state; if(s&&s.sop&&!s.sh&&s.p.length>stack.length){ navSkip++; history.back(); }}}
+  const s=history.state; if(!NAV_HIST){ try{ history.replaceState(navState(),''); }catch(e){} } else if(s&&s.sop&&!s.sh&&s.p.length>stack.length){ navSkip++; history.back(); }}}
 /* ===== system back button (Android) + keep the current page after a reload ===== */
 let navSkip=0, SHEET=null;
-const NAV_KEEP=30*60*1000;   // reopen the last page if the app was closed less than 30 min ago
+const NAV_HIST=!(/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1));
 function navEnc(s){ return s.map(x=>{ const st=DATA[x.si];
   if(x.level==='station') return {l:'s',c:st.n[0]};
   if(x.level==='group') return {l:'g',c:st.n[0],g:st.groups[x.gi].id};
@@ -1748,12 +1763,12 @@ function navDec(a){ const out=[{level:'home'}]; if(!Array.isArray(a)) return out
     else break; }
   return out; }
 function navState(sh){ return {sop:1,p:navEnc(stack),sh:sh||null}; }
-function navPush(sh){ try{ history.pushState(navState(sh),''); }catch(e){} }
-function navSave(){ try{ lsSet('sop_last',JSON.stringify({t:Date.now(),p:navEnc(stack)})); }catch(e){} }
+function navPush(sh){ try{ if(NAV_HIST) history.pushState(navState(sh),''); else history.replaceState(navState(sh),''); }catch(e){} }
+function navSave(){}
 const SHEET_CLOSE={log:()=>_closeLog(), set:()=>_closeSet(), calc:()=>_closeCalc(), photo:()=>_closePhoto()};
 function sheetOpened(n){ SHEET=n; navPush(n); }
 function sheetClose(n){ const was=SHEET===n; if(was) SHEET=null; SHEET_CLOSE[n]();
-  const s=history.state; if(was&&s&&s.sop&&s.sh===n){ navSkip++; history.back(); } }
+  const s=history.state; if(was&&s&&s.sop&&s.sh===n){ if(NAV_HIST){ navSkip++; history.back(); } else { try{ history.replaceState(navState(),''); }catch(e){} } } }
 addEventListener('popstate',e=>{
   if(SHEET){ const n=SHEET; SHEET=null; SHEET_CLOSE[n](); }          // back closes an open panel first
   if(navSkip>0){ navSkip--; return; }
@@ -1764,7 +1779,6 @@ addEventListener('popstate',e=>{
 (function navInit(){
   const s=history.state; let p=null, same=false;
   if(s&&s.sop){ p=s.p; same=true; }                                    // reload in the same tab
-  else { try{ const v=JSON.parse(lsGet('sop_last')||'null'); if(v&&Date.now()-v.t<NAV_KEEP) p=v.p; }catch(e){} }
   const want=ROLE?navDec(p):[{level:'home'}];
   if(same){ stack=want; try{ history.replaceState(navState(),''); }catch(e){} return; }
   stack=[want[0]]; try{ history.replaceState(navState(),''); }catch(e){}
