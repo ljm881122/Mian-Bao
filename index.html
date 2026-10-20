@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261019230500">
+<meta name="build" content="20261020005500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1419,7 +1419,7 @@ const BET={
   tgt:'目标利润所需营业额',tgtF:'= (固定成本合计 + 目标利润) ÷ 边际贡献率',tgtG:'目标利润所需客数',
   proj:'预计经营情况',pl:'预计月利润',loss:'预计月亏损',plF:'= 预计营业额 × 边际贡献率 − 固定成本合计',mos:'安全边际率',mosF:'= (预计营业额 − 盈亏平衡营业额) ÷ 预计营业额',
   dol:'经营杠杆系数',dolF:'= 边际贡献 ÷ 经营利润；营业额每变动1%，利润约变动该倍数',
-  prime:'盈亏平衡点主要成本率',primeF:'= (食材 + 全部人工) ÷ 盈亏平衡营业额；行业参考 60%–65%',primeHi:'高于行业参考上限，建议优化食材或人工成本',
+  prime:'盈亏平衡点主要成本率',primeF:'= (食材 + 全部人工) ÷ 盈亏平衡营业额',primeHi:'高于行业参考上限，建议优化食材或人工成本',
   chart:'本量利图（CVP）',rev:'营业额',cost:'总成本',fx:'固定成本',bep:'盈亏平衡点',profit:'利润',lossW:'亏损',
   sens:'敏感性分析：食材成本率变化',sensCol:['食材成本率','盈亏平衡月营业额','每日客数'],
   bad:'变动成本率达到或超过 100%，无法实现盈亏平衡，请检查输入',guests:'人',src:'模拟数据参考洛杉矶小龙坎2024年月度平均数据',hrs:'营业时间（可选）',hAdd:'添加时段',hS:'开始',hE:'结束',wd:'工作日',we:'周末',hW:v=>`每周 ${v} 小时`,perH:'每营业小时营业额（盈亏平衡）',perHF:'= 盈亏平衡营业额 ÷ 每月营业小时；每月营业小时 = 每周营业小时 × 每月营业天数 ÷ 7',perG:'每营业小时客数（盈亏平衡）',perGF:'= 每营业小时营业额 ÷ 平均客单价',
@@ -1433,7 +1433,7 @@ const BET={
   tgt:'Sales needed for target profit',tgtF:'= (total fixed costs + target profit) ÷ contribution margin ratio',tgtG:'Guests needed for target profit',
   proj:'Projection',pl:'Projected monthly profit',loss:'Projected monthly loss',plF:'= projected sales × contribution margin ratio − total fixed costs',mos:'Margin of safety',mosF:'= (projected sales − break-even sales) ÷ projected sales',
   dol:'Degree of operating leverage',dolF:'= contribution margin ÷ operating profit; profit changes about this many times each 1% change in sales',
-  prime:'Prime cost at break-even',primeF:'= (food + all labor) ÷ break-even sales; industry guide 60%–65%',primeHi:'Above the industry guide; review food or labor costs',
+  prime:'Prime cost at break-even',primeF:'= (food + all labor) ÷ break-even sales',primeHi:'Above the industry guide; review food or labor costs',
   chart:'Cost-volume-profit (CVP) chart',rev:'Sales',cost:'Total cost',fx:'Fixed cost',bep:'Break-even point',profit:'Profit',lossW:'Loss',
   sens:'Sensitivity: food cost ratio',sensCol:['Food cost','Break-even monthly sales','Daily guests'],
   bad:'Variable costs are 100% of sales or more, so break-even is impossible; check the inputs',guests:'',src:'Sample data based on Xiaolongkan Los Angeles 2024 monthly averages',hrs:'Business hours (optional)',hAdd:'Add hours',hS:'Start',hE:'End',wd:'Weekdays',we:'Weekends',hW:v=>`${v} h per week`,perH:'Break-even sales per open hour',perHF:'= break-even sales ÷ monthly open hours; monthly open hours = weekly hours × operating days ÷ 7',perG:'Break-even guests per open hour',perGF:'= sales per open hour ÷ average check',
@@ -1447,7 +1447,7 @@ const BET={
   tgt:'Ventas para la utilidad objetivo',tgtF:'= (costos fijos + utilidad objetivo) ÷ margen de contribución',tgtG:'Clientes para la utilidad objetivo',
   proj:'Proyección',pl:'Utilidad mensual proyectada',loss:'Pérdida mensual proyectada',plF:'= ventas proyectadas × margen de contribución − costos fijos',mos:'Margen de seguridad',mosF:'= (ventas proyectadas − ventas de equilibrio) ÷ ventas proyectadas',
   dol:'Grado de apalancamiento operativo',dolF:'= margen de contribución ÷ utilidad operativa; la utilidad cambia aproximadamente este múltiplo por cada 1% de cambio en ventas',
-  prime:'Costo primo en el punto de equilibrio',primeF:'= (alimentos + todo el personal) ÷ ventas de equilibrio; referencia de la industria 60%–65%',primeHi:'Por encima de la referencia; revisa costos de alimentos o personal',
+  prime:'Costo primo en el punto de equilibrio',primeF:'= (alimentos + todo el personal) ÷ ventas de equilibrio',primeHi:'Por encima de la referencia; revisa costos de alimentos o personal',
   chart:'Gráfica costo-volumen-utilidad (CVU)',rev:'Ventas',cost:'Costo total',fx:'Costo fijo',bep:'Punto de equilibrio',profit:'Utilidad',lossW:'Pérdida',
   sens:'Sensibilidad: costo de alimentos',sensCol:['Costo de alimentos','Ventas mensuales de equilibrio','Clientes diarios'],
   bad:'Los costos variables son 100% de las ventas o más; no hay punto de equilibrio. Revisa los datos',guests:'',src:'Datos de muestra basados en los promedios mensuales de 2024 de Xiaolongkan Los Ángeles',hrs:'Horario de operación (opcional)',hAdd:'Agregar horario',hS:'Inicio',hE:'Fin',wd:'Entre semana',we:'Fin de semana',hW:v=>`${v} h por semana`,perH:'Ventas por hora de operación (equilibrio)',perHF:'= ventas de equilibrio ÷ horas de operación al mes; horas al mes = horas semanales × días de operación ÷ 7',perG:'Clientes por hora de operación (equilibrio)',perGF:'= ventas por hora ÷ ticket promedio',
