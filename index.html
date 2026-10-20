@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261020005500">
+<meta name="build" content="20261020011500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -808,6 +808,10 @@
   /* front-of-house garnish line on the serving-standard card */
   .formula .foh{margin-top:12px; padding-top:10px; border-top:1px dashed rgba(185,212,223,.3); font-size:calc(14px * var(--fs)); line-height:1.6; color:#B9D4DF;}
   .formula .foh b{font-weight:600; margin-right:4px;}
+  .pay-short{display:flex; align-items:flex-start; gap:7px; margin-top:7px; padding:7px 10px 7px 9px; border-radius:7px; color:#EDC3B7 !important; background:rgba(142,36,51,.20); border:1px solid rgba(217,130,111,.30); border-left:2px solid #D9826F; font-weight:400; line-height:1.55;}
+  .pay-row .pay-short{flex-direction:row !important; font-size:11.5px !important;}
+  .pay-row .pay-short > span{display:block !important; font-size:inherit !important; color:inherit !important;}
+  .pay-short i{flex:none; width:14px; height:14px; margin-top:2px; border-radius:50%; background:#D9826F; color:#1D1210; font-style:normal; font-size:10px; font-weight:800; line-height:14px; text-align:center;}
 </style>
 </head>
 <body>
@@ -1295,7 +1299,7 @@ const PAYT={
   regW:'常规工资',otW:'加班工资',gross:'应发工资',credit:'减：小费抵扣',
   crRule:(r,c)=>`最高可抵扣：$17.05 − 现金时薪 ${r} = ${c}/小时（上限 $4.09，即最低时薪的24%）`,rr:(a,b)=>`（现金 ${a} + 抵扣 ${b}）`,
   crCalc:(a,b,c)=>`${a}/小时 × ${b}小时 = ${c}`,
-  short:(v)=>`小费不足，按实收小费抵扣，差额 ${v} 由雇主补足`,
+  short:(v,r,m)=>`实收小费 ${r} 不足最高抵扣额 ${m}，雇主须补足差额 ${v}`,
   pay:'雇主应付工资',emp:'员工税前收入',empF:(a)=>`雇主应付工资 + 每周小费 ${a}`,empP:'等于应发工资',cashRate:(a,b)=>`现金时薪 ${a}${b?`，加班 ${b}`:''}`,
   lowB:'低于芝加哥最低时薪 $17.05',lowF:'低于小费岗位最低现金时薪 $12.96',
   legal:['<b>适用依据</b>芝加哥最低工资条例（市政法典第6-105章），自2026年7月1日起适用于雇员4人及以上的雇主：最低时薪 $17.05；小费雇员最低现金工资 $12.96/小时。',
@@ -1307,7 +1311,7 @@ const PAYT={
   regW:'Regular wages',otW:'Overtime wages',gross:'Gross wages',credit:'Less: tip credit',
   crRule:(r,c)=>`Maximum credit: $17.05 − cash wage ${r} = ${c}/hr (capped at $4.09, 24% of the minimum wage)`,rr:(a,b)=>` (cash ${a} + credit ${b})`,
   crCalc:(a,b,c)=>`${a}/hr × ${b} hrs = ${c}`,
-  short:(v)=>`Tips fall short: credit limited to tips received; employer covers the ${v} difference`,
+  short:(v,r,m)=>`Tips received ${r} fall short of the ${m} maximum credit; the employer must pay the ${v} difference`,
   pay:'Employer wages payable',emp:'Employee pre-tax earnings',empF:(a)=>`Employer wages + weekly tips ${a}`,empP:'Equal to gross wages',cashRate:(a,b)=>`Cash rate ${a}/hr${b?`, overtime ${b}/hr`:''}`,
   lowB:'Below the Chicago minimum wage of $17.05',lowF:'Below the tipped cash wage of $12.96',
   legal:['<b>Authority</b>Chicago Minimum Wage Ordinance (Municipal Code Ch. 6-105), effective July 1, 2026 for employers with 4 or more employees: minimum wage $17.05; minimum cash wage for tipped employees $12.96/hr.',
@@ -1319,7 +1323,7 @@ const PAYT={
   regW:'Salario regular',otW:'Pago de horas extra',gross:'Salario bruto',credit:'Menos: crédito de propinas',
   crRule:(r,c)=>`Crédito máximo: $17.05 − pago en efectivo ${r} = ${c}/h (tope de $4.09, 24% del salario mínimo)`,rr:(a,b)=>` (efectivo ${a} + crédito ${b})`,
   crCalc:(a,b,c)=>`${a}/h × ${b} h = ${c}`,
-  short:(v)=>`Propinas insuficientes: el crédito se limita a lo recibido; el empleador cubre la diferencia de ${v}`,
+  short:(v,r,m)=>`Las propinas recibidas (${r}) no cubren el crédito máximo de ${m}; el empleador debe pagar la diferencia de ${v}`,
   pay:'Salario a pagar por el empleador',emp:'Ingreso del empleado antes de impuestos',empF:(a)=>`Salario del empleador + propinas semanales ${a}`,empP:'Igual al salario bruto',cashRate:(a,b)=>`Pago en efectivo ${a}/h${b?`, horas extra ${b}/h`:''}`,
   lowB:'Menor al salario mínimo de Chicago de $17.05',lowF:'Menor al pago mínimo en efectivo con propinas de $12.96',
   legal:['<b>Fundamento</b>Ordenanza de Salario Mínimo de Chicago (Código Municipal, cap. 6-105), vigente desde el 1 de julio de 2026 para empleadores con 4 o más empleados: salario mínimo $17.05; pago mínimo en efectivo para empleados con propinas $12.96/h.',
@@ -1370,7 +1374,7 @@ function payCalc(fromSplit){
   const tReg=reg*RR, tOt=oth*RR*1.5, tGross=tReg+tOt;
   const crMax=c*H, crApp=Math.min(crMax,tips), short=crMax-crApp, cashH=crApp/H;
   const tLines=row(t.regW,tReg,'',`${n(reg)} ${t.h} × ${hr(RR)}${c>0?t.rr(hr(rate),hr(c)):''}`)+(oth>0?row(t.otW,tOt,'pay-ot',`${n(oth)} ${t.h} × ${hr(RR*1.5)} (1.5 × ${hr(RR)})`):'');
-  const crSub=c>0?[t.crRule(hr(rate),hr(c)),t.crCalc(hr(c),n(H),$(crMax)),short>0.005?t.short($(short)):''].filter(Boolean).join('<br>'):t.noCr;
+  const crSub=c>0?[t.crRule(hr(rate),hr(c)),t.crCalc(hr(c),n(H),$(crMax)),short>0.005?`<span class="pay-short"><i>!</i><span>${t.short($(short),$(crApp),$(crMax))}</span></span>`:''].filter(Boolean).join('<br>'):t.noCr;
   const tipped=`<div class="pay-card"><div class="pay-hd"><h3>${t.foh}</h3>${tag}</div>${rate<C.tip?`<div class="pay-warn">${t.lowF}</div>`:''}${hd}${tLines}
       ${row(t.gross,tGross,'pay-sum')}
       ${row(t.credit,-crApp,'pay-credit',crSub)}
