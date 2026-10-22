@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261022010500">
+<meta name="build" content="20261022011000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1643,7 +1643,7 @@ function grpRow(st,si,gi,u){const g=st.groups[gi]; return `
 /* ===== payroll calculator (Chicago) ===== */
 const PAYCFG={min:17.05, tip:12.96, ot:40, wpm:52/12};
 /* ===== 班表模拟器 schedule simulator (data stays in this browser) ===== */
-const SCK='sop_sched_v1', SC_V=9;
+const SCK='sop_sched_v1', SC_V=10;
 const SC_ROLES={srv:['F','#E3B95F',['服务生','Server','Mesero']],
  dim:['B','#F2D29B',['面点','Dim Sum','Dim Sum']],noo:['B','#79B6E0',['制面','Noodles','Fideos']],sea:['B','#BC97EC',['配料','Seasoning','Condimentos']],
  snk:['B','#86D39A',['小吃','Snacks','Botanas']],dish:['B','#A9B4C0',['洗碗','Dishwashing','Lavaloza']]};
@@ -1828,7 +1828,7 @@ function scSave(){ lsSet(SCK,JSON.stringify(SCS)); }
 function scToast(m){ let el=document.getElementById('scToast'); if(!el){ el=document.createElement('div'); el.id='scToast'; el.className='sc-toast'; document.body.appendChild(el); }
   el.textContent=m; el.classList.add('on'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('on'),2200); }
 
-const scTplDef=()=>[{id:'t1',k:'early',s:'10:30',en:'16:30',b:0},{id:'t2',k:'late',s:'16:30',en:'22:30',b:0},{id:'t3',k:'full',s:'13:30',en:'20:30',b:0},
+const scTplDef=()=>[{id:'t1',k:'early',s:'10:30',en:'16:30',b:20},{id:'t2',k:'late',s:'16:30',en:'22:30',b:20},{id:'t3',k:'full',s:'13:30',en:'20:30',b:20},
   {id:'t7',k:'ew',s:'10:30',en:'13:30',b:0,s2:'18:00',en2:'22:30'}];
 const SC_BOHR=[['dim','noo','sea','snk','dish'],['dim'],['noo'],['noo'],['sea'],['sea'],['snk'],['snk'],['dish'],['dish']];   // only 后厨1 covers every kitchen position
 function scEmpDef(emps){ emps.forEach((e,j)=>{ e.sup=e.sup||false; e.type=e.type||'ft'; });
@@ -1875,6 +1875,7 @@ function scMigrate(S){ if(S.v===1){ S.emps.forEach(e=>{ e.roles=[...new Set(e.ro
     S.emps.forEach(e=>{ const j=+String(e.id).slice(1)-7; if(e.a!=='B'||!(j>=0&&j<10)) return; if(j===0&&(e.n||'').trim()==='后厨1') e.roles=[...SC_BOHR[0]]; else if(e.roles.join()===old[j].join()) e.roles=[...SC_BOHR[j]]; });
     Object.values(S.weeks).forEach(w=>w.forEach(x=>{ const e=S.emps.find(y=>y.id===x.emp); if(e&&!e.roles.includes(x.r)) x.r=e.roles[0]; })); S.v=8; }
   if(S.v===8){ if(+S.burden===12) S.burden=0; S.v=9; }
+  if(S.v===9){ const fix=x=>{ if(!(+x.b)&&!x.s2) x.b=scAutoB(x.s,x.en,S.region); }; (S.tpl||[]).forEach(fix); Object.values(S.weeks||{}).forEach(w=>w.forEach(fix)); S.v=10; }
   return S; }
 /* week math: hours, overtime (IL weekly; CA daily + weekly + 7th day), cost incl. employer costs */
 function scCalc(k){
@@ -2084,7 +2085,7 @@ function closeScSheet(){ sheetClose('sc'); }
 function _closeScSheet(){ const sh=document.getElementById('scSheet'); if(!sh||sh.hidden) return; document.body.classList.remove('sheet-open'); sh.classList.remove('open');
   document.activeElement&&document.activeElement.blur(); setTimeout(()=>{ sh.hidden=true; document.getElementById('scSBody').innerHTML=''; },260); }
 let SCF=null;
-function scAutoB(s,e){ const span=(scM(e)-scM(s))/60; if(SCS.region==='la') return span>10?60:span>6?30:0; return span>=12?40:span>=7.5?20:0; }
+function scAutoB(s,e,reg){ const span=(scM(e)-scM(s))/60; if((reg||SCS.region)==='la') return span>10?60:span>6?30:0; return span>=12?40:span>5?20:0; }
 function scShiftSheet(id,emp,d,m){ const t=scT(); let x;
   let id2=null, g2=null;
   if(id){ const W=scWkR(SCU.wk), me=W.find(s=>s.id===id), sib=W.filter(s=>s.emp===me.emp&&s.d===me.d).sort((p,q)=>scM(p.s)-scM(q.s));
@@ -2292,12 +2293,13 @@ function scSetNum(k,v){ SCS[k]=Math.max(0,+v||0); scSave(); }
 function scSetH(k,i,v){ if(!v) return; SCS.hours[k][i]=v; scSave(); scTrDraw(); }
 function scRegion(r){ if(SCS.region===r) return; const old={}; SCS.emps.forEach(e=>old[e.id]=scMinA(e.a)); SCS.region=r; let n=0;
   SCS.emps.forEach(e=>{ const m=scMinA(e.a); if(+e.wage<m||Math.abs(+e.wage-old[e.id])<0.001){ if(+e.wage!==m){ e.wage=m; n++; } } }); scSave(); scRender(); if(n) scToast(scT().setMin(n,r==='chi'?`${SC_REG.chi.tip.toFixed(2)} / $${SC_REG.chi.min.toFixed(2)}`:SC_REG[r].min.toFixed(2))); }
-function scTplSet(id,k,v){ const p=SCS.tpl.find(x=>x.id===id); if(!p) return; if(k==='b') v=Math.max(0,+v||0); if(k==='n') v=v.trim(); p[k]=v; scSave(); }
+function scTplSet(id,k,v){ const p=SCS.tpl.find(x=>x.id===id); if(!p) return; if(k==='b') v=Math.max(0,+v||0); if(k==='n') v=v.trim();
+  const auto=(k==='s'||k==='en')&&!p.s2&&+p.b===scAutoB(p.s,p.en); p[k]=v; if(auto){ p.b=scAutoB(p.s,p.en); const i=document.querySelector(`[onchange="scTplSet('${id}','b',this.value)"]`); if(i) i.value=p.b; } scSave(); }
 function scTagSet(id,k,v){ const g=(SCS.tags||[]).find(x=>x.id===id); if(!g) return; g[k]=k==='cover'?+v:v.trim(); scSave(); if(k==='cover') scRender(); }
 function scTagAdd(){ SCS.tags=SCS.tags||[]; SCS.tags.push({id:'g'+Date.now().toString(36),n:scT().newTag,cover:0}); scSave(); scRender(); }
 function scTagDel(id){ SCS.tags=(SCS.tags||[]).filter(x=>x.id!==id); Object.values(SCS.weeks).forEach(w=>w.forEach(x=>{ if(x.tags) x.tags=x.tags.filter(y=>y!==id); })); scSave(); scRender(); }
 function scTplSeg(id,on){ const p=SCS.tpl.find(x=>x.id===id); if(!p) return; if(on){ p.s2='17:00'; p.en2='21:00'; } else { delete p.s2; delete p.en2; } scSave(); scRender(); }
-function scTplAdd(){ SCS.tpl.push({id:'t'+Date.now().toString(36),n:scT().newTpl,s:'11:00',en:'15:00',b:0}); scSave(); scRender(); }
+function scTplAdd(){ SCS.tpl.push({id:'t'+Date.now().toString(36),n:scT().newTpl,s:'11:00',en:'15:00',b:scAutoB('11:00','15:00')}); scSave(); scRender(); }
 function scTplDel(id){ SCS.tpl=SCS.tpl.filter(x=>x.id!==id); if(SCU.brush===id) SCU.brush=null; scSave(); scRender(); }
 function scReset(){ scConfirm(scT().cfReset,()=>{ SCS=scDefaults(); scSave(); SCU.brush=null; scRender(); }); }
 function scTrHours(){ const H=SCS.hours[SCU.trK]; const a=Math.floor(scM(H[0])/60), b=Math.ceil(scM(H[1])/60); const out=[]; for(let h=a;h<b;h++) out.push(h); return out; }
