@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261022011000">
+<meta name="build" content="20261022012000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1838,7 +1838,7 @@ function scDefaults(){
   const emps=[]; let i=1; const E=(n,a,roles)=>emps.push({id:'e'+(i++),n,a,roles,wage:a==='F'?SC_REG.chi.tip:SC_REG.chi.min,max:40,off:[],sup:false,type:'ft'});
   for(let k=1;k<=6;k++) E('前厅'+k,'F',['srv']);
   SC_BOHR.forEach((r,j)=>E('后厨'+(j+1),'B',[...r]));
-  scEmpDef(emps);
+  scEmpDef(emps); emps[0].n='Luna'; emps[1].sup=true; E('前厅7','F',['srv']);
   const tpl=scTplDef();
   const tr=a=>{ const x=Array(24).fill(0); a.forEach((v,j)=>x[11+j]=v); return x; };
   const S={v:SC_V,region:'chi',hours:{wd:['11:00','22:00'],we:['11:00','22:00']},pre:30,post:30,emps,tpl,
@@ -1849,13 +1849,18 @@ function scDefaults(){
 }
 function scSeed(S){ const out=[], T=k=>S.tpl.find(t=>t.k===k), E=S.emps;
   const add=(e,d,k,tags)=>{ const t=T(k); out.push({id:scNid(),emp:e.id,d,s:t.s,en:t.en,b:t.b,r:e.roles[0],tags:tags||[]}); };
-  const lead=(j,d)=>j===0&&d<5;
-  [[[0,1,2,3,4],'early'],[[2,3,4,5,6],'early'],[[0,1,2,3,4],'late'],[[2,3,4,5,6],'late'],[[4,5,6,0,1],'early'],[[4,5,6,0,1],'late']]
-    .forEach(([ds,k],j)=>ds.forEach(d=>add(E[j],d,k,lead(j,d)?['g1']:[])));
-  const offs=[[0,1],[1,2],[2,3],[3,4],[0,4]];
-  for(let p=0;p<5;p++){ const a=E[6+p*2], b=E[7+p*2];
-    for(let d=0;d<7;d++){ const wcA=p===4&&d===offs[4][1], wcB=p===4;
-      if(d!==offs[p][0]) add(a,d,d>=5?'full':'early',[...(wcA?['g2']:[]),...(p===0&&d>=5?['g1']:[])]); if(d!==offs[p][1]) add(b,d,'late',wcB?['g2']:[]); } }
+  /* front of house: the store's real week (Luna, 前厅2 … 前厅7) */
+  const F=E.filter(e=>e.a==='F'), fx=(e,d,s,en,tags,b)=>out.push({id:scNid(),emp:e.id,d,s,en,b:b!=null?b:scAutoB(s,en,S.region),r:e.roles[0],tags:tags||[]});
+  const L=['g1'], W=['g2'], LW=['g1','g2'], CL='22:30';
+  [[0,'16:00',CL,LW],[1,'16:00',CL,L],[3,'10:30','16:00',L],[4,'16:00',CL,L],[5,'16:00',CL,L],[6,'16:00',CL,L]].forEach(([d,a,b,t])=>fx(F[0],d,a,b,t));
+  [[2,'16:00',CL,L],[3,'16:00',CL,W],[4,'10:30','16:00']].forEach(([d,a,b,t])=>fx(F[1],d,a,b,t));
+  [[5,W],[6,[]]].forEach(([d,t])=>{ fx(F[1],d,'11:00','14:00',t,20); fx(F[1],d,'17:30',CL,t,0); });
+  [0,1,2,5,6].forEach(d=>fx(F[2],d,'10:30','16:00'));
+  [0,1,2,3].forEach(d=>fx(F[3],d,'11:00','17:00')); fx(F[3],6,'11:00','17:30');
+  [0,1,2,3].forEach(d=>fx(F[4],d,'17:00','22:00')); fx(F[4],4,'11:00','17:00');
+  fx(F[5],2,'17:30',CL,W); fx(F[5],3,'17:30',CL); fx(F[5],4,'17:00','22:00'); fx(F[5],5,'11:00','17:30');
+  [[0,[]],[1,W],[4,W],[5,[]],[6,W]].forEach(([d,t])=>fx(F[6],d,d<2?'17:30':'17:00',CL,t));
+  /* back of house starts blank */
   return out; }
 function scMigrate(S){ if(S.v===1){ S.emps.forEach(e=>{ e.roles=[...new Set(e.roles.map(r=>r==='run'?'srv':r))]; if(e.a==='F'&&S.region==='chi'&&+e.wage===SC_REG.chi.min) e.wage=SC_REG.chi.tip; });
     Object.values(S.weeks).forEach(w=>w.forEach(x=>{ if(x.r==='run') x.r='srv'; x.tags=x.tags||[]; }));
