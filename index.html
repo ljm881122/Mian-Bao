@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261024001500">
+<meta name="build" content="20261024002500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1874,7 +1874,7 @@ function scSeed(S){ const out=[], T=k=>S.tpl.find(t=>t.k===k), E=S.emps;
   [[0,[]],[1,W],[4,W],[5,[]],[6,W]].forEach(([d,t])=>fx(F[6],d,d<2?'17:30':'17:00',CL,t));
   /* back of house: 后厨1's week; everyone else starts blank */
   const B1=E.filter(e=>e.a==='B')[0];
-  if(B1) [[0,'sea'],[1,'noo'],[3,'snk'],[4,'noo'],[5,'dim'],[6,'dim']].forEach(([d,r])=>out.push({id:scNid(),emp:B1.id,d,s:'10:30',en:'16:30',b:scAutoB('10:30','16:30',S.region),r:B1.roles.includes(r)?r:B1.roles[0],tags:['g1']}));
+  if(B1) [[0,'sea'],[1,'noo'],[2,'snk'],[4,'dim'],[5,'sea'],[6,'noo']].forEach(([d,r])=>out.push({id:scNid(),emp:B1.id,d,s:'16:00',en:'22:30',b:scAutoB('16:00','22:30',S.region),r:B1.roles.includes(r)?r:B1.roles[0],tags:['g1']}));
   return out; }
 function scMigrate(S){ if(S.v===1){ S.emps.forEach(e=>{ e.roles=[...new Set(e.roles.map(r=>r==='run'?'srv':r))]; if(e.a==='F'&&S.region==='chi'&&+e.wage===SC_REG.chi.min) e.wage=SC_REG.chi.tip; });
     Object.values(S.weeks).forEach(w=>w.forEach(x=>{ if(x.r==='run') x.r='srv'; x.tags=x.tags||[]; }));
