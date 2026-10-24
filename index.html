@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261024002500">
+<meta name="build" content="20261024004000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1366,7 +1366,7 @@ const DATA = [
   {"n": ["花椒粉", "Sichuan Pepper Powder"], "upd": "2026-10-12", "lab": ["官方配比", "Official Ratio"], "s": [["花椒粒500g"], ["500g Sichuan peppercorns"]], "p": [["将花椒粒放入铁锅小火炒香取出", "放凉后加入破壁机打碎，过滤掉大颗残渣", "密封保存"], ["Toast the Sichuan peppercorns in an iron wok over low heat until fragrant, then remove", "Once cool, grind in the high-speed blender and sift out the coarse bits", "Store sealed"]], "note": ["一次制作一周用量，避免香味流失。", "Make one week’s worth at a time so it keeps its aroma."]},
   {"n": ["狼牙土豆调料粉", "Chengdu Fries Seasoning"], "upd": "2026-10-20", "lab": ["官方配比", "Official Ratio"], "s": [["十三香225g + 盐1050g + 鸡精450g + 味精500g + 糖5500g + 辣椒粉4500g + 孜然225g + 孜然粒225g + 花椒粉300g + 芝麻250g"], ["225g thirteen-spice powder + 1050g salt + 450g chicken bouillon powder + 500g MSG + 5500g sugar + 4500g chili powder + 225g ground cumin + 225g cumin seeds + 300g Sichuan pepper powder + 250g sesame seeds"]], "p": [["提前准备相应配料", "混合以上配料"], ["Prepare the matching ingredients in advance", "Mix all the ingredients above"]]},
  ]},
- { seal:'具', kind:'rec', doc:1, n:['工具箱','Toolbox'], groups:[{id:'gzbz', n:['厨房工作标准','Kitchen Work Standards']},{id:'pjj', n:['配料机设置','Sauce Dispenser Settings']},{id:'gwbz', parent:'gzbz', pos:1, n:["岗位标准作业流程细则", "Station SOP Details"]}], dishes:[
+ { seal:'具', kind:'rec', doc:1, n:['工具箱','Toolbox'], groups:[{id:'gzbz', n:['厨房工作标准','Kitchen Work Standards']},{id:'pjj', n:['配料机设置','Sauce Dispenser Settings']},{id:'gwbz', parent:'gzbz', pos:1, n:["岗位标准作业流程细则", "Station SOP Details"]}], top:['g:gzbz','班表模拟器（未完成）','薪资计算器（测试）','小费计算器（测试）','盈亏平衡计算器（测试）','g:pjj','过敏原速查','单位换算器'], dishes:[
   {"n": ["成都杂酱面/豌杂面 · 配料机", "Chengdu Zajiang Noodles / w/ Peas · Dispenser"], "grp": "pjj", "rel": ["成都杂酱面", "豌杂面"], "upd": "2026-10-19", "lab": ["配料机参数", "Dispenser Settings"], "s": [["鸡精0.5g + 味精0.5g + 花椒粉0.4g + 白糖2.5g + 花椒油3g + 甜酱油5g + 芝麻酱15g + 辣椒油22g + 基础酱油5g"], ["0.5g chicken bouillon powder + 0.5g MSG + 0.4g Sichuan pepper powder + 2.5g sugar + 3g Sichuan pepper oil + 5g sweet soy sauce + 15g sesame paste + 22g chili oil + 5g base soy sauce"]], "p": [[], []]},
   {"n": ["清汤牛肉面/生椒牛肉面 · 配料机", "Clear Broth Beef Noodles / Beef Pickled Soup Noodles · Dispenser"], "grp": "pjj", "rel": ["清汤牛肉面", "生椒牛肉面"], "pend": 1},
   {"n": ["麻婆豆腐面 · 配料机", "Mapo Tofu Noodles · Dispenser"], "grp": "pjj", "rel": ["麻婆豆腐面"], "upd": "2026-10-19", "lab": ["配料机参数", "Dispenser Settings"], "s": [["花椒粉0.4g + 花椒油3.5g + 辣椒油11g + 基础酱油7g"], ["0.4g Sichuan pepper powder + 3.5g Sichuan pepper oil + 11g chili oil + 7g base soy sauce"]], "p": [[], []]},
@@ -2785,11 +2785,12 @@ function render(){
     view.innerHTML=`
       <div class="station-head"><h1 class="serif">${L(st.n)}</h1><p class="sub">${SUB(st.n)} · ${u.items(stCount(st))}</p></div>
       <div class="dish-list">
-        ${(st.groups||[]).map((g,gi)=>g.parent?'':grpRow(st,s.si,gi,u)).join('')}
-        ${st.dishes.map((d,k)=>d.grp?'':`
+        ${(()=>{ const G=(st.groups||[]).map((g,gi)=>g.parent?null:{key:'g:'+g.id,h:grpRow(st,s.si,gi,u)}).filter(Boolean),
+            D=st.dishes.map((d,k)=>d.grp?null:{key:d.n[0],h:`
           <div class="dish-row" onclick="openDish(${s.si},${k})">
             <div class="dot"></div><div class="name">${L(d.n)}${lang==='es'?`<small>${d.n[1]}</small>`:''}</div><div class="arrow">›</div>
-          </div>`).join('')}
+          </div>`}).filter(Boolean), all=[...G,...D], ord=st.top||[], rk=x=>{ const i=ord.indexOf(x.key); return i<0?ord.length+all.indexOf(x):i; };
+          return all.sort((a,b)=>rk(a)-rk(b)).map(x=>x.h).join(''); })()}
       </div>`;
   } else if(s.level==='group'){
     const st=DATA[s.si], g=st.groups[s.gi], list=st.dishes.map((d,k)=>[d,k]).filter(([d])=>d.grp===g.id);
