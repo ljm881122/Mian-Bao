@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mian&amp;Bao SOP">
 <meta name="theme-color" content="#12302A">
-<meta name="build" content="20261027162000">
+<meta name="build" content="20261029120000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1154,6 +1154,7 @@
   .sc-ir span{color:var(--muted); flex:none;} .sc-ir b{font-weight:500; text-align:right;} .sc-ir .bad{color:#FF6B6B;}
   .sc-itg{display:block; font-style:normal; font-size:.85em; color:var(--muted); margin-top:3px;} .sc-itg i{display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:50%; color:#12302A; font-size:9px; font-weight:800; font-style:normal; margin:0 3px 0 6px; vertical-align:-2px;}
   .sc-brush button small.sc-th{color:#F0CF8C; opacity:.85;}
+.sc-sq i.rb,.sc-leg2 i.sw.rb{box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35);}
 </style>
 </head>
 <body>
@@ -1667,8 +1668,8 @@ const PAYCFG={min:17.05, tip:12.96, ot:40, wpm:52/12};
 /* ===== 班表模拟器 schedule simulator (data stays in this browser) ===== */
 const SCK='sop_sched_v1', SC_V=11;
 const SC_ROLES={srv:['F','#E3B95F',['服务生','Server','Mesero']],
- dim:['B','#F2D29B',['面点','Dim Sum','Dim Sum']],noo:['B','#79B6E0',['制面','Noodles','Fideos']],sea:['B','#BC97EC',['配料','Seasoning','Condimentos']],
- snk:['B','#86D39A',['小吃','Snacks','Botanas']],dish:['B','#A9B4C0',['洗碗','Dishwashing','Lavaloza']]};
+ dim:['B','#C4A26A',['面点','Dim Sum','Dim Sum']],noo:['B','#8DB6D6',['制面','Noodles','Fideos']],sea:['B','#BC97EC',['配料','Seasoning','Condimentos']],
+ snk:['B','#EF6F6C',['小吃','Snacks','Botanas']],dish:['B','#7D8A96',['洗碗','Dishwashing','Lavaloza']]};
 const SC_RK=Object.keys(SC_ROLES);
 const SC_REG={chi:{min:17.05,tip:12.96,daily:0,n:['芝加哥 · 伊利诺伊州','Chicago, Illinois','Chicago, Illinois']},
               la:{min:18.42,daily:1,n:['洛杉矶 · 加州','Los Angeles, California','Los Ángeles, California']}};
@@ -1702,7 +1703,7 @@ const SCT={
   prodF:'前厅人效（每人每小时服务客数）', prodB:'后厨人效（每人每小时出餐客数）',
   tplT:'常用班次', addTpl:'添加班次', newTpl:'新班次', data:'数据', reset:'重置全部数据', cfReset:'确定重置？所有员工、班表和设置都会恢复为模拟数据。',
   local:'数据只保存在这台设备的浏览器里，换手机或清除浏览器数据后会丢失。',
-  tpl:{early:'早班',late:'晚班（闭店）',full:'全天班',ew:'早晚班',lunch:'午高峰',dinner:'晚高峰',split:'两头班'}, closeW:'Close', legH:'图标说明', legBar:v=>`时间条：从左到右为 ${v}，彩色部分为上班时段`, legWarn:'合规提醒', legNa:'不可上班日', legClose:v=>`Close = 闭店（${v}）`, expSub:'班表', supL:'领班（Supervisor）', supS:'领班', ft:'全职', pt:'兼职', empType:'用工类型', pos:'职位', supOnly:'仅领班可担任', salesT:'营业预估', salesWd:'工作日预计营业额 $', salesWe:'周末预计营业额 $', checkA:'平均客单价 $', perS:'每人服务客数', seg1:'时段1', seg2:'时段2', addSeg2:'添加第二段（两头班）', rmSeg2:'移除第二段', ovlT:'两段时间不能重叠', hOn:x=>`在岗 ${x}`, hMeal:b=>`无薪用餐 ${b} 分钟`, hSeg:(a,b)=>`时段1 ${a} + 时段2 ${b}`, seg2Note:x=>`保存时会同时添加第二段 ${x}`, brkS:'用餐',
+  tpl:{early:'早班',late:'晚班（闭店）',full:'全天班',ew:'早晚班',lunch:'午高峰',dinner:'晚高峰',split:'两头班'}, closeW:'Close', legH:'图标说明', allR:'全能（面点、制面、配料、小吃）', allRS:'全能', legBar:v=>`时间条：从左到右为 ${v}，彩色部分为上班时段`, legWarn:'合规提醒', legNa:'不可上班日', legClose:v=>`Close = 闭店（${v}）`, expSub:'班表', supL:'领班（Supervisor）', supS:'领班', ft:'全职', pt:'兼职', empType:'用工类型', pos:'职位', supOnly:'仅领班可担任', salesT:'营业预估', salesWd:'工作日预计营业额 $', salesWe:'周末预计营业额 $', checkA:'平均客单价 $', perS:'每人服务客数', seg1:'时段1', seg2:'时段2', addSeg2:'添加第二段（两头班）', rmSeg2:'移除第二段', ovlT:'两段时间不能重叠', hOn:x=>`在岗 ${x}`, hMeal:b=>`无薪用餐 ${b} 分钟`, hSeg:(a,b)=>`时段1 ${a} + 时段2 ${b}`, seg2Note:x=>`保存时会同时添加第二段 ${x}`, brkS:'用餐',
   w_split:d=>`${d}为分段班（中间间隔超过1小时），可能须额外支付1小时最低工资`, legF:'前厅在岗', legB:'后厨在岗', legT:'客流（左轴）', legR:'人数看右轴',
   pol_chi:['最低时薪 $17.05（2026年7月1日起，雇员4人及以上的雇主）；小费岗位最低现金时薪 $12.96。',
    '加班：每个工作周超过40小时的部分按1.5倍时薪支付；伊利诺伊州没有按天计算的加班。',
@@ -1744,7 +1745,7 @@ const SCT={
   prodF:'FOH productivity (guests per person per hour)', prodB:'Kitchen productivity (guests per person per hour)',
   tplT:'Saved shifts', addTpl:'Add shift', newTpl:'New shift', data:'Data', reset:'Reset all data', cfReset:'Reset? All employees, schedules and settings go back to the simulated data.',
   local:'Data is saved only in this device’s browser and is lost if you switch phones or clear browser data.',
-  tpl:{early:'Morning',late:'Evening (close)',full:'Full day',ew:'Morning + evening',lunch:'Lunch rush',dinner:'Dinner rush',split:'Split shift'}, closeW:'Close', legH:'Legend', legBar:v=>`Time bar: ${v} left to right; the colored part is the shift`, legWarn:'Compliance alert', legNa:'Unavailable', legClose:v=>`Close = closing (${v})`, expSub:'Schedule', supL:'Supervisor', supS:'Supervisor', ft:'Full-time', pt:'Part-time', empType:'Employment type', pos:'Title', supOnly:'Supervisors only', salesT:'Sales forecast', salesWd:'Weekday sales forecast $', salesWe:'Weekend sales forecast $', checkA:'Average check $', perS:'Guests per staff', seg1:'Part 1', seg2:'Part 2', addSeg2:'Add a second part (split shift)', rmSeg2:'Remove part 2', ovlT:'The two parts can’t overlap', hOn:x=>`${x} on shift`, hMeal:b=>`${b} min unpaid meal`, hSeg:(a,b)=>`Part 1 ${a} + Part 2 ${b}`, seg2Note:x=>`Saving also adds the second part ${x}`, brkS:'Meal',
+  tpl:{early:'Morning',late:'Evening (close)',full:'Full day',ew:'Morning + evening',lunch:'Lunch rush',dinner:'Dinner rush',split:'Split shift'}, closeW:'Close', legH:'Legend', allR:'All-round (dim sum, noodles, seasoning, snacks)', allRS:'All-round', legBar:v=>`Time bar: ${v} left to right; the colored part is the shift`, legWarn:'Compliance alert', legNa:'Unavailable', legClose:v=>`Close = closing (${v})`, expSub:'Schedule', supL:'Supervisor', supS:'Supervisor', ft:'Full-time', pt:'Part-time', empType:'Employment type', pos:'Title', supOnly:'Supervisors only', salesT:'Sales forecast', salesWd:'Weekday sales forecast $', salesWe:'Weekend sales forecast $', checkA:'Average check $', perS:'Guests per staff', seg1:'Part 1', seg2:'Part 2', addSeg2:'Add a second part (split shift)', rmSeg2:'Remove part 2', ovlT:'The two parts can’t overlap', hOn:x=>`${x} on shift`, hMeal:b=>`${b} min unpaid meal`, hSeg:(a,b)=>`Part 1 ${a} + Part 2 ${b}`, seg2Note:x=>`Saving also adds the second part ${x}`, brkS:'Meal',
   w_split:d=>`${d}: split shift (gap over 1 hour); an extra hour at minimum wage may be owed`, legF:'FOH on duty', legB:'Kitchen on duty', legT:'Guests (left axis)', legR:'Staff on the right axis',
   pol_chi:['Minimum wage $17.05 (from July 1, 2026, employers with 4+ employees); tipped minimum cash wage $12.96.',
    'Overtime: hours over 40 in a workweek are paid at 1.5×. Illinois has no daily overtime.',
@@ -1786,7 +1787,7 @@ const SCT={
   prodF:'Productividad salón (clientes por persona por hora)', prodB:'Productividad cocina (clientes por persona por hora)',
   tplT:'Turnos guardados', addTpl:'Agregar turno', newTpl:'Turno nuevo', data:'Datos', reset:'Restablecer todo', cfReset:'¿Restablecer? Empleados, horarios y ajustes vuelven a los datos simulados.',
   local:'Los datos se guardan solo en el navegador de este dispositivo y se pierden si cambias de teléfono o borras los datos del navegador.',
-  tpl:{early:'Mañana',late:'Tarde (cierre)',full:'Día completo',ew:'Mañana + tarde',lunch:'Hora pico comida',dinner:'Hora pico cena',split:'Turno partido'}, closeW:'Cierre', legH:'Leyenda', legBar:v=>`Barra de tiempo: ${v}, la parte de color es el turno`, legWarn:'Alerta de cumplimiento', legNa:'No disponible', legClose:v=>`Cierre = cierre del local (${v})`, expSub:'Horario', supL:'Supervisor', supS:'Supervisor', ft:'Tiempo completo', pt:'Medio tiempo', empType:'Tipo de empleo', pos:'Puesto', supOnly:'Solo supervisores', salesT:'Pronóstico de ventas', salesWd:'Ventas previstas entre semana $', salesWe:'Ventas previstas fin de semana $', checkA:'Ticket promedio $', perS:'Clientes por persona', seg1:'Parte 1', seg2:'Parte 2', addSeg2:'Agregar segunda parte (turno partido)', rmSeg2:'Quitar parte 2', ovlT:'Las dos partes no pueden superponerse', hOn:x=>`${x} de turno`, hMeal:b=>`${b} min de comida sin pago`, hSeg:(a,b)=>`Parte 1 ${a} + Parte 2 ${b}`, seg2Note:x=>`Al guardar también se agrega la segunda parte ${x}`, brkS:'Comida',
+  tpl:{early:'Mañana',late:'Tarde (cierre)',full:'Día completo',ew:'Mañana + tarde',lunch:'Hora pico comida',dinner:'Hora pico cena',split:'Turno partido'}, closeW:'Cierre', legH:'Leyenda', allR:'Todo terreno (dim sum, fideos, condimentos, botanas)', allRS:'Todo terreno', legBar:v=>`Barra de tiempo: ${v}, la parte de color es el turno`, legWarn:'Alerta de cumplimiento', legNa:'No disponible', legClose:v=>`Cierre = cierre del local (${v})`, expSub:'Horario', supL:'Supervisor', supS:'Supervisor', ft:'Tiempo completo', pt:'Medio tiempo', empType:'Tipo de empleo', pos:'Puesto', supOnly:'Solo supervisores', salesT:'Pronóstico de ventas', salesWd:'Ventas previstas entre semana $', salesWe:'Ventas previstas fin de semana $', checkA:'Ticket promedio $', perS:'Clientes por persona', seg1:'Parte 1', seg2:'Parte 2', addSeg2:'Agregar segunda parte (turno partido)', rmSeg2:'Quitar parte 2', ovlT:'Las dos partes no pueden superponerse', hOn:x=>`${x} de turno`, hMeal:b=>`${b} min de comida sin pago`, hSeg:(a,b)=>`Parte 1 ${a} + Parte 2 ${b}`, seg2Note:x=>`Al guardar también se agrega la segunda parte ${x}`, brkS:'Comida',
   w_split:d=>`${d}: turno partido (más de 1 hora de pausa); puede deberse 1 hora extra al salario mínimo`, legF:'Salón en turno', legB:'Cocina en turno', legT:'Clientes (eje izq.)', legR:'Personal en el eje derecho',
   pol_chi:['Salario mínimo $17.05 (desde el 1 de julio de 2026, empleadores con 4+ empleados); salario mínimo en efectivo con propinas $12.96.',
    'Horas extra: las horas sobre 40 en la semana laboral se pagan a 1.5×. Illinois no tiene horas extra diarias.',
@@ -1851,7 +1852,7 @@ function scToast(m){ let el=document.getElementById('scToast'); if(!el){ el=docu
 
 const scTplDef=()=>[{id:'t1',k:'early',s:'10:30',en:'16:30',b:20},{id:'t2',k:'late',s:'16:30',en:'22:30',b:20},{id:'t3',k:'full',s:'13:30',en:'20:30',b:20},
   {id:'t7',k:'ew',s:'10:30',en:'13:30',b:0,s2:'18:00',en2:'22:30'}];
-const SC_BOHR=[['dim','noo','sea','snk','dish'],['dim'],['noo'],['noo'],['sea'],['sea'],['snk'],['snk'],['dish'],['dish']];   // only 后厨1 covers every kitchen position
+const SC_BOHR=[['dim','noo','sea','snk'],['dim'],['noo'],['noo'],['sea'],['sea'],['snk'],['snk'],['dish'],['dish']];   // only 后厨1 covers every kitchen position
 function scEmpDef(emps){ emps.forEach((e,j)=>{ e.sup=e.sup||false; e.type=e.type||'ft'; });
   emps[0].wage=15; emps[6].wage=20; [0,6].forEach(j=>emps[j].sup=true); [4,5].forEach(j=>{ emps[j].type='pt'; emps[j].max=30; }); }
 const SC_TRW=[14,34,24,10,6,8,19,32,29,16,8], SC_TRE=[20,38,34,20,15,17,26,38,35,23,14];   // 200 / 280 guests a day
@@ -2008,7 +2009,7 @@ function scSchHTML(){ const t=scT(), k=SCU.wk, C=scCalc(k), a=SCU.area;
   return scWkBar()+`<div class="sc-bar2">${scSeg(scAreaItems(),a,"scSetU.bind(null,'area')")}${scSeg([['week',t.wkV],['day',t.dayV]],SCU.view,"scSetU.bind(null,'view')")}</div>`+kp+brush+acts+view+
     scLegendHTML(a)+`<div class="sc-sec">${t.alerts}</div>${al.length?`<ul class="sc-alerts">${al.join('')}</ul>`:`<p class="sc-ok">${t.noAlert}</p>`}`; }
 function scLegendHTML(a){ const t=scT(), roles=SC_RK.filter(r=>a==='all'||SC_ROLES[r][0]===a);
-  return `<div class="sc-leg2"><div class="hd">${t.legH}</div><div class="row">${roles.map(r=>`<span><i class="sw" style="background:${SC_ROLES[r][1]}"></i>${scRoleN(r)}</span>`).join('')}</div>
+  return `<div class="sc-leg2"><div class="hd">${t.legH}</div><div class="row">${roles.map(r=>`<span><i class="sw" style="background:${SC_ROLES[r][1]}"></i>${scRoleN(r)}</span>`).join('')}${a!=='F'?`<span><i class="sw rb" style="background:${SC_RAINBOW}"></i>${t.allR}</span>`:''}</div>
     <div class="row">${(SCS.tags||[]).map(g=>`<span><b class="tb" style="background:${scTagC(g)}">${scEsc(scTagS(g))}</b>${scEsc(scTagN(g))}</span>`).join('')}<span><i class="wd"></i>${t.legWarn}</span><span><i class="na"></i>${t.legNa}</span></div>
     <div class="row"><span><i class="bar"><em></em></i>${t.legBar(scRangeT())}</span></div><div class="row"><span>${t.legClose(scTD(scCloseEnd(0)))}</span></div></div>`; }
 function scTagB(x){ const L=(x.tags||[]).map(id=>(SCS.tags||[]).find(g=>g.id===id)).filter(Boolean);
@@ -2020,7 +2021,9 @@ function scDayBlock(my,warnIds){ if(!my.length) return ''; const c=(SC_ROLES[my[
   const bar=my.map(x=>{ const s=Math.max(t0,scM(x.s)), e=Math.min(t1,scM(x.en)); return `<i style="left:${((s-t0)/sp*100).toFixed(2)}%;width:${((e-s)/sp*100).toFixed(2)}%;background:${(SC_ROLES[x.r]||[0,c])[1]}"></i>`; }).join('');
   const tg={tags:[...new Set(my.flatMap(x=>x.tags||[]))]};
   return `<div class="sc-day${my.some(x=>warnIds.has(x.id))?' w':''}" style="--rc:${c};background:${scRGBA(c,.17)};border-color:${scRGBA(c,.45)}">${my.map(scChip).join('<b class="sc-dsep"></b>')}<div class="sc-mbar">${bar}</div>${scTagB(tg)}</div>`; }
-function scSq(e){ return `<span class="sc-sq">${e.roles.map(r=>`<i style="background:${SC_ROLES[r][1]}" title="${scRoleN(r)}"></i>`).join('')}</span>`; }
+const SC_ALL4=['dim','noo','sea','snk'], scAll4=e=>e.a==='B'&&SC_ALL4.every(r=>(e.roles||[]).includes(r)), SC_RAINBOW='conic-gradient(from 210deg,#FF6B6B,#FFB347,#FFE066,#6BD58C,#5DADE2,#A57EE8,#FF6B6B)';
+function scSq(e){ if(scAll4(e)) return `<span class="sc-sq"><i class="rb" style="background:${SC_RAINBOW}" title="${scT().allR}"></i>${(e.roles||[]).filter(r=>!SC_ALL4.includes(r)).map(r=>`<i style="background:${SC_ROLES[r][1]}" title="${scRoleN(r)}"></i>`).join('')}</span>`;
+  return `<span class="sc-sq">${e.roles.map(r=>`<i style="background:${SC_ROLES[r][1]}" title="${scRoleN(r)}"></i>`).join('')}</span>`; }
 function scGridHTML(C,emps){ const t=scT(), k=SCU.wk, sh=scWkR(k), cur=scKey(scMon(new Date())), td=(new Date().getDay()+6)%7;
   let rows='', lastA=null; const showA=SCU.area==='all';
   emps.forEach(e=>{ if(showA&&e.a!==lastA){ lastA=e.a; const n=SCS.emps.filter(x=>x.a===e.a).length; rows+=`<tr class="sc-gh"><td colspan="8"><span>${t[e.a]} · ${n}</span></td></tr>`; }
@@ -2202,7 +2205,8 @@ function scExportImg(area){ const t=scT(), k=SCU.wk, emps=SCS.emps.filter(e=>e.a
     g.fillStyle=i%2?'rgba(255,255,255,.55)':'rgba(255,255,255,.95)'; rr(P,y,W-P*2,rowH-8,12); g.fill();
     const en=e.n; txt(en,P+18,y+(rowH-8)/2-12,F(800,22),'#1E2A27');
     if(e.sup){ g.font=F(800,22); txt('★',P+24+g.measureText(en).width,y+(rowH-8)/2-12,F(800,17),'#C9A265'); }
-    e.roles.forEach((r,j)=>{ g.fillStyle=SC_ROLES[r][1]; rr(P+18+j*16,y+(rowH-8)/2+10,12,12,3); g.fill(); });
+    if(scAll4(e)){ const yy=y+(rowH-8)/2+10, gr=g.createLinearGradient(P+18,yy,P+30,yy+12); ['#FF6B6B','#FFB347','#FFE066','#6BD58C','#5DADE2','#A57EE8'].forEach((c,k,A)=>gr.addColorStop(k/(A.length-1),c)); g.fillStyle=gr; rr(P+18,yy,12,12,3); g.fill(); e.roles.filter(r=>!SC_ALL4.includes(r)).forEach((r,j)=>{ g.fillStyle=SC_ROLES[r][1]; rr(P+34+j*16,yy,12,12,3); g.fill(); }); }
+    else e.roles.forEach((r,j)=>{ g.fillStyle=SC_ROLES[r][1]; rr(P+18+j*16,y+(rowH-8)/2+10,12,12,3); g.fill(); });
     for(let d=0;d<7;d++){ const cx=x0+colW*d+5, cw=colW-10, cy=y+6, ch=rowH-20, my=sh.filter(x=>x.emp===e.id&&x.d===d).sort((p,q)=>scM(p.s)-scM(q.s));
       if(!my.length){ txt(t.off,cx+cw/2,cy+ch/2,F(500,16),'#BDB4A4','center'); continue; }
       const c=SC_ROLES[my[0].r][1]; g.fillStyle=scRGBA(c,.22); rr(cx,cy,cw,ch,10); g.fill(); g.strokeStyle=scRGBA(c,.75); g.lineWidth=1.5; g.stroke();
@@ -2215,9 +2219,11 @@ function scExportImg(area){ const t=scT(), k=SCU.wk, emps=SCS.emps.filter(e=>e.a
   let ly=top+headH+8+emps.length*rowH+18; g.fillStyle='#FFFFFF'; rr(P,ly,W-P*2,104,12); g.fill();
   txt(t.legH,P+18,ly+24,F(800,16),'#5A5346'); let lx=P+18; ly+=54;
   roles.forEach(r=>{ g.fillStyle=SC_ROLES[r][1]; rr(lx,ly-8,16,16,4); g.fill(); const n=scRoleN(r); txt(n,lx+24,ly,F(600,16),'#333'); g.font=F(600,16); lx+=24+g.measureText(n).width+26; });
+  if(area==='B'&&emps.some(scAll4)){ const gr=g.createLinearGradient(lx,ly-8,lx+16,ly+8); ['#FF6B6B','#FFB347','#FFE066','#6BD58C','#5DADE2','#A57EE8'].forEach((c,k,A)=>gr.addColorStop(k/(A.length-1),c)); g.fillStyle=gr; rr(lx,ly-8,16,16,4); g.fill(); const n=t.allRS; txt(n,lx+24,ly,F(600,16),'#333'); g.font=F(600,16); lx+=24+g.measureText(n).width+26; }
   tags.forEach(gg=>{ badge(gg,lx+11,ly,11); const n=scTagN(gg); txt(n,lx+28,ly,F(600,16),'#333'); g.font=F(600,16); lx+=28+g.measureText(n).width+26; });
-  bar(lx,ly-4,64,8,[{s:'10:30',en:'16:30',r:roles[0]}]); txt(t.legBar(scRangeT()),lx+74,ly,F(500,14),'#6B6355'); 
-  txt(t.legClose(scTD(scCloseEnd(0))),P+18,ly+30,F(500,14),'#6B6355');
+  g.font=F(500,14); const lbT=t.legBar(scRangeT()), lbW=74+g.measureText(lbT).width;
+  if(lx+lbW<=W-P-18){ bar(lx,ly-4,64,8,[{s:'10:30',en:'16:30',r:roles[0]}]); txt(lbT,lx+74,ly,F(500,14),'#6B6355'); txt(t.legClose(scTD(scCloseEnd(0))),P+18,ly+30,F(500,14),'#6B6355'); }
+  else { const cT=t.legClose(scTD(scCloseEnd(0))); txt(cT,P+18,ly+30,F(500,14),'#6B6355'); g.font=F(500,14); const bx=P+18+g.measureText(cT).width+30; bar(bx,ly+26,64,8,[{s:'10:30',en:'16:30',r:roles[0]}]); txt(lbT,bx+74,ly+30,F(500,14),'#6B6355'); }
   const now=new Date(); txt(`${t.genAt} ${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`,W-P-18,ly+30,F(500,14),'#8C8474','right');
   cv.toBlob(b=>{ if(!b) return; const name=`MianBao-${area==='F'?'FOH':'Kitchen'}-${k}.png`, url=URL.createObjectURL(b); let file=null;
     try{ file=new File([b],name,{type:'image/png'}); }catch(e){} SCX={file,url,name};
